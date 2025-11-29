@@ -733,14 +733,13 @@
       7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-50 0 0' },
       
       // 🌵 CACTUS: 
-      // Corrección Posición: X en 0 para que esté en el CENTRO (antes estaba en 6 a la derecha).
-      // Corrección Escala: Aumentada a 80.
-      8: { scale: 80.0, position: '0 -4.0 -18', rotation: '0 -60 0' },
+      // Solución: Bajamos escala a 40 (para que no tape la cámara).
+      // Lo traemos más cerca (Z -8) y lo mantenemos centrado (X 0).
+      8: { scale: 40.0, position: '0 -3.0 -8', rotation: '0 -60 0' },
       
       // 🦗 SALTAMONTES: 
-      // Corrección Rotación: -30 (Ya incluye los "4 clicks a la izquierda").
-      // Corrección Posición: X en 0 para centrarlo.
-      9: { scale: 1.5, position: '0 -0.5 -8', rotation: '0 -30 0' },
+      // Solución: Movido a la izquierda (-2.0) para despegarlo del borde derecho.
+      9: { scale: 1.5, position: '-2.0 -0.5 -8', rotation: '0 -30 0' },
       
       // 🕷️ ARAÑA:
       // Solución simple: En el piso, quieta, mirando al usuario.
@@ -901,7 +900,9 @@
           persistentModel.setAttribute('position', config.position);
           persistentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
           persistentModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-          persistentModel.setAttribute('animation-mixer', 'loop: repeat');
+          if (i === 6) {
+            persistentModel.setAttribute('animation-mixer', 'loop: repeat');
+          }
 
           // Limpiar marcadores
           const allMarkerIds = [6,7,8,9,10,11];
