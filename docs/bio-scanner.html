@@ -726,31 +726,29 @@
     }
 
     const modelConfig = {
-      // 🦋 MARIPOSA (Se veía bien)
+      // 🦋 MARIPOSA (Sin cambios)
       6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // 🌿 HELECHO (Se veía bien)
+      // 🌿 HELECHO (Sin cambios)
       7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-50 0 0' },
       
-      // 🌵 CACTUS:
-      // SOLUCIÓN: Bajamos escala a 20 (500 era excesivo y rompia la vista).
-      // Posición X en 0 para centrarlo. Z en -10 para alejarlo y que entre todo.
-      8: { scale: 20.0, position: '0 -3.0 -10', rotation: '0 0 0' },
+      // 🌵 CACTUS: 
+      // ESTRATEGIA: Escala 100 (Gigante).
+      // Posición Z -25 (Muy lejos para que la cámara no quede adentro).
+      // Posición X 6.0 (A la derecha).
+      8: { scale: 100.0, position: '6.0 -5.0 -25', rotation: '0 0 0' },
       
       // 🦗 SALTAMONTES: 
-      // SOLUCIÓN: Escala aumentada a 5.0. 
-      // Posición X en -2.0 (izquierda) para compensar que se vea a la derecha.
-      9: { scale: 5.0, position: '-2.0 -0.5 -10', rotation: '0 -15 0' },
+      // Corrección: X en -6.0 (Más a la izquierda).
+      9: { scale: 5.0, position: '-6.0 -0.5 -10', rotation: '0 -15 0' },
       
       // 🕷️ ARAÑA:
-      // SOLUCIÓN: Rotación X en 20 para inclinarla hacia la cámara.
-      // Alejada en Z (-6) para que no se salga de la pantalla al ser grande.
-      10: { scale: 20.0, position: '0 -0.5 -6', rotation: '20 210 0' },
+      // Corrección: Rotación Y 90 (De perfil, caminando de lado a lado).
+      10: { scale: 20.0, position: '0 -0.5 -6', rotation: '0 90 0' },
       
-      // 🌲 BOSQUE (Ajustado anteriormente)
+      // 🌲 BOSQUE (Sin cambios)
       11: { scale: 0.2, position: '0 -10.0 -4', rotation: '0 0 0' }
     };
-
     const modelNames = {
       6: 'Mariposa Cometa',
       7: 'Helecho',
