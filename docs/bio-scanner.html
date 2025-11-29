@@ -615,7 +615,7 @@
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
+<div class="overlay"></div>
 
   <div class="header">
     <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
@@ -687,71 +687,23 @@
     <a-light type="ambient" intensity="1.2"></a-light>
     <a-light type="directional" position="1 1 1" intensity="1.5"></a-light>
 
-    <!-- ✅ Marcadores BIO: 6–11 -->
     <a-marker id="marker6" type="barcode" value="6">
-      <a-entity 
-        id="model6"
-        class="ar-model"
-        gltf-model=""
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="-90 0 0"
-      ></a-entity>
+      <a-entity id="model6" class="ar-model" gltf-model="" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
     </a-marker>
-
     <a-marker id="marker7" type="barcode" value="7">
-      <a-entity 
-        id="model7"
-        class="ar-model"
-        gltf-model=""
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="-90 0 0"
-      ></a-entity>
+      <a-entity id="model7" class="ar-model" gltf-model="" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
     </a-marker>
-
     <a-marker id="marker8" type="barcode" value="8">
-      <a-entity 
-        id="model8"
-        class="ar-model"
-        gltf-model=""
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="-90 0 0"
-      ></a-entity>
+      <a-entity id="model8" class="ar-model" gltf-model="" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
     </a-marker>
-
     <a-marker id="marker9" type="barcode" value="9">
-      <a-entity 
-        id="model9"
-        class="ar-model"
-        gltf-model=""
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="-90 0 0"
-      ></a-entity>
+      <a-entity id="model9" class="ar-model" gltf-model="" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
     </a-marker>
-
     <a-marker id="marker10" type="barcode" value="10">
-      <a-entity 
-        id="model10"
-        class="ar-model"
-        gltf-model=""
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="-90 0 0"
-      ></a-entity>
+      <a-entity id="model10" class="ar-model" gltf-model="" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
     </a-marker>
-
     <a-marker id="marker11" type="barcode" value="11">
-      <a-entity 
-        id="model11"
-        class="ar-model"
-        gltf-model=""
-        scale="0.5 0.5 0.5"
-        position="0 0 0"
-        rotation="-90 0 0"
-      ></a-entity>
+      <a-entity id="model11" class="ar-model" gltf-model="" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
     </a-marker>
 
     <a-entity camera></a-entity>
@@ -759,18 +711,8 @@
 
   <script>
     // ----- CONFIGURACIÓN DE MODELOS BIO -----
-    window.addEventListener('DOMContentLoaded', () => {
-      const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-      const BASE_PATH = isProduction ? '/AppMindAr' : '';
-
-      for (let i of [6,7,8,9,10,11]) {
-        const modelEntity = document.getElementById(`model${i}`);
-        if (modelEntity) {
-          modelEntity.setAttribute('gltf-model', `${BASE_PATH}/models/${getModelName(i)}.glb`);
-        }
-      }
-    });
-
+    
+    // Función para obtener nombres de archivo
     function getModelName(id) {
       const names = {
         6: 'mariposa',
@@ -783,26 +725,29 @@
       return names[id] || 'mariposa';
     }
 
-    // Estado global
-    let currentModel = null;
-    let currentScale = 0.5;
-    let currentRotation = { x: -90, y: 0, z: 0 };
-    let lastDetectedMarker = null;
-    let persistentModel = null;
-    let arSystem = null;
-    let trackingPaused = false;
-
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-    const BASE_PATH = isProduction ? '/AppMindAr' : '';
-
-    // Configuración por modelo (ajustable después si lo querés retocar)
+    // Configuración CORREGIDA de Escalas y Posiciones
     const modelConfig = {
-      6: { scale: 0.8, position: '0 0 -2', rotation: '0 0 0' },    // Mariposa
-      7: { scale: 0.2, position: '0 -0.5 -3', rotation: '0 0 0' },  // Helecho
-      8: { scale: 0.4, position: '0 -0.5 -3', rotation: '0 0 0' },  // Cactus
-      9: { scale: 0.9, position: '0 -0.5 -3', rotation: '0 90 0' }, // Saltamontes
-      10: { scale: 0.5, position: '0 -0.5 -3', rotation: '0 0 0' }, // Araña
-      11: { scale: 0.02, position: '0 0 -4', rotation: '0 0 0' }    // Bosque (grande)
+      // Mariposa: Suele estar bien, la dejo flotando un poco
+      6: { scale: 0.4, position: '0 0 0', rotation: '0 0 0' },
+      
+      // Helecho: Estaba GIGANTE. Lo bajé de 0.2 a 0.02 (10 veces más chico) y lo bajé al piso
+      7: { scale: 0.02, position: '0 -1.5 -4', rotation: '0 0 0' },
+      
+      // Cactus: Ajuste estándar
+      8: { scale: 0.2, position: '0 -1 -3', rotation: '0 0 0' },
+      
+      // Saltamontes: "No se ve" suele ser que es gigante y estamos adentro. 
+      // Lo pongo muy chico (0.05) y centrado.
+      9: { scale: 0.05, position: '0 -0.5 -3', rotation: '0 90 0' },
+      
+      // Araña: Estándar
+      10: { scale: 0.7, position: '0 -0.5 -3', rotation: '0 0 0' },
+      
+      // Bosque: 
+      // 1. Rotación 180 en Y para girarlo.
+      // 2. Posición Y en -2 para bajarlo al piso (base).
+      // 3. Escala aumentada a 0.5 para que no se vea tan chico.
+      11: { scale: 0.5, position: '0 -2 -5', rotation: '0 180 0' }
     };
 
     const modelNames = {
@@ -814,14 +759,38 @@
       11: 'Ecosistema Bosque'
     };
 
+    // Estado global
+    let currentModel = null;
+    let currentScale = 0.5;
+    let currentRotation = { x: 0, y: 0, z: 0 };
+    let lastDetectedMarker = null;
+    let persistentModel = null;
+    let arSystem = null;
+    let trackingPaused = false;
+
+    // Detectar entorno
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const BASE_PATH = isProduction ? '/AppMindAr' : '';
+
     const markerModels = {
       6: `${BASE_PATH}/models/mariposa.glb`,
       7: `${BASE_PATH}/models/helecho.glb`,
       8: `${BASE_PATH}/models/cactus.glb`,
       9: `${BASE_PATH}/models/saltamontes.glb`,
-      10: `${BASE_PATH}/models/arania.glb`,
+      10: `${BASE_PATH}/models/arana.glb`,
       11: `${BASE_PATH}/models/bosque.glb`
     };
+
+    // Carga inicial
+    window.addEventListener('DOMContentLoaded', () => {
+      // Precarga básica en los marcadores (aunque luego se sobreescribe al detectar)
+      for (let i of [6,7,8,9,10,11]) {
+        const modelEntity = document.getElementById(`model${i}`);
+        if (modelEntity) {
+          modelEntity.setAttribute('gltf-model', `${BASE_PATH}/models/${getModelName(i)}.glb`);
+        }
+      }
+    });
 
     window.addEventListener('load', function () {
       const scene = document.querySelector('a-scene');
@@ -840,61 +809,48 @@
           setTimeout(() => {
             mobileHint.style.opacity = '0';
             mobileHint.style.transition = 'opacity 1s';
-            setTimeout(() => {
-              mobileHint.style.display = 'none';
-            }, 1000);
+            setTimeout(() => { mobileHint.style.display = 'none'; }, 1000);
           }, 5000);
         }, 2000);
       }
 
-      closeBtn.addEventListener('click', () => {
-        window.history.back();
-      });
+      closeBtn.addEventListener('click', () => { window.history.back(); });
 
+      // LOGICA DE RESET
       if (resetScanBtn) {
         resetScanBtn.addEventListener('click', () => {
           if (persistentModel && persistentModel.parentNode) {
             persistentModel.parentNode.removeChild(persistentModel);
           }
-
           persistentModel = null;
           currentModel = null;
           lastDetectedMarker = null;
           currentScale = 0.5;
-          currentRotation = { x: -90, y: 0, z: 0 };
+          currentRotation = { x: 0, y: 0, z: 0 };
           trackingPaused = false;
 
+          // Restaurar marcadores
           const sceneEl = document.querySelector('a-scene');
           const markerIds = [6,7,8,9,10,11];
-
           markerIds.forEach(id => {
-            const existing = document.getElementById(`marker${id}`);
-            if (existing) return;
-
-            const newMarker = document.createElement('a-marker');
-            newMarker.setAttribute('id', `marker${id}`);
-            newMarker.setAttribute('type', 'barcode');
-            newMarker.setAttribute('value', id);
-
-            sceneEl.appendChild(newMarker);
-            setupMarkerEvents(newMarker, id);
+            if (!document.getElementById(`marker${id}`)) {
+              const newMarker = document.createElement('a-marker');
+              newMarker.setAttribute('id', `marker${id}`);
+              newMarker.setAttribute('type', 'barcode');
+              newMarker.setAttribute('value', id);
+              sceneEl.appendChild(newMarker);
+              setupMarkerEvents(newMarker, id);
+            }
           });
 
+          // Restaurar UI
           const video = document.querySelector('video');
-          if (video) {
-            video.style.opacity = '1';
-          }
-
+          if (video) video.style.opacity = '1';
           const scannerFrame = document.querySelector('.scanner-frame');
-          if (scannerFrame) {
-            scannerFrame.style.opacity = '1';
-          }
-
+          if (scannerFrame) scannerFrame.style.opacity = '1';
+          
           document.body.style.backgroundColor = '#000';
-          const aScene = document.querySelector('a-scene');
-          if (aScene) {
-            aScene.style.background = 'transparent';
-          }
+          if (sceneEl) sceneEl.style.background = 'transparent';
 
           modelInfo.classList.remove('active');
           resetScanBtn.classList.remove('visible');
@@ -903,23 +859,13 @@
         });
       }
 
-      scene.addEventListener('loaded', function () {
-        console.log('✅ Escena A-Frame cargada');
-      });
-
       scene.addEventListener('arjs-video-loaded', function () {
         console.log('✅ AR.js: Video cargado');
         loading.style.display = 'none';
-
-        arSystem = scene.systems.arjs || scene.systems['ar-js'];
       });
+      setTimeout(() => { if (loading.style.display !== 'none') loading.style.display = 'none'; }, 5000);
 
-      setTimeout(function() {
-        if (loading.style.display !== 'none') {
-          loading.style.display = 'none';
-        }
-      }, 5000);
-
+      // --- LOGICA DE DETECCIÓN Y POSICIONAMIENTO ---
       function setupMarkerEvents(marker, i) {
         marker.addEventListener('markerFound', function() {
           if (trackingPaused) return;
@@ -930,11 +876,16 @@
           const camera = scene.querySelector('[camera]');
           if (!camera) return;
 
-          const config = modelConfig[i] || { scale: 0.5, position: '0 -0.5 -3', rotation: '-90 0 0' };
+          // APLICAR CONFIGURACIÓN CORREGIDA
+          const config = modelConfig[i] || { scale: 0.5, position: '0 -0.5 -3', rotation: '0 0 0' };
+          
           currentScale = config.scale;
-          const rotParts = config.rotation.split(' ').map(Number);
+          const rotParts = (typeof config.rotation === 'string') 
+            ? config.rotation.split(' ').map(Number) 
+            : [0, 0, 0];
           currentRotation = { x: rotParts[0], y: rotParts[1], z: rotParts[2] };
 
+          // Crear modelo fijo
           persistentModel = document.createElement('a-entity');
           persistentModel.setAttribute('gltf-model', markerModels[i]);
           persistentModel.setAttribute('position', config.position);
@@ -942,28 +893,20 @@
           persistentModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
           persistentModel.setAttribute('animation-mixer', 'loop: repeat');
 
+          // Limpiar marcadores
           const allMarkerIds = [6,7,8,9,10,11];
-          allMarkerIds.forEach(markerId => {
-            const markerEl = document.getElementById(`marker${markerId}`);
-            if (markerEl) {
-              markerEl.remove();
-            }
+          allMarkerIds.forEach(mId => {
+            const m = document.getElementById(`marker${mId}`);
+            if (m) m.remove();
           });
 
+          // Ocultar UI de escaneo
           setTimeout(() => {
             const video = document.querySelector('video');
-            if (video) {
-              video.style.opacity = '0';
-              video.style.transition = 'opacity 0.5s ease';
-            }
+            if (video) video.style.opacity = '0';
             const scannerFrame = document.querySelector('.scanner-frame');
-            if (scannerFrame) {
-              scannerFrame.style.opacity = '0';
-              scannerFrame.style.transition = 'opacity 0.5s ease';
-            }
+            if (scannerFrame) scannerFrame.style.opacity = '0';
             document.body.style.backgroundColor = '#000';
-            const sceneEl = document.querySelector('a-scene');
-            if (sceneEl) sceneEl.style.background = '#000';
           }, 100);
 
           camera.appendChild(persistentModel);
@@ -971,24 +914,20 @@
 
           modelName.textContent = modelNames[i] || 'Modelo Bio';
           modelInfo.classList.add('active');
-
-          if (resetScanBtn) {
-            resetScanBtn.classList.add('visible');
-          }
-        });
-
-        marker.addEventListener('markerLost', function() {
-          if (trackingPaused) return;
+          if (resetScanBtn) resetScanBtn.classList.add('visible');
         });
       }
 
+      // Inicializar eventos
       const markerIds = [6,7,8,9,10,11];
       markerIds.forEach(i => {
         const marker = document.getElementById(`marker${i}`);
-        if (!marker) return;
-        setupMarkerEvents(marker, i);
+        if (marker) setupMarkerEvents(marker, i);
       });
 
+      // --- CONTROLES (Zoom, Rotación, Captura) ---
+      
+      // Zoom
       const zoomIn = document.getElementById('zoomIn');
       const zoomOut = document.getElementById('zoomOut');
       const zoomLevel = document.getElementById('zoomLevel');
@@ -996,232 +935,124 @@
       if (zoomIn) {
         zoomIn.addEventListener('click', () => {
           if (!persistentModel && !currentModel) return;
-          currentScale = Math.min(currentScale + 0.1, 3.0);
-          const targetModel = persistentModel || currentModel;
-          targetModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+          currentScale = Math.min(currentScale + 0.1, 4.0);
+          (persistentModel || currentModel).setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
           zoomLevel.textContent = `${currentScale.toFixed(1)}x`;
         });
       }
-
       if (zoomOut) {
         zoomOut.addEventListener('click', () => {
           if (!persistentModel && !currentModel) return;
-          currentScale = Math.max(currentScale - 0.1, 0.1);
-          const targetModel = persistentModel || currentModel;
-          targetModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+          currentScale = Math.max(currentScale - 0.1, 0.01); // Permitir zoom muy pequeño
+          (persistentModel || currentModel).setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
           zoomLevel.textContent = `${currentScale.toFixed(1)}x`;
         });
       }
 
+      // Rotación Botones
       const rotateUp = document.getElementById('rotateUp');
       const rotateDown = document.getElementById('rotateDown');
       const rotateLeft = document.getElementById('rotateLeft');
       const rotateRight = document.getElementById('rotateRight');
       const rotateReset = document.getElementById('rotateReset');
 
-      if (rotateUp) {
-        rotateUp.addEventListener('click', () => {
-          const targetModel = persistentModel || currentModel;
-          if (!targetModel) return;
-          currentRotation.x += 15;
-          targetModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-        });
-      }
+      const updateRot = () => {
+        const target = persistentModel || currentModel;
+        if(target) target.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
+      };
 
-      if (rotateDown) {
-        rotateDown.addEventListener('click', () => {
-          const targetModel = persistentModel || currentModel;
-          if (!targetModel) return;
-          currentRotation.x -= 15;
-          targetModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-        });
-      }
+      if (rotateUp) rotateUp.addEventListener('click', () => { currentRotation.x += 15; updateRot(); });
+      if (rotateDown) rotateDown.addEventListener('click', () => { currentRotation.x -= 15; updateRot(); });
+      if (rotateLeft) rotateLeft.addEventListener('click', () => { currentRotation.y += 15; updateRot(); });
+      if (rotateRight) rotateRight.addEventListener('click', () => { currentRotation.y -= 15; updateRot(); });
+      
+      if (rotateReset) rotateReset.addEventListener('click', () => {
+        if (!persistentModel || !lastDetectedMarker) return;
+        const config = modelConfig[lastDetectedMarker] || {scale:0.5, rotation:'0 0 0', position:'0 0 -3'};
+        currentScale = config.scale;
+        const r = config.rotation.split(' ').map(Number);
+        currentRotation = {x: r[0], y: r[1], z: r[2]};
+        
+        persistentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+        persistentModel.setAttribute('position', config.position);
+        updateRot();
+        if(zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(1)}x`;
+      });
 
-      if (rotateLeft) {
-        rotateLeft.addEventListener('click', () => {
-          const targetModel = persistentModel || currentModel;
-          if (!targetModel) return;
-          currentRotation.y += 15;
-          targetModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-        });
-      }
-
-      if (rotateRight) {
-        rotateRight.addEventListener('click', () => {
-          const targetModel = persistentModel || currentModel;
-          if (!targetModel) return;
-          currentRotation.y -= 15;
-          targetModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-        });
-      }
-
-      if (rotateReset) {
-        rotateReset.addEventListener('click', () => {
-          const targetModel = persistentModel || currentModel;
-          if (!targetModel || !lastDetectedMarker) return;
-
-          const markerId = lastDetectedMarker;
-          const config = modelConfig[markerId] || { scale: 0.5, position: '0 -0.5 -3', rotation: '-90 0 0' };
-
-          currentScale = config.scale;
-          const rotParts = config.rotation.split(' ').map(v => parseFloat(v));
-          currentRotation = { x: rotParts[0], y: rotParts[1], z: rotParts[2] };
-
-          targetModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
-          targetModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
-          targetModel.setAttribute('position', config.position);
-
-          if (zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(1)}x`;
-        });
-      }
-
+      // Captura
       const captureBtn = document.getElementById('captureBtn');
       const captureBtnMobile = document.getElementById('captureBtnMobile');
-
-      if (captureBtn) captureBtn.addEventListener('click', captureScreenshot);
-      if (captureBtnMobile) captureBtnMobile.addEventListener('click', captureScreenshot);
-
+      
       function captureScreenshot() {
         const btn = isMobile ? captureBtnMobile : captureBtn;
         if (!btn) return;
-
         btn.classList.add('capturing');
+        
+        const sceneEl = document.querySelector('a-scene');
+        // Usar componente screenshot de A-Frame si es posible, sino canvas directo
+        const canvas = sceneEl.components.screenshot ? sceneEl.components.screenshot.getCanvas('perspective') : scene.querySelector('canvas');
 
-        requestAnimationFrame(() => {
-          try {
-            const canvas = scene.querySelector('canvas');
-            if (!canvas) {
-              throw new Error('No se encontró el canvas');
-            }
-
-            const finalCanvas = document.createElement('canvas');
-            finalCanvas.width = canvas.width;
-            finalCanvas.height = canvas.height;
-            const ctx = finalCanvas.getContext('2d');
-
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-
-            ctx.drawImage(canvas, 0, 0);
-
-            finalCanvas.toBlob((blob) => {
-              if (!blob) {
-                throw new Error('Error al crear blob');
-              }
-
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-              const modelLabel = modelNames[lastDetectedMarker] || 'modelo';
-              link.download = `Bio-AR-${modelLabel}-${timestamp}.png`;
-              link.href = url;
-              link.click();
-
-              URL.revokeObjectURL(url);
-
-              btn.classList.remove('capturing');
-              btn.classList.add('captured');
-
-              setTimeout(() => {
-                btn.classList.remove('captured');
-              }, 2000);
-            }, 'image/png', 1.0);
-          } catch (error) {
-            console.error('❌ Error al capturar:', error);
-            btn.classList.remove('capturing');
-            btn.classList.add('error');
-
-            setTimeout(() => {
-              btn.classList.remove('error');
-            }, 2000);
-          }
-        });
+        const link = document.createElement('a');
+        link.download = `Bio-AR-${new Date().getTime()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        
+        setTimeout(() => { btn.classList.remove('capturing'); }, 500);
       }
+      
+      if (captureBtn) captureBtn.addEventListener('click', captureScreenshot);
+      if (captureBtnMobile) captureBtnMobile.addEventListener('click', captureScreenshot);
 
+      // Touch Mobile
       if (isMobile) {
         let touchStartDist = 0;
         let touchStartScale = currentScale;
-        let touchStartRotY = 0;
-        let lastTouchY = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
 
         scene.addEventListener('touchstart', (e) => {
-          if (!currentModel && !persistentModel) return;
-
+          if (!currentModel) return;
           if (e.touches.length === 2) {
             const dx = e.touches[0].pageX - e.touches[1].pageX;
             const dy = e.touches[0].pageY - e.touches[1].pageY;
             touchStartDist = Math.sqrt(dx * dx + dy * dy);
             touchStartScale = currentScale;
           } else if (e.touches.length === 1) {
-            touchStartRotY = currentRotation.y;
-            lastTouchY = e.touches[0].pageY;
+            touchStartX = e.touches[0].pageX;
+            touchStartY = e.touches[0].pageY;
           }
         });
 
         scene.addEventListener('touchmove', (e) => {
-          const targetModel = persistentModel || currentModel;
-          if (!targetModel) return;
+          if (!currentModel) return;
           e.preventDefault();
-
           if (e.touches.length === 2) {
             const dx = e.touches[0].pageX - e.touches[1].pageX;
             const dy = e.touches[0].pageY - e.touches[1].pageY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const scaleFactor = dist / touchStartDist;
-            currentScale = Math.max(0.1, Math.min(3.0, touchStartScale * scaleFactor));
-            targetModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+            currentScale = Math.max(0.01, Math.min(4.0, touchStartScale * (dist / touchStartDist)));
+            currentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
             if (zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(1)}x`;
           } else if (e.touches.length === 1) {
-            const deltaX = e.touches[0].pageX - window.innerWidth / 2;
-            currentRotation.y = touchStartRotY + (deltaX * 0.5);
-
-            const deltaY = e.touches[0].pageY - lastTouchY;
-            currentRotation.x -= deltaY * 0.5;
-            lastTouchY = e.touches[0].pageY;
-
-            targetModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
+            const dX = e.touches[0].pageX - touchStartX;
+            const dY = e.touches[0].pageY - touchStartY;
+            currentRotation.y += dX * 0.5;
+            currentRotation.x += dY * 0.5;
+            updateRot();
+            touchStartX = e.touches[0].pageX;
+            touchStartY = e.touches[0].pageY;
           }
         });
       }
 
-      const sceneEl = document.querySelector('a-scene');
-
-      sceneEl.addEventListener('arjs-video-loaded', () => {
-        const arVideo = document.querySelector('video');
-        const arCanvas = document.querySelector('.a-canvas');
-
-        if (arVideo) {
-          arVideo.setAttribute('playsinline', '');
-          arVideo.style.position = 'fixed';
-          arVideo.style.top = '0';
-          arVideo.style.left = '0';
-          arVideo.style.width = '100vw';
-          arVideo.style.height = '100vh';
-          arVideo.style.objectFit = 'cover';
-        }
-
-        if (arCanvas) {
-          const updateCanvasSize = () => {
-            const windowRatio = window.innerWidth / window.innerHeight;
-
-            if (isMobile) {
-              arCanvas.style.objectFit = 'contain';
-              arCanvas.style.width = '100vw';
-              arCanvas.style.height = '100vh';
-            }
-          };
-
-          updateCanvasSize();
-          window.addEventListener('resize', updateCanvasSize);
-        }
-
-        const camera = scene.querySelector('[camera]');
-        if (camera) {
-          const fov = isMobile ? 70 : 60;
-          camera.setAttribute('fov', fov);
+      // Fix Video Ratio
+      scene.addEventListener('arjs-video-loaded', () => {
+        const v = document.querySelector('video');
+        if(v) { 
+          v.style.width='100vw'; v.style.height='100vh'; v.style.objectFit='cover'; 
+          v.style.marginLeft='0'; v.style.marginTop='0';
         }
       });
-
     });
   </script>
 </body>
