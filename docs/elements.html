@@ -771,10 +771,10 @@
 
       { name:"Excavadora Amarilla", group:"Maquinaria", category:"Excavación", image:"/AppMindAr/assets/maquina.png", description:"Excavadora hidráulica de alto rendimiento con brazo articulado. Sistema de control preciso para excavación, carga y movimiento de tierra en operaciones mineras.", capacity:"3.5 m³", power:"280 HP", weight:"35,000 kg", application:"Excavación y carga", arMarker:"renderamarillo" },
 
-      // ⏸️ DESACTIVADOS TEMPORALMENTE - Sin marcadores aún (para integrar después)
-      // { name:"Pala Eléctrica", group:"Maquinaria", category:"Excavación", image:"./assets/maquina.png", description:"Pala eléctrica de alto tonelaje para operaciones de carga continua. Sistema eléctrico de alta eficiencia para extracción masiva de mineral.", capacity:"120 m³", power:"6,200 kW", weight:"980,000 kg", application:"Carga de mineral", arMarker:"pala" },
-      // { name:"Bulldozer", group:"Maquinaria", category:"Movimiento de tierra", image:"./assets/maquina.png", description:"Tractor de orugas de alta potencia para empuje y nivelación. Sistema hidráulico de precisión para movimiento de grandes volúmenes de tierra.", capacity:"27 m³ hoja", power:"850 HP", weight:"112,000 kg", application:"Empuje y nivelación", arMarker:"bulldozer" },
-      // { name:"Motoniveladora", group:"Mantenimiento", category:"Mantenimiento", image:"./assets/maquina.png", description:"Motoniveladora de precisión para mantenimiento de caminos mineros. Sistema de nivelación láser para superficies perfectamente uniformes.", capacity:"7.3 m hoja", power:"525 HP", weight:"64,000 kg", application:"Mantenimiento vial", arMarker:"motoniveladora" },
+      
+      { name:"Pala Eléctrica", group:"Maquinaria", category:"Excavación", image:"./assets/maquina.png", description:"Pala eléctrica de alto tonelaje para operaciones de carga continua. Sistema eléctrico de alta eficiencia para extracción masiva de mineral.", capacity:"120 m³", power:"6,200 kW", weight:"980,000 kg", application:"Carga de mineral", arMarker:"pala" },
+      { name:"Bulldozer", group:"Maquinaria", category:"Movimiento de tierra", image:"./assets/maquina.png", description:"Tractor de orugas de alta potencia para empuje y nivelación. Sistema hidráulico de precisión para movimiento de grandes volúmenes de tierra.", capacity:"27 m³ hoja", power:"850 HP", weight:"112,000 kg", application:"Empuje y nivelación", arMarker:"bulldozer" },
+      { name:"Motoniveladora", group:"Mantenimiento", category:"Mantenimiento", image:"./assets/maquina.png", description:"Motoniveladora de precisión para mantenimiento de caminos mineros. Sistema de nivelación láser para superficies perfectamente uniformes.", capacity:"7.3 m hoja", power:"525 HP", weight:"64,000 kg", application:"Mantenimiento vial", arMarker:"motoniveladora" },
     ];
 
     const groups = ["Todas", ...Array.from(new Set(machines.map(m => m.group)))];
