@@ -726,27 +726,27 @@
     }
 
     const modelConfig = {
-      // 🦋 MARIPOSA (Bien)
+      // 🦋 MARIPOSA (Sin cambios - funciona bien)
       6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // 🌿 HELECHO (Bien)
+      // 🌿 HELECHO (Sin cambios - funciona bien)
       7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-50 0 0' },
       
-      // 🌵 CACTUS:
-      // Rotación corregida: -75 grados (5 clicks exactos).
-      // Posición ajustada para que el giro no lo saque de pantalla.
-      8: { scale: 50.0, position: '6.0 -3.0 -15', rotation: '0 -60 0' },
+      // 🌵 CACTUS: 
+      // Corrección Posición: X en 0 para que esté en el CENTRO (antes estaba en 6 a la derecha).
+      // Corrección Escala: Aumentada a 80.
+      8: { scale: 80.0, position: '0 -4.0 -18', rotation: '0 -60 0' },
       
       // 🦗 SALTAMONTES: 
-      // Rotación corregida: 30 grados (90 original menos 4 clicks de 15).
-      9: { scale: 1.0, position: '-3.0 -0.5 -8', rotation: '0 -90 0' },
+      // Corrección Rotación: -30 (Ya incluye los "4 clicks a la izquierda").
+      // Corrección Posición: X en 0 para centrarlo.
+      9: { scale: 1.5, position: '0 -0.5 -8', rotation: '0 -30 0' },
       
       // 🕷️ ARAÑA:
-      // Posición Y en 3.5 (Arriba, bajando).
-      // Rotación X en 90 (Vertical pegada a la pantalla) y Y 180 (Mirando al frente).
-      10: { scale: 3.0, position: '0 3.5 -6', rotation: '90 180 0' },
+      // Solución simple: En el piso, quieta, mirando al usuario.
+      10: { scale: 20.0, position: '0 -0.5 -5', rotation: '0 180 0' },
       
-      // 🌲 BOSQUE (Bien)
+      // 🌲 BOSQUE (Sin cambios)
       11: { scale: 0.2, position: '0 -10.0 -4', rotation: '0 0 0' }
     };
     const modelNames = {
