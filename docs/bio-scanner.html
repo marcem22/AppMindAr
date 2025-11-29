@@ -726,27 +726,27 @@
     }
 
     const modelConfig = {
-      // 🦋 MARIPOSA (Sin cambios)
+      // 🦋 MARIPOSA (Se ve bien)
       6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // 🌿 HELECHO (Sin cambios)
+      // 🌿 HELECHO (Se ve bien)
       7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-50 0 0' },
       
       // 🌵 CACTUS: 
-      // ESTRATEGIA: Escala 100 (Gigante).
-      // Posición Z -25 (Muy lejos para que la cámara no quede adentro).
-      // Posición X 6.0 (A la derecha).
-      8: { scale: 100.0, position: '6.0 -5.0 -25', rotation: '0 0 0' },
+      // Solución: Bajamos escala a 15 (100 era demasiado). 
+      // X en 4.0 (A la derecha). Z en -15 (Bien atrás para que entre entero).
+      8: { scale: 15.0, position: '4.0 -3.0 -15', rotation: '0 0 0' },
       
       // 🦗 SALTAMONTES: 
-      // Corrección: X en -6.0 (Más a la izquierda).
-      9: { scale: 5.0, position: '-6.0 -0.5 -10', rotation: '0 -15 0' },
+      // Solución: X en -3.0 (Izquierda). Escala 1.0 (Para asegurar que se vea).
+      9: { scale: 1.0, position: '-3.0 -0.5 -8', rotation: '0 90 0' },
       
       // 🕷️ ARAÑA:
-      // Corrección: Rotación Y 90 (De perfil, caminando de lado a lado).
-      10: { scale: 20.0, position: '0 -0.5 -6', rotation: '0 90 0' },
+      // Solución: Agregamos -90 en el primer número (Eje X) para "acostarla" en el piso.
+      // Y luego 90 en el segundo (Eje Y) para que camine de lado.
+      10: { scale: 20.0, position: '0 -0.5 -6', rotation: '-90 90 0' },
       
-      // 🌲 BOSQUE (Sin cambios)
+      // 🌲 BOSQUE (Ajustado anteriormente)
       11: { scale: 0.2, position: '0 -10.0 -4', rotation: '0 0 0' }
     };
     const modelNames = {
