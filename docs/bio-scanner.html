@@ -725,29 +725,29 @@
       return names[id] || 'mariposa';
     }
 
-    // Configuración CORREGIDA de Escalas y Posiciones
     const modelConfig = {
-      // Mariposa: Suele estar bien, la dejo flotando un poco
-      6: { scale: 0.4, position: '0 0 0', rotation: '0 0 0' },
+      // 🦋 MARIPOSA: Estaba "re alta".
+      // CORRECCIÓN: Bajamos Y a -1.0. Mantenemos escala.
+      6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // Helecho: Estaba GIGANTE. Lo bajé de 0.2 a 0.02 (10 veces más chico) y lo bajé al piso
-      7: { scale: 0.02, position: '0 -1.5 -4', rotation: '0 0 0' },
+      // 🌿 HELECHO: Estaba "enorme".
+      // CORRECCIÓN: Reducción masiva. De 0.5 bajamos a 0.01 (100 veces más chico).
+      7: { scale: 0.01, position: '0 -1.0 -4', rotation: '0 0 0' },
       
-      // Cactus: Ajuste estándar
-      8: { scale: 0.2, position: '0 -1 -3', rotation: '0 0 0' },
+      // 🌵 CACTUS: "No se ve" (Probablemente gigante).
+      // CORRECCIÓN: Reducción masiva a 0.05.
+      8: { scale: 0.05, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // Saltamontes: "No se ve" suele ser que es gigante y estamos adentro. 
-      // Lo pongo muy chico (0.05) y centrado.
-      9: { scale: 0.05, position: '0 -0.5 -3', rotation: '0 90 0' },
+      // 🦗 SALTAMONTES: "No se ve" (Probablemente gigante).
+      // CORRECCIÓN: Reducción a 0.2 y rotación para verlo de lado.
+      9: { scale: 0.2, position: '0 -0.5 -3', rotation: '0 90 0' },
       
-      // Araña: Estándar
-      10: { scale: 0.7, position: '0 -0.5 -3', rotation: '0 0 0' },
+      // 🕷️ ARAÑA: "Es un puntito".
+      // CORRECCIÓN: Aumento brutal. De 0.5 pasamos a 20.0 (40 veces más grande).
+      10: { scale: 20.0, position: '0 -0.5 -3', rotation: '0 0 0' },
       
-      // Bosque: 
-      // 1. Rotación 180 en Y para girarlo.
-      // 2. Posición Y en -2 para bajarlo al piso (base).
-      // 3. Escala aumentada a 0.5 para que no se vea tan chico.
-      11: { scale: 0.5, position: '0 -2 -5', rotation: '0 180 0' }
+      // 🌲 BOSQUE: Ajustes anteriores.
+      11: { scale: 0.8, position: '0 -2.0 -5', rotation: '0 180 0' }
     };
 
     const modelNames = {
@@ -777,7 +777,7 @@
       7: `${BASE_PATH}/models/helecho.glb`,
       8: `${BASE_PATH}/models/cactus.glb`,
       9: `${BASE_PATH}/models/saltamontes.glb`,
-      10: `${BASE_PATH}/models/arana.glb`,
+      10: `${BASE_PATH}/models/arania.glb`,
       11: `${BASE_PATH}/models/bosque.glb`
     };
 
