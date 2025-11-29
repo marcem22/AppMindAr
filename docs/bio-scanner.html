@@ -725,22 +725,29 @@
       return names[id] || 'mariposa';
     }
 
-    // --- CONFIGURACIÓN ACTUALIZADA AL DETALLE ---
     const modelConfig = {
-      // 🦋 MARIPOSA: (Sin cambios)
+      // 🦋 MARIPOSA (Se veía bien)
       6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // 🌿 HELECHO: Inclinado hacia adelante (Rotación X -30)
+      // 🌿 HELECHO (Se veía bien)
       7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-50 0 0' },
-     // 🌵 CACTUS: Escala masiva (500) y centrado en X (0) para que no se escape.
-      8: { scale: 500.0, position: '0 -4.0 -14', rotation: '0 -45 0' },
       
-      // 🦗 SALTAMONTES: Más grande (8), más atrás (-12), y movido a la izquierda (-2) para compensar visualmente.
-      9: { scale: 8.0, position: '-2.0 -0.5 -12', rotation: '0 -15 0' },
-      // 🕷️ ARAÑA: Diagonal (Rotación Y 210)
-      10: { scale: 20.0, position: '0 -0.5 -3', rotation: '0 175 0' },
+      // 🌵 CACTUS:
+      // SOLUCIÓN: Bajamos escala a 20 (500 era excesivo y rompia la vista).
+      // Posición X en 0 para centrarlo. Z en -10 para alejarlo y que entre todo.
+      8: { scale: 20.0, position: '0 -3.0 -10', rotation: '0 0 0' },
       
-      // 🌲 BOSQUE: "mas chico (0.25), y mucho mas abajo (Y -6.0)"
+      // 🦗 SALTAMONTES: 
+      // SOLUCIÓN: Escala aumentada a 5.0. 
+      // Posición X en -2.0 (izquierda) para compensar que se vea a la derecha.
+      9: { scale: 5.0, position: '-2.0 -0.5 -10', rotation: '0 -15 0' },
+      
+      // 🕷️ ARAÑA:
+      // SOLUCIÓN: Rotación X en 20 para inclinarla hacia la cámara.
+      // Alejada en Z (-6) para que no se salga de la pantalla al ser grande.
+      10: { scale: 20.0, position: '0 -0.5 -6', rotation: '20 210 0' },
+      
+      // 🌲 BOSQUE (Ajustado anteriormente)
       11: { scale: 0.2, position: '0 -10.0 -4', rotation: '0 0 0' }
     };
 
@@ -874,6 +881,17 @@
           const config = modelConfig[i] || { scale: 0.5, position: '0 -0.5 -3', rotation: '0 0 0' };
           
           currentScale = config.scale;
+          // --- 📱 PARCHE AUTOMÁTICO PARA CELULARES ---
+          // Si la pantalla es angosta (celular vertical), alejamos el modelo y ajustamos escala
+          if (window.innerWidth < 800) {
+             // 1. Alejar modelo (Hacer la Z más negativa) para que entre en pantalla vertical
+             const currentPos = config.position.split(' ').map(Number);
+             const newZ = currentPos[2] * 1.5; // Alejar un 50% más
+             config.position = `${currentPos[0]} ${currentPos[1]} ${newZ}`;
+             
+             // 2. Reducir un poco la escala inicial para asegurar bordes
+             currentScale = currentScale * 0.8;
+          }
           const rotParts = (typeof config.rotation === 'string') 
             ? config.rotation.split(' ').map(Number) 
             : [0, 0, 0];
