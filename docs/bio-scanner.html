@@ -725,24 +725,25 @@
       return names[id] || 'mariposa';
     }
 
+    // --- CONFIGURACIÓN ACTUALIZADA AL DETALLE ---
     const modelConfig = {
-      // 🦋 MARIPOSA: (Sin cambios solicitados)
+      // 🦋 MARIPOSA: (Sin cambios)
       6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' },
       
-      // 🌿 HELECHO: "mas chico". Reducido de 0.01 a 0.003
-      7: { scale: 0.003, position: '0 -1.0 -4', rotation: '0 0 0' },
+      // 🌿 HELECHO: Inclinado hacia adelante (Rotación X -30)
+      7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-30 0 0' },
       
-      // 🌵 CACTUS: "muuucho mas grande". Aumentado de 0.05 a 1.5 y bajado un poco.
-      8: { scale: 1.5, position: '0 -1.5 -4', rotation: '0 0 0' },
+      // 🌵 CACTUS: "muuucho mas grande" (Escala 3.0) y a la derecha (X 2.0)
+      8: { scale: 3.0, position: '2.0 -1.5 -4', rotation: '0 0 0' },
       
-      // 🦗 SALTAMONTES: "posicion mas a la derecha". X cambiado a 1.5.
-      9: { scale: 0.2, position: '1.5 -0.5 -3', rotation: '0 90 0' },
+      // 🦗 SALTAMONTES: Más grande (0.35) y más a la derecha (X 2.5)
+      9: { scale: 0.35, position: '2.5 -0.5 -3', rotation: '0 90 0' },
       
-      // 🕷️ ARAÑA: "giro para que camine hacia la pantalla". Rotación Y a 180.
-      10: { scale: 20.0, position: '0 -0.5 -3', rotation: '0 180 0' },
+      // 🕷️ ARAÑA: Diagonal (Rotación Y 210)
+      10: { scale: 20.0, position: '0 -0.5 -3', rotation: '0 210 0' },
       
-      // 🌲 BOSQUE: "mas chico, mas abajo y giralo (de frente)".
-      11: { scale: 0.3, position: '0 -3.5 -6', rotation: '0 0 0' }
+      // 🌲 BOSQUE: "mas chico (0.25), y mucho mas abajo (Y -6.0)"
+      11: { scale: 0.25, position: '0 -6.0 -8', rotation: '0 0 0' }
     };
 
     const modelNames = {
