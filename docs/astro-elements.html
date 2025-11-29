@@ -3,9 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MiningTech - Maquinarias</title>
+  <title>SIED - Astronomía</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --violet-dark: #3b0d6f;
+      --violet-primary: #6b21a8;
+      --violet-accent: #8a2be2;
+      --violet-light: #c9a8ff;
+      --violet-r: 107,33,168;
+      --accent-r: 138,43,226;
+    }
     html,body{height:100%}
     body{
       font-family:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
@@ -42,7 +51,7 @@
       }
     }
 
-    .layout {
+  .layout {
       display: grid;
       grid-template-columns: 320px 1fr 320px;
       gap: 36px;
@@ -61,7 +70,7 @@
       animation: fadeInLeft 0.8s ease-out 0.3s forwards;
     }
     .sidebar-left h3{
-      color:#153B82; font-size:13px; text-transform:uppercase; letter-spacing:2px;
+    color:var(--violet-primary); font-size:13px; text-transform:uppercase; letter-spacing:2px;
     }
     
     @keyframes fadeInLeft {
@@ -108,8 +117,8 @@
       }
     }
     
-    .machinery-list li:hover{ color:#153B82; transform:translateX(4px) }
-    .machinery-list li.active{ color:#153B82; font-weight:700; padding-left:10px }
+  .machinery-list li:hover{ color:var(--violet-primary); transform:translateX(4px) }
+  .machinery-list li.active{ color:var(--violet-primary); font-weight:700; padding-left:10px }
 
     .small-model{ font-size:12px; color:rgba(255,255,255,0.25); margin-left:8px }
 
@@ -134,8 +143,8 @@
 
     .machine-category{
       position:absolute; top:6px; left:50%; transform:translateX(-50%);
-      padding:8px 18px; border-radius:20px; border:1px solid #153B82;
-      color:#153B82; font-size:12px; background:rgba(21, 59, 130,0.06);
+      padding:8px 18px; border-radius:20px; border:1px solid var(--violet-primary);
+      color:var(--violet-primary); font-size:12px; background:rgba(var(--violet-r),0.06);
       z-index:20;
     }
 
@@ -147,7 +156,7 @@
       width: 480px;
       max-width: 70vw;
       transition:opacity .35s ease, transform .45s ease;
-      display:block; margin:0 auto; filter: drop-shadow(0 28px 60px rgba(21, 59, 130,0.25));
+      display:block; margin:0 auto; filter: drop-shadow(0 28px 60px rgba(var(--violet-r),0.25));
       opacity:1;
     }
     .fade-out .machine-img{ opacity:0; transform:scale(.985) }
@@ -161,7 +170,7 @@
       width:46px; height:46px; border-radius:50%; border:1px solid #222; background:transparent;
       color:#9a9a9a; font-size:18px; cursor:pointer; transition:all .22s;
     }
-    .nav-btn:hover{ border-color:#153B82; color:#153B82; background:rgba(21, 59, 130,0.06) }
+  .nav-btn:hover{ border-color:var(--violet-primary); color:var(--violet-primary); background:rgba(var(--violet-r),0.06) }
     
     /* Hide mobile specs container on desktop */
     .mobile-specs-container { display: none; }
@@ -204,25 +213,31 @@
     .cat-btn:nth-child(4) { animation-delay: 0.7s; }
     .cat-btn:nth-child(5) { animation-delay: 0.8s; }
     
-    .cat-btn.active{ border-color:#153B82; color:#153B82; background:rgba(21, 59, 130,0.06) }
+  .cat-btn.active{ border-color:var(--violet-primary); color:var(--violet-primary); background:rgba(var(--violet-r),0.06) }
 
     .specs{
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       padding:18px; border-radius:8px; border:1px solid rgba(255,255,255,0.03);
-      
+      /* Mejoras para textos largos: limitar altura y permitir scroll */
+      min-width: 260px;
+      max-height: calc(100vh - 260px);
+      overflow-y: auto;
+      padding-right: 12px; /* espacio para el scrollbar */
       /* Animación */
       opacity: 0;
       animation: fadeInUp 0.8s ease-out 0.9s forwards;
     }
-    .specs h4{ color:#153B82; font-size:14px; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px }
-    .spec-row{ display:flex; justify-content:space-between; margin-bottom:12px; align-items:center }
-    .spec-label{ font-size:12px; color:#9a9a9a; text-transform:uppercase; letter-spacing:1px }
-    .spec-val{ font-weight:700; color:#fff }
+  .specs h4{ color:var(--violet-primary); font-size:14px; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px }
+    .spec-row{ display:flex; justify-content:space-between; margin-bottom:12px; align-items:flex-start; gap:12px }
+    .spec-label{ font-size:12px; color:#9a9a9a; text-transform:uppercase; letter-spacing:1px; width:40%; }
+    .spec-val{ font-weight:700; color:#fff; font-size:13px; max-width:60%; word-break:break-word; text-align:right; }
+    /* Ajustes específicos para la versión móvil de las specs */
+    .mobile-specs-container .spec-val { font-size:14px; text-align:left; }
 
     .ar-btn{
       margin-top:16px;
       padding:14px 28px;
-      background:linear-gradient(135deg, #153B82, #0f2a5f);
+      background:linear-gradient(135deg, var(--violet-primary), var(--violet-dark));
       border:none;
       border-radius:6px;
       color:#fff;
@@ -232,7 +247,7 @@
       transition:all .3s ease;
       text-transform:uppercase;
       letter-spacing:1px;
-      box-shadow: 0 4px 15px rgba(21, 59, 130,0.3);
+      box-shadow: 0 4px 15px rgba(var(--violet-r),0.3);
       
       /* Animación inicial y pulso suave */
       opacity: 0;
@@ -252,23 +267,23 @@
     
     @keyframes pulse {
       0%, 100% {
-        box-shadow: 0 4px 15px rgba(21, 59, 130,0.3);
+        box-shadow: 0 4px 15px rgba(var(--violet-r),0.3);
       }
       50% {
-        box-shadow: 0 4px 25px rgba(21, 59, 130,0.5);
+        box-shadow: 0 4px 25px rgba(var(--violet-r),0.5);
       }
     }
     
     .ar-btn:hover{
       transform:translateY(-2px);
-      box-shadow: 0 6px 20px rgba(21, 59, 130,0.5);
+      box-shadow: 0 6px 20px rgba(var(--violet-r),0.5);
       animation: none; /* Detiene el pulso al hacer hover */
       opacity: 1; /* Mantiene la opacidad completa en hover */
     }
     
     .ar-btn:active{
       transform:translateY(0);
-      box-shadow: 0 2px 10px rgba(21, 59, 130,0.4);
+      box-shadow: 0 2px 10px rgba(var(--violet-r),0.4);
     }
 
     /* Selector de modo AR */
@@ -296,18 +311,18 @@
     }
 
     .mode-label:hover {
-      background: rgba(21, 59, 130,0.1);
-      border-color: rgba(21, 59, 130,0.3);
+      background: rgba(var(--violet-r),0.06);
+      border-color: rgba(var(--violet-r),0.18);
     }
 
     .mode-label input[type="radio"] {
       margin: 0;
       cursor: pointer;
-      accent-color: #153B82;
+  accent-color: var(--violet-primary);
     }
 
     .mode-label input[type="radio"]:checked + .mode-text {
-      color: #153B82;
+  color: var(--violet-primary);
       font-weight: 600;
     }
 
@@ -350,7 +365,7 @@
       top: 20px;
       right: 24px;
       z-index: 1000;
-      background: rgba(21, 59, 130, 0.9);
+      background: rgba(var(--violet-r), 0.9);
       border: none;
       border-radius: 8px;
       width: 50px;
@@ -429,7 +444,7 @@
     }
 
     .mobile-section h3 {
-      color: #153B82;
+  color: var(--violet-primary);
       font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -651,7 +666,7 @@
     <!-- Mobile Sidebar -->
   <div class="mobile-sidebar" id="mobileSidebar">
     <div class="mobile-section">
-      <h3>Seleccionar Maquinaria</h3>
+      <h3>Seleccionar objeto</h3>
       <ul id="mobileMachineryList" class="machinery-list">
       </ul>
     </div>
@@ -663,21 +678,21 @@
 
   <div class="layout">
     <aside class="sidebar-left">
-      <h3>Maquinarias</h3>
-      <ul id="machineryList" class="machinery-list" aria-label="Lista de maquinarias">
+      <h3>Cuerpos celestes</h3>
+  <ul id="machineryList" class="machinery-list" aria-label="Lista de objetos">
       </ul>
     </aside>
 
     <main class="machine-view" role="main">
-      <div class="machine-category" id="machineCategory">MAQUINARIA</div>
+  <div class="machine-category" id="machineCategory">OBJETO</div>
 
       <div id="machineWrapper" class="machine-wrap fade-in">
-        <img id="machineImage" class="machine-img" src="/AppMindAr/assets/tunel.png" alt="Excavadora" />
+        <img id="machineImage" class="machine-img" src="" alt="Objeto" />
       </div>
 
-      <h2 id="machineName" class="machine-name">Excavadora hidráulica</h2>
+      <h2 id="machineName" class="machine-name">Sol</h2>
       <p id="machineDesc" class="machine-description">
-        Excavadora de alto rendimiento diseñada para operaciones mineras de gran escala.
+        Breve descripción del cuerpo celeste seleccionado.
       </p>
 
       <div class="machine-nav">
@@ -690,10 +705,10 @@
         <div class="mobile-section">
           <h3>Especificaciones</h3>
           <div class="specs">
-            <div class="spec-row"><div class="spec-label">Capacidad</div><div class="spec-val" id="mobileSpecCapacity">-</div></div>
-            <div class="spec-row"><div class="spec-label">Potencia</div><div class="spec-val" id="mobileSpecPower">-</div></div>
-            <div class="spec-row"><div class="spec-label">Peso</div><div class="spec-val" id="mobileSpecWeight">-</div></div>
-            <div class="spec-row"><div class="spec-label">Aplicación</div><div class="spec-val" id="mobileSpecApplication">-</div></div>
+            <div class="spec-row"><div class="spec-label">Diámetro</div><div class="spec-val" id="mobileSpecDiameter">-</div></div>
+            <div class="spec-row"><div class="spec-label">Masa</div><div class="spec-val" id="mobileSpecMass">-</div></div>
+            <div class="spec-row"><div class="spec-label">Distancia al Sol</div><div class="spec-val" id="mobileSpecDistance">-</div></div>
+            <div class="spec-row"><div class="spec-label">Notas</div><div class="spec-val" id="mobileSpecNotes">-</div></div>
           </div>
         </div>
 
@@ -719,17 +734,17 @@
 
     <aside class="sidebar-right">
       <div>
-        <h3 style="color:#153B82; text-transform:uppercase; font-size:13px; margin-bottom:12px">Categorías</h3>
+    <h3 style="color:var(--violet-primary); text-transform:uppercase; font-size:13px; margin-bottom:12px">Categorías</h3>
         <div class="categories" id="categories">
         </div>
       </div>
 
       <div class="specs" id="specsBox" aria-live="polite">
         <h4>Especificaciones</h4>
-        <div class="spec-row"><div class="spec-label">Capacidad</div><div class="spec-val" id="specCapacity">4.5 m³</div></div>
-        <div class="spec-row"><div class="spec-label">Potencia</div><div class="spec-val" id="specPower">525 HP</div></div>
-        <div class="spec-row"><div class="spec-label">Peso operativo</div><div class="spec-val" id="specWeight">85,000 kg</div></div>
-        <div class="spec-row"><div class="spec-label">Aplicación</div><div class="spec-val" id="specApplication">Minería a cielo abierto</div></div>
+  <div class="spec-row"><div class="spec-label">Diámetro</div><div class="spec-val" id="specDiameter">-</div></div>
+  <div class="spec-row"><div class="spec-label">Masa</div><div class="spec-val" id="specMass">-</div></div>
+  <div class="spec-row"><div class="spec-label">Distancia al Sol</div><div class="spec-val" id="specDistance">-</div></div>
+  <div class="spec-row"><div class="spec-label">Notas</div><div class="spec-val" id="specNotes">-</div></div>
         
         <div class="ar-mode-selector">
           <!--<label class="mode-label">
@@ -746,51 +761,40 @@
     </aside>
   </div>
 
-  <div class="page-indicator" id="pageIndicator">01 <span>/ 10</span></div>
+  <div class="page-indicator" id="pageIndicator">01 <span>/ 06</span></div>
 
   <script>
-    const machines = [
-      // ✅ ACTIVOS - Con marcadores (10 elementos)
-      { name:"Túnel de Acceso", group:"Infraestructura", category:"Entrada de Mina", image:"/AppMindAr/assets/tunel.png", description:"Entrada fortificada para acceso a la mina subterránea. Estructura reforzada con soportes metálicos y sistemas de ventilación integrados para garantizar operaciones seguras.", capacity:"4.5 m altura", power:"N/A", weight:"Estructura fija", application:"Minería subterránea", arMarker:"tunel" },
+  // Calcular BASE_PATH como en el escáner ('' en dev, '/AppMindAr' en producción)
+  const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+  const BASE_PATH = isProduction ? '/AppMindAr' : '';
 
-      { name:"Máquina Araña", group:"Maquinaria", category:"Perforación", image:"/AppMindAr/assets/garras.png", description:"Equipo de perforación especializado con brazos articulados tipo araña. Permite perforación en túneles y espacios confinados con alta precisión y estabilidad.", capacity:"12-15 m³", power:"450 HP", weight:"45,000 kg", application:"Perforación en túneles", arMarker:"garras" },
-
-      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:"/AppMindAr/assets/carga.png", description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"camion" },
-
-      { name:"Perforadora Rotativa", group:"Equipamiento", category:"Perforación", image:"/AppMindAr/assets/perforadora.png", description:"Equipo de perforación de alto rendimiento para barrenos de voladura. Sistema rotativo de precisión para operaciones de exploración y extracción.", capacity:"311 mm diámetro", power:"783 HP", weight:"95,000 kg", application:"Perforación y voladura", arMarker:"perforadora" },
-
-      { name:"Casco Minero", group:"Equipamiento", category:"Seguridad", image:"/AppMindAr/assets/lamp.png", description:"Casco de seguridad certificado con lámpara integrada. Protección contra impactos y penetración. Cumple con estándares internacionales de seguridad minera.", capacity:"Ajustable", power:"LED 5W", weight:"450 g", application:"Protección personal", arMarker:"casco" },
-
-      { name:"Pico Minero", group:"Equipamiento", category:"Herramientas", image:"/AppMindAr/assets/pico.png", description:"Herramienta tradicional de acero forjado para extracción manual. Diseño ergonómico para trabajos de precisión en minería artesanal y mantenimiento.", capacity:"90 cm largo", power:"Manual", weight:"3.2 kg", application:"Extracción manual", arMarker:"pico" },
-
-      { name:"Rodillo Compactador", group:"Transporte", category:"Transporte", image:"/AppMindAr/assets/truck.png", description:"Vehículo de carga pesada para transporte de mineral. Sistema hidráulico de alta capacidad para operaciones de gran escala.", capacity:"50 t", power:"850 HP", weight:"120,000 kg", application:"Transporte de material", arMarker:"truck" },
-
-      { name:"Mineral de Oro", group:"Minerales", category:"Metales Preciosos", image:"/AppMindAr/assets/oro.png", description:"Muestra de mineral de oro nativo con vetas de cuarzo. Metal precioso de alta conductividad y resistencia a la corrosión. Utilizado en joyería, electrónica e inversiones.", capacity:"99.9% pureza", power:"N/A", weight:"19.3 g/cm³", application:"Extracción y refinación", arMarker:"oro" },
-
-      { name:"Wolframita", group:"Minerales", category:"Minerales Industriales", image:"/AppMindAr/assets/wolframita.png", description:"Mineral de tungsteno (wolframio) de alta densidad. Principal mena para extracción de tungsteno. Utilizado en herramientas de corte, filamentos y aleaciones de alta temperatura.", capacity:"Fe/Mn WO₄", power:"N/A", weight:"7.5 g/cm³", application:"Industria metalúrgica", arMarker:"wolframita" },
-
-      { name:"Excavadora Amarilla", group:"Maquinaria", category:"Excavación", image:"/AppMindAr/assets/maquina.png", description:"Excavadora hidráulica de alto rendimiento con brazo articulado. Sistema de control preciso para excavación, carga y movimiento de tierra en operaciones mineras.", capacity:"3.5 m³", power:"280 HP", weight:"35,000 kg", application:"Excavación y carga", arMarker:"renderamarillo" },     
-      { name:"Pala Eléctrica", group:"Maquinaria", category:"Excavación", image:"./assets/maquina.png", description:"Pala eléctrica de alto tonelaje para operaciones de carga continua. Sistema eléctrico de alta eficiencia para extracción masiva de mineral.", capacity:"120 m³", power:"6,200 kW", weight:"980,000 kg", application:"Carga de mineral", arMarker:"pala" },
-      { name:"Bulldozer", group:"Maquinaria", category:"Movimiento de tierra", image:"./assets/maquina.png", description:"Tractor de orugas de alta potencia para empuje y nivelación. Sistema hidráulico de precisión para movimiento de grandes volúmenes de tierra.", capacity:"27 m³ hoja", power:"850 HP", weight:"112,000 kg", application:"Empuje y nivelación", arMarker:"bulldozer" },
-      { name:"Motoniveladora", group:"Mantenimiento", category:"Mantenimiento", image:"./assets/maquina.png", description:"Motoniveladora de precisión para mantenimiento de caminos mineros. Sistema de nivelación láser para superficies perfectamente uniformes.", capacity:"7.3 m hoja", power:"525 HP", weight:"64,000 kg", application:"Mantenimiento vial", arMarker:"motoniveladora" },
+  const machines = [
+      // Seis elementos en el orden solicitado: Sol, Astronauta, Agujero Negro, Luna, Tierra, Marte
+      { name: "Sol", group: "Astronomía", category: "Estrella", image: `${BASE_PATH}/assets/sun.png`, description: "La estrella en el centro de nuestro sistema solar. Fuente principal de energía y luz.", diameter: "1,392,700 km", mass: "1.989 × 10^30 kg", distance: "0 km (referencia)", notes: "Composición: hidrógeno y helio.", arMarker: "sun" },
+      { name: "Astronauta", group: "Astronomía", category: "Humano", image: `${BASE_PATH}/assets/astronauta.png`, description: "Modelo de un astronauta en traje espacial. Ideal para experiencias educativas y demostraciones.", diameter: "N/A", mass: "~80 kg (traje incluido)", distance: "Variable", notes: "Representación humana para interacción AR.", arMarker: "astronauta" },
+      { name: "Agujero negro", group: "Astronomía", category: "Objeto compacto", image: `${BASE_PATH}/assets/rover2.png`, description: "Región del espacio con gravedad tan intensa que nada puede escapar de ella, ni siquiera la luz.", diameter: "Variable (horizonte de eventos)", mass: "Variable (masas estelares o supermasivas)", distance: "Variable", notes: "Visualización conceptual en AR.", arMarker: "rover2" },
+      { name: "Luna", group: "Astronomía", category: "Satélite", image: `${BASE_PATH}/assets/moon.png`, description: "El satélite natural de la Tierra. Superficie con cráteres y mares basálticos.", diameter: "3,474 km", mass: "7.35 × 10^22 kg", distance: "384,400 km", notes: "Fases: nueva, creciente, llena, menguante.", arMarker: "moon" },
+      { name: "Tierra", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/tierra.png`, description: "Nuestro planeta, con océanos y atmósfera que sustenta la vida.", diameter: "12,742 km", mass: "5.97 × 10^24 kg", distance: "149,600,000 km", notes: "Composición: núcleo, manto y corteza.", arMarker: "tierra" },
+      { name: "Marte", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/marte.png`, description: "El planeta rojo, objetivo de múltiples misiones robóticas y estudios sobre habitabilidad.", diameter: "6,779 km", mass: "6.39 × 10^23 kg", distance: "~227,900,000 km (media)", notes: "Características: casquetes polares y valles profundos.", arMarker: "marte" },
     ];
 
-    const groups = ["Todas", ...Array.from(new Set(machines.map(m => m.group)))];
+    // Las 'categorías' en el UI deben venir del campo `category` de los elementos
+    const groups = ["Todas", ...Array.from(new Set(machines.map(m => m.category)))];
 
     let currentGroup = "Todas";
     let filteredIndexes = machines.map((_,i)=>i);
     let currentFilteredIndex = 0;
 
-    const listEl = document.getElementById('machineryList');
+  const listEl = document.getElementById('machineryList');
     const categoriesEl = document.getElementById('categories');
     const machineImage = document.getElementById('machineImage');
     const machineName = document.getElementById('machineName');
     const machineDesc = document.getElementById('machineDesc');
     const machineCategory = document.getElementById('machineCategory');
-    const specCapacity = document.getElementById('specCapacity');
-    const specPower = document.getElementById('specPower');
-    const specWeight = document.getElementById('specWeight');
-    const specApplication = document.getElementById('specApplication');
+  const specDiameter = document.getElementById('specDiameter');
+  const specMass = document.getElementById('specMass');
+  const specDistance = document.getElementById('specDistance');
+  const specNotes = document.getElementById('specNotes');
     const pageIndicator = document.getElementById('pageIndicator');
     const wrapper = document.getElementById('machineWrapper');
     const arBtn = document.getElementById('arBtn');
@@ -832,7 +836,7 @@
     function filterByGroup(group){
       currentGroup = group;
       if (group === "Todas") filteredIndexes = machines.map((_,i)=>i);
-      else filteredIndexes = machines.map((m,i)=> m.group === group ? i : -1).filter(i => i !== -1);
+      else filteredIndexes = machines.map((m,i)=> m.category === group ? i : -1).filter(i => i !== -1);
 
       currentFilteredIndex = 0;
       renderCategories();
@@ -846,10 +850,10 @@
         machineName.textContent = "";
         machineDesc.textContent = "";
         machineCategory.textContent = currentGroup.toUpperCase();
-        specCapacity.textContent = "-";
-        specPower.textContent = "-";
-        specWeight.textContent = "-";
-        specApplication.textContent = "-";
+          specDiameter.textContent = "-";
+          specMass.textContent = "-";
+          specDistance.textContent = "-";
+          specNotes.textContent = "-";
         pageIndicator.innerHTML = `00 <span>/ ${String(filteredIndexes.length).padStart(2,'0')}</span>`;
         return;
       }
@@ -864,11 +868,11 @@
         machineImage.src = m.image;
         machineName.textContent = m.name;
         machineDesc.textContent = m.description;
-        machineCategory.textContent = m.category.toUpperCase();
-        specCapacity.textContent = m.capacity;
-        specPower.textContent = m.power;
-        specWeight.textContent = m.weight;
-        specApplication.textContent = m.application;
+  machineCategory.textContent = m.category.toUpperCase();
+  specDiameter.textContent = m.diameter || '-';
+  specMass.textContent = m.mass || '-';
+  specDistance.textContent = m.distance || '-';
+  specNotes.textContent = m.notes || '-';
 
         document.querySelectorAll('.machinery-list li').forEach((li) => li.classList.remove('active'));
         const listItems = document.querySelectorAll('.machinery-list li');
@@ -914,8 +918,8 @@
       // Usar scanner.html para MindAR (marcadores compilados)
       url = `scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
     } else if (selectedMode === 'arjs') {
-      // Usar arjs-scanner.html para AR.js (códigos de barras)
-     url = `arjs-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
+      // Usar astro-scanner.html para AR.js (códigos de barras)
+     url = `astro-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
     }
     
     window.location.href = url;
@@ -988,7 +992,7 @@
         if (selectedMode === 'mindar') {
           url = `scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
         } else if (selectedMode === 'arjs') {
-          url = `arjs-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
+          url = `astro-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
         }
         
         window.location.href = url;
@@ -1021,10 +1025,10 @@
     function syncMobileSpecs() {
       if (filteredIndexes.length === 0) return;
       const m = machines[filteredIndexes[currentFilteredIndex]];
-      document.getElementById('mobileSpecCapacity').textContent = m.capacity;
-      document.getElementById('mobileSpecPower').textContent = m.power;
-      document.getElementById('mobileSpecWeight').textContent = m.weight;
-      document.getElementById('mobileSpecApplication').textContent = m.application;
+      document.getElementById('mobileSpecDiameter').textContent = m.diameter || '-';
+      document.getElementById('mobileSpecMass').textContent = m.mass || '-';
+      document.getElementById('mobileSpecDistance').textContent = m.distance || '-';
+      document.getElementById('mobileSpecNotes').textContent = m.notes || '-';
     }
 
     // Initialize mobile menu content
