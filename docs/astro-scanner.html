@@ -857,7 +857,7 @@
     let persistentModel = null;
     let arSystem = null; 
     let trackingPaused = false; 
-    let infoTimeout = null; // ⏱️ Variable necesaria para el temporizador
+    let infoTimeout = null;
     
     // ✅ Detectar entorno
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
@@ -1148,9 +1148,8 @@
           // 7. Mostrar la información del modelo
           modelName.textContent = modelNames[i] || 'Objeto';
           modelInfo.classList.add('active');
-          
-          // ⏱️ TEMPORIZADOR: OCULTAR CARTEL A LOS 3 SEGUNDOS
           if (infoTimeout) clearTimeout(infoTimeout);
+          
           infoTimeout = setTimeout(() => {
             modelInfo.classList.remove('active');
           }, 3000);
@@ -1449,6 +1448,5 @@
 
     });
   </script>
-
 </body>
 </html>

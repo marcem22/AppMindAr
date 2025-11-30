@@ -205,6 +205,10 @@
 
   <header>
     <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
+    <a href="index.html" class="back-home-btn" title="Volver al Menú">
+      ⬅ Volver al Inicio
+    </a>    
+
   </header>
 
   <div class="layout">
@@ -299,9 +303,31 @@
   habitat: "África Central", 
   arMarker: "cactus" 
 },
-      { name: "Saltamontes", group: "Fauna", category: "Insecto", image: "assets/saltamontes.png", description: "Insecto herbívoro caracterizado por sus potentes patas traseras adaptadas para el salto. Posee un exoesqueleto de quitina que muda periódicamente.", subtitle: "Caelifera", family: "Acrididae", type: "Insecta", habitat: "Pastizales", arMarker: "saltamontes" },
+      { 
+    name: "Mariquita", 
+    group: "Fauna", 
+    category: "Insecto", 
+    image: "assets/mariquita.png", // Asegúrate de tener la foto .png
+    description: "Pequeño escarabajo de la familia Coccinellidae. Es muy apreciado en la agricultura porque funciona como controlador biológico de plagas, alimentándose vorazmente de pulgones y ácaros.", 
+    subtitle: "Coccinellidae", 
+    family: "Coccinellidae", 
+    type: "Insecta", 
+    habitat: "Jardines y cultivos", 
+    arMarker: "mariquita" 
+  },
       { name: "Araña Lobo", group: "Fauna", category: "Arácnido", image: "assets/arania.png", description: "Arácnido cazador que no teje telarañas para atrapar presas, sino que las persigue gracias a su excelente visión y agilidad.", subtitle: "Lycosidae", family: "Lycosidae", type: "Arachnida", habitat: "Terrestre / Cazador", arMarker: "arana" },
-      { name: "Ecosistema Bosque", group: "Ecosistemas", category: "Bioma", image: "assets/bosque.png", description: "Un sistema complejo donde interactúan flora, fauna y microorganismos. Los bosques son esenciales para la regulación del ciclo del carbono.", subtitle: "Bioma Forestal", family: "Complejo", type: "Sistema", habitat: "Global", arMarker: "bosque" }
+      { 
+    name: "Grillo", 
+    group: "Fauna", 
+    category: "Insecto", 
+    image: "assets/grillo.jpeg", // Usamos la foto que subiste
+    description: "Insecto omnívoro de hábitos nocturnos. Es famoso por su canto (estridulación), que producen los machos frotando sus alas para atraer a las hembras. Poseen antenas largas y patas adaptadas para saltar.", 
+    subtitle: "Gryllidae", 
+    family: "Gryllidae", 
+    type: "Insecta", 
+    habitat: "Praderas y grietas", 
+    arMarker: "grillo" 
+  }
     ];
 
     const groups = ["Todas", ...Array.from(new Set(bioModels.map(m => m.group)))];

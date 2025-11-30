@@ -926,6 +926,7 @@
     let persistentModel = null;
     let arSystem = null; 
     let trackingPaused = false; 
+    let infoTimeout = null;
     
     // ✅ Detectar entorno
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
@@ -1185,6 +1186,10 @@
           // 7. Mostrar la información del modelo
           modelName.textContent = modelNames[i] || 'Maquinaria';
           modelInfo.classList.add('active');
+           if (infoTimeout) clearTimeout(infoTimeout);
+          infoTimeout = setTimeout(() => {
+            modelInfo.classList.remove('active');
+          }, 3000);
           
           // 8. Mostrar botón de resetear
           if (resetScanBtn) {
