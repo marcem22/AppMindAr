@@ -633,6 +633,42 @@
         width: 90%;
       }
     }
+    /* ESTILO NUEVO: Botón circular blanco a la derecha */
+.back-home-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px; /* <-- MOVIDO AL OTRO EXTREMO (Derecha) */
+  /* left: 20px; <-- Eliminado */
+
+  /* HAGAMOS UN CÍRCULO */
+  width: 44px;  /* Ancho fijo */
+  height: 44px; /* Alto igual al ancho */
+  border-radius: 50%; /* Esto lo hace redondo */
+  padding: 0; /* Quitamos el relleno rectangular */
+
+  /* CENTRAR LA FLECHA */
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  align-items: center;     /* Centrado vertical */
+
+  /* ESTILO BLANCO */
+  color: white; /* Color de la flecha */
+  background: rgba(0, 0, 0, 0.3); /* Fondo sutil para contraste */
+  border: 2px solid white; /* Borde blanco circular */
+  text-decoration: none;
+  font-size: 22px; /* Tamaño de la flecha */
+  
+  z-index: 100;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra suave */
+}
+
+/* Efecto al pasar el mouse */
+.back-home-btn:hover {
+  background: white; /* Fondo blanco al pasar el mouse */
+  color: black; /* Flecha negra para contraste */
+  transform: scale(1.1); /* Crece un poquito */
+}
   </style>
 </head>
 <body>
@@ -660,8 +696,7 @@
   <header>
     <img src="./assets/logo sied horizontal-02-BF-xqR4y.png" class="header-logo" alt="SIED Logo">
     <a href="index.html" class="back-home-btn" title="Volver al Menú">
-      ⬅ Volver al Inicio
-    </a> 
+  &#8592; </a>
   </header>
 
   <div class="layout">
