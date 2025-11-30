@@ -686,30 +686,31 @@
   </a-scene>
 
 <script>
-    // ----- CONFIGURACIÓN CORREGIDA -----
+    // ----- CONFIGURACIÓN DE MODELOS BIO -----
     
     function getModelName(id) {
       const names = {
-        6: 'mariposa', 7: 'helecho', 8: 'cactus', 9: 'saltamontes', 10: 'arana', 11: 'bosque'
+        6: 'mariposa', 7: 'helecho', 8: 'cactus', 9: 'mariquita', 10: 'arana', 11: 'algarrobo'
       };
       return names[id] || 'mariposa';
     }
 
-    // 1. CONFIGURACIÓN BASE (PC)
+    // 1. CONFIGURACIÓN BASE (Valores de tu último envío)
     const modelConfig = {
       6: { scale: 0.5, position: '0 -1.0 -3', rotation: '0 0 0' }, // Mariposa
       7: { scale: 0.003, position: '0 -1.0 -4', rotation: '-50 0 0' }, // Helecho
       
-      // 🌵 CACTUS: Valores base
+      // 🌵 CACTUS
       8: { scale: 0.5, position: '0 -1.0 -4', rotation: '0 0 0' },
-      // Mariquita
-      9: { scale: 0.2, position: '0 -0.5 -0', rotation: '0 180 0' },
       
-      // Araña 
+      // 🐞 MARIQUITA (ID 9)
+      9: { scale: 0.05, position: '0 -1.0 -5', rotation: '90 0 0' },
+      
+      // 🕷️ ARAÑA LOBO (ID 10)
       10: { scale: 0.8, position: '0 -0.5 -6', rotation: '180 90 0' },
       
-      // 🌲 BOSQUE
-      11: { scale: 0.5, position: '0 0 0', rotation: '0 0 0' }
+      // 🌳 ALGARROBO (ID 11)
+     11: { scale: 0.05, position: '0 -1.0 -8', rotation: '0 0 0' }
     };
 
     const modelNames = {
@@ -717,13 +718,16 @@
       9: 'Mariquita', 10: 'Araña Lobo', 11: 'Algarrobo'
     };
 
+    // Variables Globales
     let currentModel = null;
     let currentScale = 0.5;
     let currentRotation = { x: 0, y: 0, z: 0 };
     let lastDetectedMarker = null;
     let persistentModel = null;
     let trackingPaused = false;
+    let infoTimeout = null; // ⏱️ Variable para el temporizador del cartel
 
+    // Detectar Móvil
     const isMobile = ('ontouchstart' in window) && (navigator.maxTouchPoints > 0);
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
@@ -737,10 +741,13 @@
       11: `${BASE_PATH}/models/algarrobo.glb`
     };
 
+    // Carga inicial
     window.addEventListener('DOMContentLoaded', () => {
       for (let i of [6,7,8,9,10,11]) {
         const modelEntity = document.getElementById(`model${i}`);
-        if (modelEntity) modelEntity.setAttribute('gltf-model', `${BASE_PATH}/models/${getModelName(i)}.glb`);
+        if (modelEntity) {
+          modelEntity.setAttribute('gltf-model', `${BASE_PATH}/models/${getModelName(i)}.glb`);
+        }
       }
     });
 
@@ -754,7 +761,10 @@
       const resetScanBtn = document.getElementById('resetScanBtn');
 
       if (isMobile && mobileHint) {
-        setTimeout(() => { mobileHint.style.display = 'block'; setTimeout(() => { mobileHint.style.display = 'none'; }, 5000); }, 2000);
+        setTimeout(() => {
+          mobileHint.style.display = 'block';
+          setTimeout(() => { mobileHint.style.display = 'none'; }, 5000);
+        }, 2000);
       }
 
       closeBtn.addEventListener('click', () => { window.history.back(); });
@@ -764,6 +774,7 @@
         resetScanBtn.addEventListener('click', () => {
           if (persistentModel && persistentModel.parentNode) persistentModel.parentNode.removeChild(persistentModel);
           persistentModel = null; currentModel = null; lastDetectedMarker = null; currentScale = 0.5; trackingPaused = false;
+
           const sceneEl = document.querySelector('a-scene');
           [6,7,8,9,10,11].forEach(id => {
             if (!document.getElementById(`marker${id}`)) {
@@ -773,36 +784,44 @@
               sceneEl.appendChild(newMarker); setupMarkerEvents(newMarker, id);
             }
           });
+
           const video = document.querySelector('video'); if (video) video.style.opacity = '1';
           const scannerFrame = document.querySelector('.scanner-frame'); if (scannerFrame) scannerFrame.style.opacity = '1';
           document.body.style.backgroundColor = '#000';
           modelInfo.classList.remove('active'); resetScanBtn.classList.remove('visible');
           if (document.getElementById('zoomLevel')) document.getElementById('zoomLevel').textContent = '1.0x';
+          
+          // Limpiar timeout si existe al resetear
+          if (infoTimeout) clearTimeout(infoTimeout);
         });
       }
 
       scene.addEventListener('arjs-video-loaded', function () { loading.style.display = 'none'; });
       setTimeout(() => { if (loading.style.display !== 'none') loading.style.display = 'none'; }, 5000);
 
-      // --- LOGICA PRINCIPAL ---
+      // --- LÓGICA PRINCIPAL ---
       function setupMarkerEvents(marker, i) {
         marker.addEventListener('markerFound', function() {
           if (trackingPaused) return;
-          trackingPaused = true; lastDetectedMarker = i; 
+
+          trackingPaused = true;
+          lastDetectedMarker = i;
+
           const camera = scene.querySelector('[camera]');
           
+          // Cargar config base
           let config = modelConfig[i] || { scale: 0.5, position: '0 -0.5 -3', rotation: '0 0 0' };
           let finalScale = config.scale;
           let finalPos = config.position.split(' ').map(Number);
           let finalRot = config.rotation;
 
-          // --- PARCHES MÓVIL ---
+          // 📱 Ajustes automáticos para Móvil (Alejar modelos para que entren en pantalla vertical)
           if (isMobile) {
-             if (i === 8) { finalScale = 0.5; finalPos = [0, -1.5, -8]; } // Cactus
-             if (i === 9) { finalScale = 10.0; finalPos = [-12.0, -0.5, -25]; } // Saltamontes MUY ATRAS (-25)
-             if (i === 10) { finalScale = 35.0; finalPos = [0, -0.5, -8]; } // Araña
-             if (i === 11) { finalScale = 0.15; finalPos = [2.0, -8.0, -10]; } // Bosque
-             if (i !== 8 && i !== 9 && i !== 10 && i !== 11) { finalPos[2] = finalPos[2] * 1.3; }
+             // Empujar la profundidad (Z) un 30% más atrás en general
+             finalPos[2] = finalPos[2] * 1.3;
+             
+             // Si alguno queda muy grande, reducir escala levemente aquí:
+             // finalScale = finalScale * 0.9; 
           }
 
           currentScale = finalScale;
@@ -817,38 +836,53 @@
           
           if (i === 6) persistentModel.setAttribute('animation-mixer', 'loop: repeat');
 
-          // --- 🔧 FIX DE MATERIALES (Para el Cactus Negro) ---
+          // 🔧 Fix Materiales (Previene modelos negros)
           persistentModel.addEventListener('model-loaded', () => {
             const mesh = persistentModel.getObject3D('mesh');
             if (mesh) {
               mesh.traverse((node) => {
                 if (node.isMesh) {
-                  // Esto fuerza a que el material reaccione a la luz
-                  node.material.metalness = 0; 
+                  node.material.metalness = 0; // Quita efecto metálico oscuro
                   node.material.roughness = 1;
                   node.material.needsUpdate = true;
                 }
               });
             }
           });
-          // ----------------------------------------------------
 
-          [6,7,8,9,10,11].forEach(mId => { const m = document.getElementById(`marker${mId}`); if (m) m.remove(); });
+          // Limpiar marcadores
+          [6,7,8,9,10,11].forEach(mId => {
+            const m = document.getElementById(`marker${mId}`); if (m) m.remove();
+          });
+
+          // Ocultar UI de escaneo
           setTimeout(() => {
             const video = document.querySelector('video'); if (video) video.style.opacity = '0';
             const scannerFrame = document.querySelector('.scanner-frame'); if (scannerFrame) scannerFrame.style.opacity = '0';
             document.body.style.backgroundColor = '#000';
           }, 100);
 
-          camera.appendChild(persistentModel); currentModel = persistentModel;
+          camera.appendChild(persistentModel);
+          currentModel = persistentModel;
+
+          // Mostrar información
           modelName.textContent = modelNames[i] || 'Modelo Bio';
-          modelInfo.classList.add('active'); if (resetScanBtn) resetScanBtn.classList.add('visible');
+          modelInfo.classList.add('active');
+          if (resetScanBtn) resetScanBtn.classList.add('visible');
+
+          // ⏱️ TEMPORIZADOR: OCULTAR CARTEL A LOS 3 SEGUNDOS
+          if (infoTimeout) clearTimeout(infoTimeout);
+          infoTimeout = setTimeout(() => {
+            modelInfo.classList.remove('active');
+          }, 3000);
         });
       }
 
-      [6,7,8,9,10,11].forEach(i => { const marker = document.getElementById(`marker${i}`); if (marker) setupMarkerEvents(marker, i); });
+      [6,7,8,9,10,11].forEach(i => {
+        const marker = document.getElementById(`marker${i}`); if (marker) setupMarkerEvents(marker, i);
+      });
 
-      // Zoom
+      // Zoom Manual
       const zoomIn = document.getElementById('zoomIn'); const zoomOut = document.getElementById('zoomOut'); const zoomLevel = document.getElementById('zoomLevel');
       function manualZoom(factor) {
           if (!currentModel) return;
@@ -859,7 +893,7 @@
       if (zoomIn) zoomIn.addEventListener('click', () => manualZoom(1.2));
       if (zoomOut) zoomOut.addEventListener('click', () => manualZoom(0.8));
 
-      // Rotación
+      // Rotación Manual
       const rotateUp = document.getElementById('rotateUp'); const rotateDown = document.getElementById('rotateDown');
       const rotateLeft = document.getElementById('rotateLeft'); const rotateRight = document.getElementById('rotateRight');
       const rotateReset = document.getElementById('rotateReset');
@@ -872,23 +906,18 @@
       
       if (rotateReset) rotateReset.addEventListener('click', () => {
         if (!currentModel || !lastDetectedMarker) return;
-        const markerId = lastDetectedMarker;
-        let config = modelConfig[markerId];
-        let finalScale = config.scale;
-        let finalPos = config.position.split(' ').map(Number);
-        
-        if (isMobile) {
-             if (markerId === 8) { finalScale = 0.5; finalPos = [0, -1.5, -8]; }
-             if (markerId === 9) { finalScale = 10.0; finalPos = [-12.0, -0.5, -25]; } // Saltamontes atrás
-             if (markerId === 10) { finalScale = 35.0; finalPos = [0, -0.5, -8]; }
-             if (markerId === 11) { finalScale = 0.15; finalPos = [2.0, -8.0, -10]; }
-             if (markerId !== 8 && markerId !== 9 && markerId !== 10 && markerId !== 11) { finalPos[2] = finalPos[2] * 1.3; }
-        }
-        currentScale = finalScale;
+        const config = modelConfig[lastDetectedMarker];
+        currentScale = config.scale;
         let r = config.rotation.split(' ').map(Number);
         currentRotation = {x: r[0], y: r[1], z: r[2]};
+        
+        // Al resetear, re-aplicamos lógica móvil si corresponde
+        let pos = config.position.split(' ').map(Number);
+        if (isMobile) pos[2] = pos[2] * 1.3;
+
         currentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
-        currentModel.setAttribute('position', `${finalPos[0]} ${finalPos[1]} ${finalPos[2]}`);
+        currentModel.setAttribute('position', `${pos[0]} ${pos[1]} ${pos[2]}`);
+        currentModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
         updateRot();
         if(zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(2)}x`;
       });
@@ -911,14 +940,15 @@
       if (captureBtn) captureBtn.addEventListener('click', captureScreenshot);
       if (captureBtnMobile) captureBtnMobile.addEventListener('click', captureScreenshot);
 
-      // Touch
+      // Touch Zoom/Rotación (Corregido para que no achique modelos grandes)
       if (isMobile) {
         let touchStartDist = 0; let touchStartScale = 0; let touchStartX = 0; let touchStartY = 0;
         scene.addEventListener('touchstart', (e) => {
           if (!currentModel) return;
           if (e.touches.length === 2) {
             const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY;
-            touchStartDist = Math.sqrt(dx * dx + dy * dy); touchStartScale = currentScale;
+            touchStartDist = Math.sqrt(dx * dx + dy * dy);
+            touchStartScale = currentScale; // Guarda escala REAL actual
           } else if (e.touches.length === 1) { touchStartX = e.touches[0].pageX; touchStartY = e.touches[0].pageY; }
         });
         scene.addEventListener('touchmove', (e) => {
@@ -926,7 +956,7 @@
           if (e.touches.length === 2) {
             const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            let newScale = touchStartScale * (dist / touchStartDist);
+            let newScale = touchStartScale * (dist / touchStartDist); // Calcula en base a lo guardado
             if (newScale < 0.001) newScale = 0.001; if (newScale > 1000) newScale = 1000;
             currentScale = newScale;
             currentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
@@ -938,6 +968,7 @@
           }
         });
       }
+
       scene.addEventListener('arjs-video-loaded', () => {
         const v = document.querySelector('video'); if(v) { v.style.width='100vw'; v.style.height='100vh'; v.style.objectFit='cover'; }
       });
