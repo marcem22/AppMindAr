@@ -857,7 +857,6 @@
     let persistentModel = null;
     let arSystem = null; 
     let trackingPaused = false; 
-    let infoTimeout = null; // ⏱️ Variable para el temporizador del cartel
     
     // ✅ Detectar entorno
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
@@ -1025,7 +1024,7 @@
       
       // --- CAMBIO 4: Función `setupMarkerEvents` actualizada ---
       // Ahora solo toma 'marker' e 'i' (el ID)
-     function setupMarkerEvents(marker, i) {
+      function setupMarkerEvents(marker, i) {
         
         marker.addEventListener('markerFound', function() {
           if (trackingPaused) {
@@ -1044,7 +1043,8 @@
 
           // 3. Obtener config y CREAR UN MODELO NUEVO (no clonar)
           const config = modelConfig[i] || { scale: 0.5, position: '0 -0.5 -2', rotation: '-90 0 0' };
-          // currentScale se usa ahora como multiplicador (1 = base)
+          // currentScale se usa ahora como multiplicador (1 = base), la escala real se calculará
+          // cuando el modelo se cargue y normalicemos por su bounding box.
           currentScale = 1.0;
           const rotParts = config.rotation.split(' ').map(Number);
           currentRotation = { x: rotParts[0], y: rotParts[1], z: rotParts[2] };
@@ -1057,7 +1057,7 @@
           // Empezar con una escala mínima para evitar que modelos grandes ocupen toda la pantalla
           persistentModel.setAttribute('scale', '0.001 0.001 0.001');
 
-          // Normalizar la escala cuando el modelo termine de cargar
+          // Normalizar la escala cuando el modelo termine de cargar (evita tamaños gigantes)
           persistentModel.addEventListener('model-loaded', (ev) => {
             try {
               // evt.detail.model es el THREE.Object3D cargado por glTF
@@ -1072,11 +1072,11 @@
               const size = box.getSize(new THREE.Vector3());
               const maxDim = Math.max(size.x, size.y, size.z);
 
-              // Queremos que el tamaño "mundo" coincida con config.scale
+              // Queremos que el tamaño "mundo" coincida con config.scale (valor deseado en unidades A-Frame)
               const desiredWorldScale = config.scale || 0.5;
               const baseScale = (maxDim > 0) ? (desiredWorldScale / maxDim) : desiredWorldScale;
 
-              // Guardar baseScale en la entidad
+              // Guardar baseScale en la entidad para usarlo con los controles de zoom
               persistentModel.baseScale = baseScale;
 
               // Aplicar escala efectiva combinando baseScale * currentScale
@@ -1090,7 +1090,7 @@
             }
           });
 
-          // Manejar errores de carga
+          // Manejar errores de carga para intentar nombres alternativos (p. ej. "earth" vs "tierra")
           persistentModel.addEventListener('model-error', (evt) => {
             console.error('❌ Error cargando modelo', markerModels[i], evt);
             // Intentar alternativa para la Tierra si existe discrepancia en nombre
@@ -1103,7 +1103,8 @@
           // --- FIN DE LA LÓGICA CORREGIDA ---
 
           persistentModel.setAttribute('position', config.position);
-          
+          // Intentar aplicar una escala inicial basada en baseScale si ya fue calculada,
+          // si no, dejamos la escala mínima hasta que el evento model-loaded normalice.
           const initBase = (persistentModel && persistentModel.baseScale) ? persistentModel.baseScale : (config.scale || 1.0);
           const initApplied = initBase * currentScale;
           persistentModel.setAttribute('scale', `${initApplied} ${initApplied} ${initApplied}`);
@@ -1146,16 +1147,6 @@
           // 7. Mostrar la información del modelo
           modelName.textContent = modelNames[i] || 'Objeto';
           modelInfo.classList.add('active');
-
-          // --- ⏱️ TEMPORIZADOR AGREGADO ---
-          // Limpiar timeout anterior si existe
-          if (typeof infoTimeout !== 'undefined' && infoTimeout) clearTimeout(infoTimeout);
-          
-          // Ocultar cartel después de 3 segundos
-          infoTimeout = setTimeout(() => {
-            modelInfo.classList.remove('active');
-          }, 3000);
-          // --------------------------------
           
           // 8. Mostrar botón de resetear
           if (resetScanBtn) {
@@ -1170,6 +1161,17 @@
           console.log(`❌ Marcador ${i} perdido`);
         });
       }
+      
+      // --- CAMBIO 5: Bucle de carga inicial actualizado ---
+      const markerIds = [33, 34, 35, 36, 37, 38];
+      
+      markerIds.forEach(i => {
+        const marker = document.getElementById(`marker${i}`);
+        // Ya no necesitamos 'model'
+        if (!marker) return;
+        
+        setupMarkerEvents(marker, i);
+      });
 
       // Controles de zoom (Desktop)
       const zoomIn = document.getElementById('zoomIn');
