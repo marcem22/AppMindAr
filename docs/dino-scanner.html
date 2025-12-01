@@ -963,23 +963,25 @@
           let finalPos = config.position.split(' ').map(Number);
           let finalRot = config.rotation;
 
-          // 2. 📱 APLICAR PARCHES SOLO PARA MÓVIL (REDUCCIÓN AGRESIVA)
+          // 2. 📱 APLICAR PARCHES SOLO PARA MÓVIL
           if (isMobile) {
-             // Regla General: Reducir TODOS al 60% de su tamaño original
-             finalScale = finalScale * 0.6; 
-             // Regla General: Alejarlos un 20% más
-             finalPos[2] = finalPos[2] * 1.2;
-
-             // 🦕 STEGOSAURUS (ID 4) - Ajuste Móvil
+             // 🦕 STEGOSAURUS (ID 4) - Se veía chico
              if (i === 4) {
-                finalScale = 0.05; // Mantenemos escala chica
-                finalPos = [0, -1.0, -8]; // Lejos, pero no tanto como antes (-12)
+                // Solución: Aumentar escala (de 0.05 a 0.2) y acercarlo un poco (Z -4)
+                finalScale = 0.2; 
+                finalPos = [0, -0.5, -4]; 
              }
-
-             // 🐢 ANKYLOSAURUS (ID 5) - Ajuste Móvil
+             
+             // 🐢 ANKYLOSAURUS (ID 5) - Se veía GIGANTE (patas)
              if (i === 5) {
-                finalScale = 0.04; // Más chico aún
-                finalPos = [0, -1.0, -15]; // ¡Muy lejos! Para que no se vea gigante
+                // Solución: Reducir escala muchísimo (0.005) y alejarlo (-10)
+                finalScale = 0.005; 
+                finalPos = [0, -2.0, -10]; 
+             }
+             
+             // Ajuste general para los otros dinos (mantenerlos alejados)
+             if (i !== 4 && i !== 5) {
+                 finalPos[2] = finalPos[2] * 1.4;
              }
           }
 
