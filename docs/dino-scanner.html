@@ -971,10 +971,16 @@
              // Regla General: Alejarlos un 20% más
              finalPos[2] = finalPos[2] * 1.2;
 
-             // Ajustes Específicos para los problemáticos
-             if (i === 4 || i === 5) {
-                finalScale = 0.15; // Forzar tamaño muy pequeño
-                finalPos = [0, -0.5, -6]; // Alejarlos bien
+             // 🦕 STEGOSAURUS (ID 4) - Ajuste Móvil
+             if (i === 4) {
+                finalScale = 0.05; // Mantenemos escala chica
+                finalPos = [0, -1.0, -8]; // Lejos, pero no tanto como antes (-12)
+             }
+
+             // 🐢 ANKYLOSAURUS (ID 5) - Ajuste Móvil
+             if (i === 5) {
+                finalScale = 0.04; // Más chico aún
+                finalPos = [0, -1.0, -15]; // ¡Muy lejos! Para que no se vea gigante
              }
           }
 
