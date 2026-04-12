@@ -27,6 +27,11 @@ export default defineConfig(({ command }) => {
           'arjs-scanner': resolve(__dirname, 'arjs-scanner.html'),     
           'bio-scanner': resolve(__dirname, 'bio-scanner.html'),
           'bio-elements': resolve(__dirname, 'bio-elements.html'),
+          'index-dino':resolve(__dirname, 'index-dino.html'),
+          'dino-scannerconMindAr': resolve(__dirname, 'dino-scannerconMindAr.html'),
+          'visor-espacial-astro': resolve(__dirname, 'visor-espacial-astro.html'),
+          'visor-espacial-bio': resolve(__dirname, 'visor-espacial-bio.html'),
+          'visor-espacial': resolve(__dirname, 'visor-espacial.html'),
 
 
         },

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>MiningTech - AR Espacial</title>
+  
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
+      color: white;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+      z-index: 20;
+      position: absolute;
+      width: 100%;
+      top: 0;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #fff;
+    }
+
+    .logo span {
+      color: #153B82;
+    }
+
+    .close-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.3);
+      border: 2px solid white;
+      color: white;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .close-btn:hover {
+      background: white;
+      color: black;
+      transform: scale(1.1);
+    }
+
+    .visor-container {
+      flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: transparent; 
+      --poster-color: transparent;
+    }
+
+    .model-info {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(21, 59, 130, 0.15);
+      padding: 12px 24px;
+      border-radius: 12px;
+      border: 1px solid rgba(21, 59, 130, 0.5);
+      text-align: center;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .model-name {
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .btn-proyectar {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #00ff99, #00cc7a);
+      color: #000;
+      border: none;
+      border-radius: 30px;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,255,153,0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-proyectar:active {
+      transform: translateX(-50%) scale(0.95);
+    }
+
+    .btn-captura {
+      position: absolute;
+      right: 20px;
+      bottom: 40px;
+      width: 60px;
+      height: 60px;
+      background: rgba(21, 59, 130, 0.9);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 40;
+      box-shadow: 0 4px 15px rgba(21, 59, 130, 0.4);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .btn-captura:active {
+      transform: scale(0.9);
+    }
+  </style>
+  <script type="module" crossorigin src="/AppMindAr/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">Mining<span>Tech</span></div>
+    <a href="index.html" class="close-btn" title="Volver">←</a>
+  </div>
+
+  <div class="visor-container">
+    <div class="model-info">
+      <div class="model-name" id="nombreModelo">Cargando...</div>
+    </div>
+
+    <model-viewer 
+      id="visorModelo"
+      src=""
+      alt="Modelo 3D"
+      ar 
+      ar-modes="webxr scene-viewer quick-look" 
+      camera-controls 
+      auto-rotate
+      autoplay
+      shadow-intensity="1">
+      
+      <button slot="ar-button" class="btn-proyectar">
+        <span></span> Proyectar en el espacio
+      </button>
+
+    </model-viewer>
+    
+    <button class="btn-captura" id="btnCaptura">📷</button>
+  </div>
+
+  <script>
+    const parametrosUrl = new URLSearchParams(window.location.search);
+    const modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
+    const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
+
+    const visor = document.getElementById('visorModelo');
+    const nombreUI = document.getElementById('nombreModelo');
+    const btnCaptura = document.getElementById('btnCaptura');
+
+    const isProduction = window.location.hostname.includes('github.io');
+    const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
+
+    visor.src = BASE_PATH + modeloSolicitado + '.glb';
+    nombreUI.textContent = nombreSolicitado;
+
+    btnCaptura.addEventListener('click', async () => {
+      btnCaptura.style.background = "orange";
+      try {
+        const blob = await visor.toBlob({ idealAspect: true });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `MiningAR-${Date.now()}.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error(error);
+      }
+      setTimeout(() => {
+        btnCaptura.style.background = "rgba(21, 59, 130, 0.9)";
+      }, 500);
+    });
+  </script>
+</body>
+</html>

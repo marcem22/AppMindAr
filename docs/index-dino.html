@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>SIED - Paleontología AR</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root {
+      --dino-dark: #a04000;
+      --dino-primary: #d35400;
+      --dino-light: #f39c12;
+      --dino-r: 211, 84, 0;
+    }
+
+    html,body{height:100%}
+    body{
+      font-family:"Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      background: radial-gradient(circle at center, #1a120b 0%, #000 100%);
+      color:#fff; overflow-x:hidden;
+    }
+
+    header{
+      position:fixed; top:0; left:0; width:100%;
+      padding:22px 56px; display:flex; align-items:center;
+      z-index:50; background:linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+      animation: fadeInDown 0.8s ease-out forwards;
+    }
+    .header-logo{
+      max-height: 100px;
+      width: auto;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); 
+    }
+    
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 320px 1fr 320px;
+      gap: 36px;
+      height: 100vh;
+      align-items: center;
+      padding: 100px 60px 60px;
+    }
+
+    .sidebar-left{
+      display:flex; flex-direction:column; gap:18px;
+      align-self:stretch;
+      justify-content:center;
+      animation: fadeInLeft 0.8s ease-out forwards;
+    }
+    .sidebar-left h3{
+      color:var(--dino-light); font-size:13px; text-transform:uppercase; letter-spacing:2px;
+    }
+    
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .machinery-list{
+      list-style:none; overflow:auto; padding-right:8px; max-height:calc(100vh - 200px);
+    }
+    .machinery-list li{
+      padding:12px 6px; cursor:pointer; color:#9a9a9a; font-size:14px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      display:flex; justify-content:space-between; align-items:center;
+      transition:all .22s ease;
+    }
+    .machinery-list li:hover{ color:var(--dino-light); transform:translateX(4px) }
+    .machinery-list li.active{ color:var(--dino-light); font-weight:700; padding-left:10px; border-left: 3px solid var(--dino-primary); }
+
+    .small-model{ font-size:12px; color:rgba(255,255,255,0.25); margin-left:8px }
+
+    .machine-view{
+      position:relative; text-align:center; padding:24px;
+      animation: fadeInScale 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .machine-category{
+      position:absolute; top:0; left:50%; transform:translateX(-50%);
+      padding:8px 24px; border-radius:30px; 
+      background: var(--dino-primary);
+      color: #ffffff; 
+      font-size:13px; font-weight:700; letter-spacing:1px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      z-index:20;
+    }
+
+    .machine-wrap{
+      display:inline-block; transition:transform .3s ease; height: 350px; display: flex; align-items: center; justify-content: center;
+    }
+
+    .machine-img{
+      max-height: 100%;
+      max-width: 100%;
+      display:block; margin:0 auto; filter: drop-shadow(0 28px 60px rgba(var(--dino-r),0.3));
+      transition: opacity 0.3s ease;
+    }
+
+    .machine-name{ margin-top:28px; font-size:34px; font-weight:700 }
+    .machine-description{ color:#a9a9a9; margin:14px auto; max-width:700px; line-height:1.6; height: 60px; overflow: hidden; }
+
+    .machine-nav{ margin-top:20px; display:flex; gap:18px; justify-content:center }
+    .nav-btn{
+      width:46px; height:46px; border-radius:50%; border:1px solid #222; background:transparent;
+      color:#fff; font-size:18px; cursor:pointer; transition:all .22s;
+      touch-action: manipulation;
+    }
+    .nav-btn:hover{ border-color:var(--dino-primary); background:var(--dino-primary); }
+    .nav-btn:active{ transform: scale(0.9); }
+
+    .mobile-specs-container { display: none; }
+
+    .sidebar-right{ 
+      align-self:stretch; 
+      display:flex; 
+      flex-direction:column; 
+      gap:22px; 
+      justify-content:center;
+      animation: fadeInRight 0.8s ease-out forwards;
+    }
+    
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .categories{ display:flex; gap:10px; flex-wrap:wrap }
+    .cat-btn{
+      padding:10px 14px; border-radius:20px; background:transparent; border:1px solid rgba(255,255,255,0.04);
+      color:#bbb; cursor:pointer; font-weight:600; transition:all .18s;
+      touch-action: manipulation;
+    }
+    .cat-btn.active{ border-color:var(--dino-primary); color:var(--dino-light); background:rgba(var(--dino-r),0.1) }
+
+    .specs{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px; border-radius:8px; border:1px solid rgba(255,255,255,0.03);
+    }
+    .specs h4{ color:var(--dino-light); font-size:14px; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px }
+    .spec-row{ display:flex; justify-content:space-between; margin-bottom:12px; align-items:flex-start; gap:12px }
+    .spec-label{ font-size:12px; color:#9a9a9a; text-transform:uppercase; letter-spacing:1px; width:40%; }
+    .spec-val{ font-weight:700; color:#fff; font-size:13px; max-width:60%; text-align:right; }
+
+    .ar-btn{
+      margin-top:16px; padding:14px 28px;
+      background:linear-gradient(135deg, var(--dino-light), var(--dino-primary));
+      border:none; border-radius:6px; color:#fff; font-weight:700; font-size:14px; cursor:pointer;
+      transition:all .3s ease; text-transform:uppercase; letter-spacing:1px;
+      box-shadow: 0 4px 15px rgba(var(--dino-r),0.3);
+      touch-action: manipulation;
+    }
+    .ar-btn:hover{ transform:translateY(-2px); box-shadow: 0 6px 20px rgba(var(--dino-r),0.5); }
+    .ar-btn:active{ transform:translateY(0); }
+
+    .page-indicator{ 
+      position:fixed; bottom:36px; left:60px; font-size:42px; 
+      color:rgba(255,255,255,0.08); font-weight:700;
+    }
+
+    .back-home-btn {
+      position: absolute; top: 20px; right: 20px; 
+      width: 44px; height: 44px; border-radius: 50%; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      color: white; background: rgba(0, 0, 0, 0.3); border: 2px solid white;
+      text-decoration: none; font-size: 22px; z-index: 100;
+      transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      touch-action: manipulation;
+    }
+    .back-home-btn:hover { background: white; color: black; transform: scale(1.1); }
+
+    .menu-toggle { display: none; }
+    .mobile-sidebar { display: none; }
+    .mobile-overlay { display: none; }
+
+    @media (max-width:1100px){
+      header { padding: 15px 20px; }
+      .header-logo { max-height: 55px; }
+      .layout{ grid-template-columns: 1fr; padding: 110px 30px 30px; gap: 20px; height: auto; min-height: 100vh; }
+      body { overflow-y: auto; }
+      .sidebar-left, .sidebar-right { display: none }
+      .mobile-specs-container { display: flex; flex-direction: column; gap: 20px; padding: 20px 0; margin-top: 20px; }
+      .categories { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+      .specs, .ar-btn { max-width: 600px; margin: 0 auto; width: 100%; }
+      .menu-toggle, .mobile-sidebar, .mobile-overlay { display: flex; }
+      .machine-view { padding: 20px 10px; order: 2; }
+      .machine-img{ width: 100%; max-width: 400px; margin: 0 auto; }
+      .machine-description { height: auto; margin-bottom: 20px; }
+      .page-indicator { position: relative; bottom: auto; left: auto; text-align: center; margin-top: 20px; }
+      
+      .menu-toggle {
+        position: fixed; top: 20px; right: 80px; z-index: 1000;
+        background: rgba(var(--dino-r), 0.9); border: none; border-radius: 8px;
+        width: 44px; height: 44px; cursor: pointer; flex-direction: column;
+        align-items: center; justify-content: center; gap: 5px;
+        touch-action: manipulation;
+      }
+      .menu-toggle span { width: 22px; height: 2px; background: #fff; }
+      
+      .mobile-sidebar {
+        position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh;
+        background: #111; z-index: 999; padding: 80px 25px 30px; transition: right 0.3s ease; overflow-y:auto;
+      }
+      .mobile-sidebar.active { right: 0; }
+      
+      .mobile-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7); z-index: 998; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+      }
+      .mobile-overlay.active { opacity: 1; pointer-events: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></button>
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <h3 style="color:var(--dino-light); margin-bottom: 15px;">Fósiles</h3>
+    <ul id="mobileMachineryList" class="machinery-list"></ul>
+  </div>
+
+  <header>
+    <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
+    <a href="index.html" class="back-home-btn" title="Volver al Menú">🏠</a>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar-left">
+      <h3>Especies</h3>
+      <ul id="machineryList" class="machinery-list"></ul>
+    </aside>
+
+    <main class="machine-view">
+      <div class="machine-category" id="machineCategory">DINOSAURIO</div>
+      <div id="machineWrapper" class="machine-wrap">
+        <img id="machineImage" class="machine-img" src="" alt="Dinosaurio" />
+      </div>
+      <h2 id="machineName" class="machine-name">Cargando...</h2>
+      <p id="machineDesc" class="machine-description"></p>
+      
+      <div class="machine-nav">
+        <button class="nav-btn" id="prevBtn">←</button>
+        <button class="nav-btn" id="nextBtn">→</button>
+      </div>
+
+      <div class="mobile-specs-container">
+        <div class="specs">
+          <div class="spec-row"><div class="spec-label">Dieta</div><div class="spec-val" id="mobileSpecDiet">-</div></div>
+          <div class="spec-row"><div class="spec-label">Período</div><div class="spec-val" id="mobileSpecPeriod">-</div></div>
+          <div class="spec-row"><div class="spec-label">Peso Est.</div><div class="spec-val" id="mobileSpecWeight">-</div></div>
+          <div class="spec-row"><div class="spec-label">Longitud</div><div class="spec-val" id="mobileSpecLength">-</div></div>
+        </div>
+        <button class="ar-btn" id="arBtnMobile" style="width: 100%; margin-top: 20px;">Ver en Realidad Aumentada</button>
+        <button class="ar-btn" id="arCoreBtnMobile" style="width: 100%; margin-top: 10px;">Ver en el Espacio Libre</button>
+      </div>
+    </main>
+
+    <aside class="sidebar-right">
+      <div>
+        <h3 style="color:var(--dino-light); font-size:13px; margin-bottom:12px">Clasificación</h3>
+        <div class="categories" id="categories"></div>
+      </div>
+
+      <div class="specs" id="specsBox">
+        <h4>Ficha Técnica</h4>
+        <div class="spec-row"><div class="spec-label">Dieta</div><div class="spec-val" id="specDiet">-</div></div>
+        <div class="spec-row"><div class="spec-label">Período</div><div class="spec-val" id="specPeriod">-</div></div>
+        <div class="spec-row"><div class="spec-label">Peso Est.</div><div class="spec-val" id="specWeight">-</div></div>
+        <div class="spec-row"><div class="spec-label">Longitud</div><div class="spec-val" id="specLength">-</div></div>
+        
+        <button class="ar-btn" id="arBtn" style="width: 100%; margin-top: 20px;">Ver en Realidad Aumentada</button>
+        <button class="ar-btn" id="arCoreBtn" style="width: 100%; margin-top: 10px;">Ver en el Espacio Libre</button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="page-indicator" id="pageIndicator">01 <span>/ 06</span></div>
+
+  <script>
+    const isProduction = window.location.hostname.includes('github.io');
+    const BASE_PATH = isProduction ? '/AppMindAr' : '';
+
+    const dinoModels = [
+      { name: "Tyrannosaurus Rex", group: "Terópodos", category: "Carnívoro", image: "./assets/trex.png", description: "Uno de los depredadores terrestres más grandes y feroces de todos los tiempos.", diet: "Carnívoro", period: "Cretácico", weight: "8,000 kg", length: "12 metros", arMarker: "trex" },
+      { name: "Triceratops", group: "Ceratópsidos", category: "Herbívoro", image: "./assets/triceratops.png", description: "Reconocible por sus tres cuernos y su gran gola ósea, un tanque viviente.", diet: "Herbívoro", period: "Cretácico", weight: "6,000 kg", length: "9 metros", arMarker: "triceratops" },
+      { name: "Velociraptor", group: "Terópodos", category: "Carnívoro", image: "./assets/velociraptor.png", description: "Depredador pequeño, ágil e inteligente, conocido por la garra en forma de hoz.", diet: "Carnívoro", period: "Cretácico", weight: "15 kg", length: "2 metros", arMarker: "velociraptor" },
+      { name: "Brachiosaurus", group: "Saurópodos", category: "Herbívoro", image: "./assets/brachiosaurus.png", description: "Un gigante de cuello largo adaptado para alimentarse de las copas altas.", diet: "Herbívoro", period: "Jurásico", weight: "40,000 kg", length: "26 metros", arMarker: "brachiosaurus" },
+      { name: "Stegosaurus", group: "Tireóforos", category: "Herbívoro", image: "./assets/stegosaurio.png", description: "Famoso por las grandes placas óseas en su espalda y su cola armada.", diet: "Herbívoro", period: "Jurásico", weight: "5,000 kg", length: "9 metros", arMarker: "stegosaurio" },
+      { name: "Ankylosaurus", group: "Tireóforos", category: "Herbívoro", image: "./assets/ankylosaurus.png", description: "Dinosaurio acorazado equipado con una maza ósea en la punta de su cola.", diet: "Herbívoro", period: "Cretácico", weight: "6,000 kg", length: "8 metros", arMarker: "ankylosaurus" }
+    ];
+
+    const groups = ["Todas", ...Array.from(new Set(dinoModels.map(m => m.group)))];
+    let currentGroup = "Todas";
+    let filteredDinos = [...dinoModels];
+    let currentIndex = 0;
+    let imageTimeout;
+
+    const dom = {
+      list: document.getElementById('machineryList'),
+      mobileList: document.getElementById('mobileMachineryList'),
+      cats: document.getElementById('categories'),
+      img: document.getElementById('machineImage'),
+      name: document.getElementById('machineName'),
+      desc: document.getElementById('machineDesc'),
+      cat: document.getElementById('machineCategory'),
+      page: document.getElementById('pageIndicator'),
+      prev: document.getElementById('prevBtn'),
+      next: document.getElementById('nextBtn'),
+      btnARDesktop: document.getElementById('arBtn'),
+      btnARMobile: document.getElementById('arBtnMobile'),
+      btnDesktop: document.getElementById('arCoreBtn'),
+      btnMobile: document.getElementById('arCoreBtnMobile')
+    };
+
+    const fields = ['Diet', 'Period', 'Weight', 'Length'];
+
+    function initCategories() {
+      dom.cats.innerHTML = "";
+      groups.forEach(g => {
+        const btn = document.createElement('button');
+        btn.className = 'cat-btn' + (g === currentGroup ? ' active' : '');
+        btn.textContent = g;
+        btn.onclick = () => {
+          currentGroup = g;
+          filteredDinos = g === "Todas" ? [...dinoModels] : dinoModels.filter(d => d.group === g);
+          currentIndex = 0;
+          initCategories();
+          renderLists();
+          updateUI();
+        };
+        dom.cats.appendChild(btn);
+      });
+    }
+
+    function renderLists() {
+      dom.list.innerHTML = "";
+      dom.mobileList.innerHTML = "";
+      
+      if (filteredDinos.length === 0) {
+        dom.list.innerHTML = '<li style="color:#999">Vacio</li>';
+        return;
+      }
+
+      filteredDinos.forEach((dino, i) => {
+        const createLi = (listEl, isMobile) => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span>${dino.name} <span class="small-model">${dino.category}</span></span>`;
+          if (i === currentIndex) li.classList.add('active');
+          li.onclick = () => {
+            currentIndex = i;
+            renderLists();
+            updateUI();
+            if(isMobile) toggleMenu();
+          };
+          listEl.appendChild(li);
+        };
+        createLi(dom.list, false);
+        createLi(dom.mobileList, true);
+      });
+    }
+
+    function updateUI() {
+      if (filteredDinos.length === 0) return;
+      
+      const dino = filteredDinos[currentIndex];
+      
+      dom.img.style.opacity = 0;
+      clearTimeout(imageTimeout);
+      imageTimeout = setTimeout(() => {
+        dom.img.src = dino.image;
+        dom.img.style.opacity = 1;
+      }, 150);
+
+      dom.name.textContent = dino.name;
+      dom.desc.textContent = dino.description;
+      dom.cat.textContent = dino.category.toUpperCase();
+      
+      fields.forEach(f => {
+        const val = dino[f.toLowerCase()];
+        document.getElementById('spec' + f).textContent = val;
+        document.getElementById('mobileSpec' + f).textContent = val;
+      });
+
+      dom.page.innerHTML = `${String(currentIndex + 1).padStart(2, '0')} <span>/ ${String(filteredDinos.length).padStart(2, '0')}</span>`;
+    }
+
+    function navigate(dir) {
+      if (filteredDinos.length === 0) return;
+      currentIndex = (currentIndex + dir + filteredDinos.length) % filteredDinos.length;
+      renderLists();
+      updateUI();
+    }
+
+    dom.prev.addEventListener('click', () => navigate(-1));
+    dom.next.addEventListener('click', () => navigate(1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') navigate(-1);
+      if (e.key === 'ArrowRight') navigate(1);
+    });
+
+    function openMindAR() {
+      if (filteredDinos.length === 0) return;
+      const dino = filteredDinos[currentIndex];
+      window.location.href = `${BASE_PATH}/dino-scannerconMindAr.html?marker=${dino.arMarker}`;
+    }
+
+    function openARCore() {
+      if (filteredDinos.length === 0) return;
+      const dino = filteredDinos[currentIndex];
+      window.location.href = `${BASE_PATH}/dino-scanner.html?modelo=${dino.arMarker}`;
+    }
+
+    dom.btnARDesktop.addEventListener('click', openMindAR);
+    dom.btnARMobile.addEventListener('click', openMindAR);
+    
+    dom.btnDesktop.addEventListener('click', openARCore);
+    dom.btnMobile.addEventListener('click', openARCore);
+
+    const toggleMenu = () => {
+      document.getElementById('mobileSidebar').classList.toggle('active');
+      document.getElementById('mobileOverlay').classList.toggle('active');
+    };
+    document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+    document.getElementById('mobileOverlay').addEventListener('click', toggleMenu);
+
+    initCategories();
+    renderLists();
+    updateUI();
+  </script>
+</body>
+</html>
