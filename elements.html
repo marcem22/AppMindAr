@@ -633,6 +633,42 @@
         width: 90%;
       }
     }
+    /* ESTILO NUEVO: Botón circular blanco a la derecha */
+.back-home-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px; /* <-- MOVIDO AL OTRO EXTREMO (Derecha) */
+  /* left: 20px; <-- Eliminado */
+
+  /* HAGAMOS UN CÍRCULO */
+  width: 44px;  /* Ancho fijo */
+  height: 44px; /* Alto igual al ancho */
+  border-radius: 50%; /* Esto lo hace redondo */
+  padding: 0; /* Quitamos el relleno rectangular */
+
+  /* CENTRAR LA FLECHA */
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  align-items: center;     /* Centrado vertical */
+
+  /* ESTILO BLANCO */
+  color: white; /* Color de la flecha */
+  background: rgba(0, 0, 0, 0.3); /* Fondo sutil para contraste */
+  border: 2px solid white; /* Borde blanco circular */
+  text-decoration: none;
+  font-size: 22px; /* Tamaño de la flecha */
+  
+  z-index: 100;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra suave */
+}
+
+/* Efecto al pasar el mouse */
+.back-home-btn:hover {
+  background: white; /* Fondo blanco al pasar el mouse */
+  color: black; /* Flecha negra para contraste */
+  transform: scale(1.1); /* Crece un poquito */
+}
   </style>
 </head>
 <body>
@@ -658,7 +694,9 @@
   </div>
 
   <header>
-    <img src="/AppMindAr/assets/logo sied horizontal-02-BF-xqR4y.png" class="header-logo" alt="SIED Logo">
+    <img src="./assets/logo sied horizontal-02-BF-xqR4y.png" class="header-logo" alt="SIED Logo">
+    <a href="index.html" class="back-home-btn" title="Volver al Menú">
+  &#8592; </a>
   </header>
 
   <div class="layout">
@@ -672,7 +710,7 @@
       <div class="machine-category" id="machineCategory">MAQUINARIA</div>
 
       <div id="machineWrapper" class="machine-wrap fade-in">
-        <img id="machineImage" class="machine-img" src="/AppMindAr/assets/tunel.png" alt="Excavadora" />
+        <img id="machineImage" class="machine-img" src="./assets/tunel.png" alt="Excavadora" />
       </div>
 
       <h2 id="machineName" class="machine-name">Excavadora hidráulica</h2>
@@ -714,6 +752,9 @@
         <button class="ar-btn" id="arBtnMobile" aria-label="Activar Realidad Aumentada">
           Ver en AR
         </button>
+        <button class="ar-btn" id="arCoreBtnMobile" style="margin-top: 12px; background: linear-gradient(135deg, #00ff99, #00cc7a); color: #000;">
+   Ver en el Espacio Libre
+</button>
       </div>
     </main>
 
@@ -742,6 +783,9 @@
           </label>
         </div>
         <button class="ar-btn" id="arBtn">Ver en Realidad Aumentada</button>
+        <button class="ar-btn" id="arCoreBtn" style="margin-top: 12px; background: linear-gradient(135deg, #00ff99, #00cc7a); color: #000;">
+        Ver en el Espacio (Sin Escanear)
+        </button>
       </div>
     </aside>
   </div>
@@ -749,27 +793,37 @@
   <div class="page-indicator" id="pageIndicator">01 <span>/ 10</span></div>
 
   <script>
+    // ✅ Detectar entorno y configurar base URL
+    const isProduction = window.location.hostname.includes('github.io');
+    const BASE_PATH = isProduction ? '/AppMindAr' : '';
+    
     const machines = [
-      // ✅ ACTIVOS - Con marcadores (10 elementos)
-      { name:"Túnel de Acceso", group:"Infraestructura", category:"Entrada de Mina", image:"/AppMindAr/assets/tunel.png", description:"Entrada fortificada para acceso a la mina subterránea. Estructura reforzada con soportes metálicos y sistemas de ventilación integrados para garantizar operaciones seguras.", capacity:"4.5 m altura", power:"N/A", weight:"Estructura fija", application:"Minería subterránea", arMarker:"tunel" },
+      // ✅ ACTIVOS - Con marcadores (13 elementos)
+      { name:"Túnel de Acceso", group:"Infraestructura", category:"Entrada de Mina", image:`${BASE_PATH}/assets/tunel.png`, description:"Entrada fortificada para acceso a la mina subterránea. Estructura reforzada con soportes metálicos y sistemas de ventilación integrados para garantizar operaciones seguras.", capacity:"4.5 m altura", power:"N/A", weight:"Estructura fija", application:"Minería subterránea", arMarker:"tunel" },
 
-      { name:"Máquina Araña", group:"Maquinaria", category:"Perforación", image:"/AppMindAr/assets/garras.png", description:"Equipo de perforación especializado con brazos articulados tipo araña. Permite perforación en túneles y espacios confinados con alta precisión y estabilidad.", capacity:"12-15 m³", power:"450 HP", weight:"45,000 kg", application:"Perforación en túneles", arMarker:"garras" },
+      { name:"Máquina Araña", group:"Maquinaria", category:"Perforación", image:`${BASE_PATH}/assets/garras.png`, description:"Equipo de perforación especializado con brazos articulados tipo araña. Permite perforación en túneles y espacios confinados con alta precisión y estabilidad.", capacity:"12-15 m³", power:"450 HP", weight:"45,000 kg", application:"Perforación en túneles", arMarker:"garras" },
 
-      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:"/AppMindAr/assets/carga.png", description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"camion" },
+      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:`${BASE_PATH}/assets/carga.png`, description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"camionamarilloTelone" },
 
-      { name:"Perforadora Rotativa", group:"Equipamiento", category:"Perforación", image:"/AppMindAr/assets/perforadora.png", description:"Equipo de perforación de alto rendimiento para barrenos de voladura. Sistema rotativo de precisión para operaciones de exploración y extracción.", capacity:"311 mm diámetro", power:"783 HP", weight:"95,000 kg", application:"Perforación y voladura", arMarker:"perforadora" },
+      { name:"Perforadora Rotativa", group:"Equipamiento", category:"Perforación", image:`${BASE_PATH}/assets/perforadora.png`, description:"Equipo de perforación de alto rendimiento para barrenos de voladura. Sistema rotativo de precisión para operaciones de exploración y extracción.", capacity:"311 mm diámetro", power:"783 HP", weight:"95,000 kg", application:"Perforación y voladura", arMarker:"perforadora" },
 
-      { name:"Casco Minero", group:"Equipamiento", category:"Seguridad", image:"/AppMindAr/assets/lamp.png", description:"Casco de seguridad certificado con lámpara integrada. Protección contra impactos y penetración. Cumple con estándares internacionales de seguridad minera.", capacity:"Ajustable", power:"LED 5W", weight:"450 g", application:"Protección personal", arMarker:"casco" },
+      { name:"Casco Minero", group:"Equipamiento", category:"Seguridad", image:`${BASE_PATH}/assets/lamp.png`, description:"Casco de seguridad certificado con lámpara integrada. Protección contra impactos y penetración. Cumple con estándares internacionales de seguridad minera.", capacity:"Ajustable", power:"LED 5W", weight:"450 g", application:"Protección personal", arMarker:"casco" },
 
-      { name:"Pico Minero", group:"Equipamiento", category:"Herramientas", image:"/AppMindAr/assets/pico.png", description:"Herramienta tradicional de acero forjado para extracción manual. Diseño ergonómico para trabajos de precisión en minería artesanal y mantenimiento.", capacity:"90 cm largo", power:"Manual", weight:"3.2 kg", application:"Extracción manual", arMarker:"pico" },
+      { name:"Pico Minero", group:"Equipamiento", category:"Herramientas", image:`${BASE_PATH}/assets/pico.png`, description:"Herramienta tradicional de acero forjado para extracción manual. Diseño ergonómico para trabajos de precisión en minería artesanal y mantenimiento.", capacity:"90 cm largo", power:"Manual", weight:"3.2 kg", application:"Extracción manual", arMarker:"pico" },
 
-      { name:"Rodillo Compactador", group:"Transporte", category:"Transporte", image:"/AppMindAr/assets/truck.png", description:"Vehículo de carga pesada para transporte de mineral. Sistema hidráulico de alta capacidad para operaciones de gran escala.", capacity:"50 t", power:"850 HP", weight:"120,000 kg", application:"Transporte de material", arMarker:"truck" },
+      { name:"Rodillo Compactador", group:"Transporte", category:"Transporte", image:`${BASE_PATH}/assets/truck.png`, description:"Vehículo de carga pesada para transporte de mineral. Sistema hidráulico de alta capacidad para operaciones de gran escala.", capacity:"50 t", power:"850 HP", weight:"120,000 kg", application:"Transporte de material", arMarker:"truck" },
 
-      { name:"Mineral de Oro", group:"Minerales", category:"Metales Preciosos", image:"/AppMindAr/assets/oro.png", description:"Muestra de mineral de oro nativo con vetas de cuarzo. Metal precioso de alta conductividad y resistencia a la corrosión. Utilizado en joyería, electrónica e inversiones.", capacity:"99.9% pureza", power:"N/A", weight:"19.3 g/cm³", application:"Extracción y refinación", arMarker:"oro" },
+      { name:"Mineral de Oro", group:"Minerales", category:"Metales Preciosos", image:`${BASE_PATH}/assets/oro.png`, description:"Muestra de mineral de oro nativo con vetas de cuarzo. Metal precioso de alta conductividad y resistencia a la corrosión. Utilizado en joyería, electrónica e inversiones.", capacity:"99.9% pureza", power:"N/A", weight:"19.3 g/cm³", application:"Extracción y refinación", arMarker:"oro" },
 
-      { name:"Wolframita", group:"Minerales", category:"Minerales Industriales", image:"/AppMindAr/assets/wolframita.png", description:"Mineral de tungsteno (wolframio) de alta densidad. Principal mena para extracción de tungsteno. Utilizado en herramientas de corte, filamentos y aleaciones de alta temperatura.", capacity:"Fe/Mn WO₄", power:"N/A", weight:"7.5 g/cm³", application:"Industria metalúrgica", arMarker:"wolframita" },
+      { name:"Wolframita", group:"Minerales", category:"Minerales Industriales", image:`${BASE_PATH}/assets/wolframita.png`, description:"Mineral de tungsteno (wolframio) de alta densidad. Principal mena para extracción de tungsteno. Utilizado en herramientas de corte, filamentos y aleaciones de alta temperatura.", capacity:"Fe/Mn WO₄", power:"N/A", weight:"7.5 g/cm³", application:"Industria metalúrgica", arMarker:"wolframita" },
 
-      { name:"Excavadora Amarilla", group:"Maquinaria", category:"Excavación", image:"/AppMindAr/assets/maquina.png", description:"Excavadora hidráulica de alto rendimiento con brazo articulado. Sistema de control preciso para excavación, carga y movimiento de tierra en operaciones mineras.", capacity:"3.5 m³", power:"280 HP", weight:"35,000 kg", application:"Excavación y carga", arMarker:"renderamarillo" },
+      { name:"Excavadora Amarilla", group:"Maquinaria", category:"Excavación", image:`${BASE_PATH}/assets/maquina1.png`, description:"Excavadora hidráulica de alto rendimiento con brazo articulado. Sistema de control preciso para excavación, carga y movimiento de tierra en operaciones mineras.", capacity:"3.5 m³", power:"280 HP", weight:"35,000 kg", application:"Excavación y carga", arMarker:"renderamarillo" },
+
+      { name:"Tornillo de Arquímedes", group:"Equipamiento", category:"Transporte", image:`${BASE_PATH}/assets/tornillo.jpeg`, description:"Sistema de transporte helicoidal basado en el principio de Arquímedes. Utilizado para transportar material granular o fragmentado de forma continua desde niveles inferiores a superiores en operaciones mineras.", capacity:"150 t/h", power:"75 HP", weight:"12,500 kg", application:"Transporte vertical de mineral", arMarker:"tornillo" },
+
+      { name:"Tolva", group:"Infraestructura", category:"Almacenamiento", image:`${BASE_PATH}/assets/tolva.jpeg`, description:"Estructura de almacenamiento temporal de mineral con sistema de descarga controlada. Diseño robusto para soportar grandes volúmenes de material. Permite regulación del flujo hacia cintas transportadoras o camiones.", capacity:"50 m³", power:"N/A", weight:"18,000 kg", application:"Almacenamiento y regulación de flujo", arMarker:"tolva" },
+      
+      { name:"Ensamblaje de Rueda", group:"Componentes", category:"Repuestos", image:`${BASE_PATH}/assets/rueda.jpeg`, description:"Conjunto completo de rueda para vehículos de carga ultra pesados. Incluye neumático radial reforzado, llanta de acero y sistema de montaje. Diseñado para soportar cargas extremas en terreno minero.", capacity:"63 pulgadas", power:"N/A", weight:"5,400 kg", application:"Camiones mineros ultra clase", arMarker:"rueda" },
 
       // ⏸️ DESACTIVADOS TEMPORALMENTE - Sin marcadores aún (para integrar después)
       // { name:"Pala Eléctrica", group:"Maquinaria", category:"Excavación", image:"./assets/maquina.png", description:"Pala eléctrica de alto tonelaje para operaciones de carga continua. Sistema eléctrico de alta eficiencia para extracción masiva de mineral.", capacity:"120 m³", power:"6,200 kW", weight:"980,000 kg", application:"Carga de mineral", arMarker:"pala" },
@@ -914,10 +968,10 @@
     let url;
     if (selectedMode === 'mindar') {
       // Usar scanner.html para MindAR (marcadores compilados)
-      url = `scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
+      url = `${BASE_PATH}/scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
     } else if (selectedMode === 'arjs') {
       // Usar arjs-scanner.html para AR.js (códigos de barras)
-     url = `arjs-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
+     url = `${BASE_PATH}/arjs-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
     }
     
     window.location.href = url;
@@ -988,9 +1042,9 @@
 
         let url;
         if (selectedMode === 'mindar') {
-          url = `scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
+          url = `${BASE_PATH}/scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
         } else if (selectedMode === 'arjs') {
-          url = `arjs-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
+          url = `${BASE_PATH}/arjs-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
         }
         
         window.location.href = url;
@@ -1000,6 +1054,24 @@
         alert('Por favor, otorgá permiso para usar la cámara.');
       }
     });
+    // ========== NUEVA EXPERIENCIA ARCORE ==========
+const arCoreBtn = document.getElementById('arCoreBtn');
+const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
+
+    function irAExperienciaEspacial() {
+    if (filteredIndexes.length === 0) return;
+    
+    const m = machines[filteredIndexes[currentFilteredIndex]];
+    
+    // Aquí pones el nombre del archivo HTML que creamos hoy (ej: visor-espacial.html)
+    // Pasamos el identificador del modelo por URL para que la otra vista sepa qué cargar
+    const url = `${BASE_PATH}/visor-espacial.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+    
+    window.location.href = url;
+    }
+
+    if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);
+    if (arCoreBtnMobile) arCoreBtnMobile.addEventListener('click', irAExperienciaEspacial);
 
     // Render mobile machinery list
     function renderMobileList() {

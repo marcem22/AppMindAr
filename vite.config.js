@@ -19,12 +19,15 @@ export default defineConfig(({ command }) => {
           main: resolve(__dirname, 'index.html'),
           minas: resolve(__dirname, 'minas.html'),
           elements: resolve(__dirname, 'elements.html'),
-          scanner: resolve(__dirname, 'scanner.html'),
           bio: resolve(__dirname, 'bio.html'),
+          astro: resolve(__dirname, 'astro.html'),
+          'astro-scanner': resolve(__dirname, 'astro-scanner.html'),
+          'astro-elements': resolve(__dirname, 'astro-elements.html'),
           'dino-scanner': resolve(__dirname, 'dino-scanner.html'),
           'arjs-scanner': resolve(__dirname, 'arjs-scanner.html'),     
           'bio-scanner': resolve(__dirname, 'bio-scanner.html'),
           'bio-elements': resolve(__dirname, 'bio-elements.html'),
+
 
         },
       },

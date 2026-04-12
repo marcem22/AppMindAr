@@ -595,6 +595,7 @@
         padding: 10px 20px;
         font-size: 13px;
       }
+ 
     }
 
     @media (max-width: 480px) {
@@ -681,7 +682,7 @@
   <div class="overlay"></div>
 
   <div class="header">
-    <img src="./assets/logo sied horizontal-02-BF-xqR4y.png" class="header-logo" alt="SIED Logo">
+   <img src="./assets/LOGO SIED SOLO-01.png" class="header-logo" alt="SIED Logo">
     <button class="close-btn" id="closeBtn" title="Cerrar">✕</button>
   </div>
 
@@ -926,6 +927,7 @@
     let persistentModel = null;
     let arSystem = null; 
     let trackingPaused = false; 
+    let infoTimeout = null;
     
     // ✅ Detectar entorno
     const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
@@ -1185,6 +1187,10 @@
           // 7. Mostrar la información del modelo
           modelName.textContent = modelNames[i] || 'Maquinaria';
           modelInfo.classList.add('active');
+           if (infoTimeout) clearTimeout(infoTimeout);
+          infoTimeout = setTimeout(() => {
+            modelInfo.classList.remove('active');
+          }, 3000);
           
           // 8. Mostrar botón de resetear
           if (resetScanBtn) {

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Dino AR - Escáner Barcode</title>
+  
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+    background-color: #000; /* Fondo negro por si la cámara tarda */
+    overflow: hidden; /* CRÍTICO: Evita scrollbars que descolocan la cámara */
+    width: 100%;
+    height: 100%;
+    position: fixed; /* Ayuda a iOS a no rebotar */
+    display: block; /* Aseguramos block, NO flex */
+  }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+    }
+
+    .header-logo {
+      height: 120px;
+      width: auto;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .header-logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: #00ff99;
+    }
+
+    .close-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+    }
+
+    .close-btn:hover {
+      background: rgba(0,255,153,0.3);
+      border-color: #00ff99;
+    }
+
+    .scanner-frame {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vmin;
+      height: 70vmin;
+      max-width: 400px;
+      max-height: 400px;
+      border: 3px solid rgba(0,255,153,0.6);
+      border-radius: 12px;
+      z-index: 15;
+      pointer-events: none;
+      box-shadow: 0 0 40px rgba(0,255,153,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .scanner-frame::before,
+    .scanner-frame::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 4px solid #00ff99;
+    }
+
+    .scanner-frame::before {
+      top: -4px;
+      left: -4px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .scanner-frame::after {
+      bottom: -4px;
+      right: -4px;
+      border-left: none;
+      border-top: none;
+    }
+
+    .corner-tl, .corner-tr {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border: 4px solid #00ff99;
+      z-index: 16;
+      pointer-events: none;
+    }
+
+    .corner-tl {
+      top: -4px;
+      right: -4px;
+      border-left: none;
+      border-bottom: none;
+    }
+
+    .corner-tr {
+      bottom: -4px;
+      left: -4px;
+      border-right: none;
+      border-top: none;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(0,255,153,0.4); }
+      50% { box-shadow: 0 0 60px rgba(0,255,153,0.7); }
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #00ff99, transparent);
+      animation: scan 2s linear infinite;
+      z-index: 16;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(70vmin); }
+    }
+
+    .status-box {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      border: 1px solid rgba(0,255,153,0.4);
+      border-radius: 12px;
+      padding: 20px 32px;
+      z-index: 20;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      min-width: 300px;
+    }
+
+    .status-title {
+      font-size: 14px;
+      color: #00ff99;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .status-text {
+      font-size: 16px;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .instructions {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.75);
+      border-radius: 8px;
+      padding: 12px 24px;
+      z-index: 20;
+      text-align: center;
+      color: #9a9a9a;
+      font-size: 13px;
+      backdrop-filter: blur(5px);
+    }
+
+    .mobile-hint {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      border: 1px solid rgba(0,255,153,0.4);
+      border-radius: 8px;
+      padding: 10px 20px;
+      z-index: 20;
+      text-align: center;
+      color: #fff;
+      backdrop-filter: blur(10px);
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    .model-info {
+      position: fixed;
+      top: 100px;
+      left: 80%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.9);
+      border: 1px solid rgba(0,255,153,0.5);
+      border-radius: 10px;
+      padding: 16px 28px;
+      z-index: 20;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.3s;
+      max-width: 300px;
+    }
+
+    .model-info.active {
+      opacity: 1;
+    }
+
+    .model-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .model-subtitle {
+      font-size: 12px;
+      color: #00ff99;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .model-description {
+      font-size: 11px;
+      color: #00ff99;
+      margin-top: 8px;
+      line-height: 1.4;
+      max-width: 250px;
+    }
+
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 9999;
+      background: rgba(0,0,0,0.95);
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,255,153,0.3);
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(0,255,153,0.2);
+      border-top-color: #00ff99;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Controles de zoom para desktop */
+    .zoom-controls {
+      position: fixed;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 20;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid rgba(0,255,153,0.4);
+      border-radius: 12px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .zoom-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .zoom-btn:hover {
+      background: rgba(0,255,153,0.3);
+      border-color: #00ff99;
+      transform: scale(1.05);
+    }
+
+    .zoom-btn:active {
+      transform: scale(0.95);
+    }
+
+    .zoom-indicator {
+      padding: 8px 12px;
+      background: rgba(0,255,153,0.2);
+      border-radius: 6px;
+      color: #00ff99;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      border: 1px solid rgba(0,255,153,0.3);
+      min-width: 60px;
+    }
+
+    /* Controles de rotación para desktop */
+    .rotation-controls {
+      position: fixed;
+      left: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: grid;
+      grid-template-columns: repeat(3, 44px);
+      grid-template-rows: repeat(3, 44px);
+      gap: 8px;
+      z-index: 20;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid rgba(0,255,153,0.4);
+      border-radius: 12px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .rotation-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+    }
+
+    .rotation-btn:hover {
+      background: rgba(0,255,153,0.3);
+      border-color: #00ff99;
+      transform: scale(1.05);
+    }
+
+    .rotation-btn:active {
+      background: rgba(0,255,153,0.5);
+      transform: scale(0.95);
+    }
+
+    #rotateUp {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    #rotateLeft {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    #rotateReset {
+      grid-column: 2;
+      grid-row: 2;
+      font-size: 24px;
+    }
+
+    #rotateRight {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    #rotateDown {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    /* Botón de captura integrado en controles de zoom (desktop) */
+    .capture-btn-integrated {
+      margin-top: 8px;
+      background: rgba(0,255,153,0.2) !important;
+      border-color: rgba(0,255,153,0.4) !important;
+      font-size: 20px;
+    }
+
+    .capture-btn-integrated:hover {
+      background: rgba(0,255,153,0.4) !important;
+      border-color: #00ff99 !important;
+    }
+
+    .capture-btn-integrated.capturing {
+      background: rgba(255,165,0,0.3) !important;
+      border-color: #ffa500 !important;
+      pointer-events: none;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .capture-btn-integrated.captured {
+      background: rgba(0,200,0,0.4) !important;
+      border-color: #00c800 !important;
+      pointer-events: none;
+    }
+
+    .capture-btn-integrated.error {
+      background: rgba(200,0,0,0.4) !important;
+      border-color: #c80000 !important;
+      pointer-events: none;
+    }
+
+    /* Botón de captura para móvil */
+    .capture-btn-mobile {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(0,255,153,0.9);
+      border: 3px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,255,153,0.4);
+    }
+
+    .capture-btn-mobile:active {
+      transform: scale(0.9);
+    }
+
+    .capture-btn-mobile.capturing {
+      background: rgba(255,165,0,0.9);
+      border-color: #ffa500;
+      pointer-events: none;
+      animation: pulse 1s ease-in-out infinite;
+    }
+
+    .capture-btn-mobile.captured {
+      background: rgba(0,200,0,0.9);
+      border-color: #00c800;
+      pointer-events: none;
+    }
+
+    .capture-btn-mobile.error {
+      background: rgba(200,0,0,0.9);
+      border-color: #c80000;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .scanner-frame {
+        width: 80vmin;
+        height: 80vmin;
+      }
+      .header {
+        padding: 20px;
+      }
+      .header-logo {
+        height: 40px;
+      }
+      .logo {
+        font-size: 18px;
+      }
+      .zoom-controls, .rotation-controls {
+        display: none;
+      }
+      .capture-btn-mobile {
+        bottom: 90px;
+        right: 16px;
+        width: 56px;
+        height: 56px;
+        font-size: 26px;
+      }
+    }
+
+    /* Botón de resetear escáner */
+    .reset-scan-btn {
+      position: fixed;
+      bottom: 100px;
+      left: 20px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      background: rgba(0,255,153,0.9);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 15px rgba(0,255,153,0.4);
+    }
+
+    .reset-scan-btn.visible {
+      display: flex;
+    }
+
+    .reset-scan-btn:hover {
+      background: rgba(0,255,153,1);
+      border-color: #fff;
+      transform: scale(1.05);
+    }
+
+    .reset-scan-btn:active {
+      transform: scale(0.95);
+    }
+
+    @media (min-width: 1025px) {
+      .capture-btn-mobile {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .zoom-controls, .rotation-controls {
+        display: none;
+      }
+      .capture-btn-integrated {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .reset-scan-btn {
+        bottom: 90px;
+        left: 16px;
+        padding: 10px 20px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .capture-btn-mobile {
+        bottom: 80px;
+        right: 12px;
+        width: 52px;
+        height: 52px;
+        font-size: 24px;
+      }
+      .reset-scan-btn {
+        bottom: 80px;
+        left: 12px;
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+    }
+    
+
+  video,
+  #arjs-video {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; 
+    z-index: -2 !important; 
+    margin: 0 !important;
+  }
+
+  .a-canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: -1 !important; 
+  }
+
+  a-scene {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important; 
+  }
+
+    @media (max-width: 768px) {
+      .a-canvas {
+        object-fit: contain !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="header">
+    <div class="logo">🦕 Dino <span>AR</span></div>
+    <button class="close-btn" id="closeBtn" title="Cerrar">✕</button>
+  </div>
+
+  <div class="scanner-frame">
+    <div class="corner-tl"></div>
+    <div class="corner-tr"></div>
+    <div class="scan-line"></div>
+  </div>
+
+  <div class="mobile-hint" id="mobileHint" style="display: none;">
+    <div style="font-size: 11px; opacity: 0.8; margin-bottom: 4px;">CONTROLES:</div>
+    <div style="font-size: 12px;">🖐️ 1 dedo: Rotar | 🤏 2 dedos: Zoom</div>
+  </div>
+
+  <div class="model-info" id="modelInfo">
+    <div class="model-name" id="modelName">Dinosaurio</div>
+    <div class="model-subtitle">Barcode AR - Modelo 3D</div>
+    <div class="model-description" id="modelDescription"></div>
+  </div>
+
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <div style="color: #00ff99; font-size: 14px; font-weight: 600;">Iniciando experiencia Dino...</div>
+  </div>
+
+  <div class="zoom-controls" id="zoomControls">
+    <button class="zoom-btn" id="zoomIn">+</button>
+    <div class="zoom-indicator" id="zoomLevel">1.0x</div>
+    <button class="zoom-btn" id="zoomOut">−</button>
+    <button class="zoom-btn capture-btn-integrated" id="captureBtn" title="Capturar foto">📷</button>
+  </div>
+
+  <div class="rotation-controls" id="rotationControls">
+    <button class="rotation-btn" id="rotateUp">↑</button>
+    <button class="rotation-btn" id="rotateLeft">←</button>
+    <button class="rotation-btn" id="rotateReset">⟲</button>
+    <button class="rotation-btn" id="rotateRight">→</button>
+    <button class="rotation-btn" id="rotateDown">↓</button>
+  </div>
+
+  <button class="capture-btn-mobile" id="captureBtnMobile" title="Capturar foto">📷</button>
+
+  <button class="reset-scan-btn" id="resetScanBtn">
+    <span>🔄</span>
+    <span>Escanear otro</span>
+  </button>
+
+  <a-scene
+  id="scene"
+  embedded
+  vr-mode-ui="enabled: false"
+  arjs="
+    sourceType: webcam;
+    facingMode: environment;
+    detectionMode: mono_and_matrix;
+    matrixCodeType: 3x3;
+    debugUIEnabled: false;
+    
+    maxDetectionRate: 30;
+    minConfidence: 0.5;
+    sourceWidth: 640;
+    sourceHeight: 480;
+    displayWidth: 640;
+    displayHeight: 480;
+  "
+  renderer="logarithmicDepthBuffer: true; precision: mediump; antialias: true;"
+>
+
+    <a-marker id="marker0" type="barcode" value="0">
+      <a-entity 
+        id="model0"
+        class="ar-model"
+        gltf-model="/AppMindAr/models/brachiosaurus.glb" 
+        scale="0.065 0.065 0.065" 
+        position="0 -0.62 -1.75"
+        rotation="0 300 0"
+      ></a-entity>
+    </a-marker>
+
+    <a-marker id="marker1" type="barcode" value="1">
+      <a-entity 
+        id="model1"
+        class="ar-model"
+        gltf-model="/AppMindAr/models/trex.glb" 
+        scale="0.15 0.15 0.15" 
+        position="0 -0.4 -1.7"
+        rotation="0 90 0"
+      ></a-entity>
+    </a-marker>
+
+    <a-marker id="marker2" type="barcode" value="2">
+      <a-entity 
+        id="model2"
+        class="ar-model"
+        gltf-model="/AppMindAr/models/triceratops.glb" 
+        scale="1 1 1" 
+        position="0 -0.1 -1.5"
+        rotation="0 45 0"
+      ></a-entity>
+    </a-marker>
+
+    <a-marker id="marker3" type="barcode" value="3">
+      <a-entity 
+        id="model3"
+        class="ar-model"
+        gltf-model="/AppMindAr/models/velociraptor.glb" 
+        scale="0.35 0.35 0.35" 
+        position="0 -0.3 -1.5"
+        rotation="0 0 0"
+      ></a-entity>
+    </a-marker>
+
+    <a-marker id="marker4" type="barcode" value="4">
+      <a-entity 
+        id="model4"
+        class="ar-model"
+        gltf-model="/AppMindAr/models/stegosaurio.glb" 
+        scale="0.0005 0.0005 0.0005" 
+        position="0 -0.1 -1.5"
+        rotation="0 0 0"
+      ></a-entity>
+    </a-marker>
+
+    <a-marker id="marker5" type="barcode" value="5">
+      <a-entity 
+        id="model5"
+        class="ar-model"
+        gltf-model="/AppMindAr/models/ankylosaurus.glb" 
+        scale="0.0005 0.0005 0.0005" 
+        position="0 -0.1 -1.5"
+        rotation="0 0 0"
+      ></a-entity>
+    </a-marker>
+
+   <a-entity
+      id="mainCamera"
+      camera
+      look-controls
+      near="0.01"
+      far="2500"
+      fov="70"
+      position="0 1.6 0">
+    </a-entity>
+
+  </a-scene>
+
+  <script>
+    // ----- CONFIGURACIÓN DE MODELOS DINO -----
+    
+    function getModelName(id) {
+      const names = {
+        0: 'brachiosaurus', 1: 'trex', 2: 'triceratops', 3: 'velociraptor', 4: 'stegosaurio', 5: 'ankylosaurus'
+      };
+      return names[id] || 'trex';
+    }
+
+    // 1. CONFIGURACIÓN BASE (Valores para PC - Estándar)
+    const modelConfig = {
+      0: { scale: 0.065, position: '0 -0.62 -1.75', rotation: '0 300 0' }, // Brachiosaurus
+      1: { scale: 0.15, position: '0 -0.4 -1.7', rotation: '0 90 0' },    // T-Rex
+      2: { scale: 1, position: '0 -0.1 -1.5', rotation: '0 45 0' },       // Triceratops
+      3: { scale: 0.35, position: '0 -0.3 -1.5', rotation: '0 0 0' },     // Velociraptor
+      
+      // 🦕 STEGOSAURUS: Más cerca (Z -3)
+      4: { scale: 0.05, position: '0 -0.5 -3', rotation: '0 90 0' },          
+      
+     5: { scale: 0.01, position: '0 -2.5 -15', rotation: '0 45 0' }
+    };
+
+    // Descripciones
+    const modelDescriptions = {
+      0: 'El más grande de los dinosaurios. Herbívoro de cuello largo.',
+      1: 'El depredador más feroz. Rex significa rey en latín.',
+      2: 'Tiene tres cuernos característicos. Era herbívoro defensivo.',
+      3: 'Pequeño pero ágil y rápido. Cazador inteligente.',
+      4: 'Tenía placas óseas en el lomo. Herbívoro pacífico.',
+      5: 'Blindado con placas de armadura. Muy resistente.'
+    };
+
+    const modelNames = {
+      0: 'Brachiosaurus', 1: 'Tyrannosaurus Rex', 2: 'Triceratops',
+      3: 'Velociraptor', 4: 'Stegosaurus', 5: 'Ankylosaurus'
+    };
+    
+    // Variables Globales
+    let currentModel = null;
+    let currentScale = 0.5;
+    let currentRotation = { x: 0, y: 0, z: 0 };
+    let lastDetectedMarker = null;
+    let persistentModel = null;
+    let trackingPaused = false;
+    let infoTimeout = null; // 
+
+    // Detectar Móvil
+    const isMobile = ('ontouchstart' in window) && (navigator.maxTouchPoints > 0);
+    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const BASE_PATH = isProduction ? '/AppMindAr' : '';
+
+    const markerModels = {
+      0: `${BASE_PATH}/models/brachiosaurus.glb`,
+      1: `${BASE_PATH}/models/trex.glb`,
+      2: `${BASE_PATH}/models/triceratops.glb`,
+      3: `${BASE_PATH}/models/velociraptor.glb`,
+      4: `${BASE_PATH}/models/stegosaurio.glb`,
+      5: `${BASE_PATH}/models/ankylosaurus.glb`
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      for (let i = 0; i <= 5; i++) {
+        const modelEntity = document.getElementById(`model${i}`);
+        if (modelEntity) {
+          modelEntity.setAttribute('gltf-model', `${BASE_PATH}/models/${getModelName(i)}.glb`);
+        }
+      }
+    });
+
+    window.addEventListener('load', function () {
+      const scene = document.querySelector('a-scene');
+      const loading = document.getElementById('loading');
+      const closeBtn = document.getElementById('closeBtn');
+      const mobileHint = document.getElementById('mobileHint');
+      const modelInfo = document.getElementById('modelInfo');
+      const modelName = document.getElementById('modelName');
+      const modelDescription = document.getElementById('modelDescription');
+      const resetScanBtn = document.getElementById('resetScanBtn');
+      
+      if (isMobile && mobileHint) {
+        setTimeout(() => {
+          mobileHint.style.display = 'block';
+          setTimeout(() => { mobileHint.style.display = 'none'; }, 5000);
+        }, 2000);
+      }
+
+      closeBtn.addEventListener('click', () => { window.history.back(); });
+
+      // RESET
+      if (resetScanBtn) {
+        resetScanBtn.addEventListener('click', () => {
+          if (persistentModel && persistentModel.parentNode) persistentModel.parentNode.removeChild(persistentModel);
+          persistentModel = null; currentModel = null; lastDetectedMarker = null; currentScale = 0.5; trackingPaused = false;
+          
+          const sceneEl = document.querySelector('a-scene');
+          [0,1,2,3,4,5].forEach(id => {
+            if (!document.getElementById(`marker${id}`)) {
+              const newMarker = document.createElement('a-marker');
+              newMarker.setAttribute('id', `marker${id}`);
+              newMarker.setAttribute('type', 'barcode'); newMarker.setAttribute('value', id);
+              sceneEl.appendChild(newMarker); setupMarkerEvents(newMarker, id);
+            }
+          });
+          
+          const video = document.querySelector('video'); if (video) video.style.opacity = '1';
+          const scannerFrame = document.querySelector('.scanner-frame'); if (scannerFrame) scannerFrame.style.opacity = '1';
+          document.body.style.backgroundColor = '#000';
+          modelInfo.classList.remove('active'); resetScanBtn.classList.remove('visible');
+          if (document.getElementById('zoomLevel')) document.getElementById('zoomLevel').textContent = '1.0x';
+          
+          if (infoTimeout) clearTimeout(infoTimeout);
+        });
+      }
+
+      scene.addEventListener('arjs-video-loaded', function () { loading.style.display = 'none'; });
+      setTimeout(() => { if (loading.style.display !== 'none') loading.style.display = 'none'; }, 5000);
+
+      function setupMarkerEvents(marker, i) {
+        marker.addEventListener('markerFound', function() {
+          if (trackingPaused) return;
+
+          try {
+            const audioMap = {
+              0: '/AppMindAr/sounds/brachiosaurus.mp3', 1: '/AppMindAr/sounds/trex.mp3',
+              2: '/AppMindAr/sounds/triceratops.mp3', 3: '/AppMindAr/sounds/velociraptor.mp3',
+              4: '/AppMindAr/sounds/stegosaurio.mp3', 5: '/AppMindAr/sounds/ankylosaurus.mp3'
+            };
+            const audioSrc = audioMap[i];
+            if (audioSrc) {
+              const audio = new Audio(audioSrc); audio.currentTime = 0;
+              const playPromise = audio.play();
+              if (playPromise !== undefined) playPromise.catch(e => console.error("Audio error:", e));
+            }
+          } catch (e) { console.error("Audio error:", e); }
+
+          trackingPaused = true; 
+          lastDetectedMarker = i; 
+
+          const camera = scene.querySelector('[camera]');
+          if (!camera) return;
+
+          // 1. Cargar Configuración Base (PC)
+          const config = modelConfig[i] || { scale: 0.5, position: '0 -0.5 -3', rotation: '0 0 0' };
+          
+          let finalScale = config.scale;
+          let finalPos = config.position.split(' ').map(Number);
+          let finalRot = config.rotation;
+
+     
+          if (isMobile) {
+             if (i === 4) {
+                finalScale = 0.2; 
+                finalPos = [0, -0.5, -4]; 
+             }
+
+             if (i === 5) {
+
+                finalScale = 0.005; 
+                finalPos = [0, -2.0, -10]; 
+             }
+
+             if (i !== 4 && i !== 5) {
+                 finalPos[2] = finalPos[2] * 1.4;
+             }
+          }
+
+          currentScale = finalScale;
+          const rotParts = (typeof finalRot === 'string') ? finalRot.split(' ').map(Number) : [0,0,0];
+          currentRotation = { x: rotParts[0], y: rotParts[1], z: rotParts[2] };
+
+          persistentModel = document.createElement('a-entity');
+          persistentModel.setAttribute('gltf-model', markerModels[i]);
+          persistentModel.setAttribute('position', `${finalPos[0]} ${finalPos[1]} ${finalPos[2]}`);
+          persistentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+          persistentModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`);
+          
+          // Animación para todos
+          persistentModel.setAttribute('animation-mixer', 'loop: repeat');
+
+          // Limpiar UI
+          [0,1,2,3,4,5].forEach(mId => {
+            const m = document.getElementById(`marker${mId}`); if (m) m.remove();
+          });
+
+          setTimeout(() => {
+            const video = document.querySelector('video'); if (video) video.style.opacity = '0';
+            const scannerFrame = document.querySelector('.scanner-frame'); if (scannerFrame) scannerFrame.style.opacity = '0';
+            document.body.style.backgroundColor = '#000';
+          }, 100);
+
+          camera.appendChild(persistentModel);
+          currentModel = persistentModel;
+
+          modelName.textContent = modelNames[i] || 'Dinosaurio';
+          if(modelDescription) modelDescription.textContent = modelDescriptions[i] || '';
+          modelInfo.classList.add('active');
+          if (resetScanBtn) resetScanBtn.classList.add('visible');
+
+      
+          if (infoTimeout) clearTimeout(infoTimeout);
+          infoTimeout = setTimeout(() => {
+            modelInfo.classList.remove('active');
+          }, 3000);
+        });
+      }
+      
+      [0,1,2,3,4,5].forEach(i => {
+        const marker = document.getElementById(`marker${i}`); if (marker) setupMarkerEvents(marker, i);
+      });
+
+      // Zoom Manual
+      const zoomIn = document.getElementById('zoomIn');
+      const zoomOut = document.getElementById('zoomOut');
+      const zoomLevel = document.getElementById('zoomLevel');
+
+      function manualZoom(factor) {
+          if (!currentModel) return;
+          currentScale = Math.max(0.001, Math.min(100.0, currentScale * factor));
+          currentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+          if(zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(2)}x`;
+      }
+      if (zoomIn) zoomIn.addEventListener('click', () => manualZoom(1.2));
+      if (zoomOut) zoomOut.addEventListener('click', () => manualZoom(0.8));
+
+      // Rotación Manual
+      const rotateUp = document.getElementById('rotateUp');
+      const rotateDown = document.getElementById('rotateDown');
+      const rotateLeft = document.getElementById('rotateLeft');
+      const rotateRight = document.getElementById('rotateRight');
+      const rotateReset = document.getElementById('rotateReset');
+      const updateRot = () => { if(currentModel) currentModel.setAttribute('rotation', `${currentRotation.x} ${currentRotation.y} ${currentRotation.z}`); };
+
+      if (rotateUp) rotateUp.addEventListener('click', () => { currentRotation.x += 15; updateRot(); });
+      if (rotateDown) rotateDown.addEventListener('click', () => { currentRotation.x -= 15; updateRot(); });
+      if (rotateLeft) rotateLeft.addEventListener('click', () => { currentRotation.y += 15; updateRot(); });
+      if (rotateRight) rotateRight.addEventListener('click', () => { currentRotation.y -= 15; updateRot(); });
+      
+      if (rotateReset) rotateReset.addEventListener('click', () => {
+        if (!currentModel || !lastDetectedMarker) return;
+        const markerId = lastDetectedMarker;
+        let config = modelConfig[markerId];
+        let finalScale = config.scale;
+        let finalPos = config.position.split(' ').map(Number);
+        
+        if (isMobile) {
+           
+             finalScale = finalScale * 0.6;
+             finalPos[2] = finalPos[2] * 1.2;
+             if (markerId === 4 || markerId === 5) { 
+                 finalScale = 0.15; 
+                 finalPos = [0, -0.5, -6]; 
+             }
+        }
+
+        currentScale = finalScale;
+        let r = config.rotation.split(' ').map(Number);
+        currentRotation = {x: r[0], y: r[1], z: r[2]};
+        currentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+        currentModel.setAttribute('position', `${finalPos[0]} ${finalPos[1]} ${finalPos[2]}`);
+        updateRot();
+        if(zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(2)}x`;
+      });
+
+      // Captura
+      const captureBtn = document.getElementById('captureBtn');
+      const captureBtnMobile = document.getElementById('captureBtnMobile');
+      function captureScreenshot() {
+        const btn = isMobile ? captureBtnMobile : captureBtn; if (!btn) return;
+        btn.classList.add('capturing');
+        requestAnimationFrame(() => {
+            const canvas = scene.querySelector('canvas');
+            const finalCanvas = document.createElement('canvas'); finalCanvas.width = canvas.width; finalCanvas.height = canvas.height;
+            const ctx = finalCanvas.getContext('2d'); ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height); ctx.drawImage(canvas, 0, 0);
+            finalCanvas.toBlob((blob) => {
+              const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.download = `Dino-AR-${Date.now()}.png`; link.href = url; link.click();
+              URL.revokeObjectURL(url); btn.classList.remove('capturing');
+            }, 'image/png', 1.0);
+        });
+      }
+      if (captureBtn) captureBtn.addEventListener('click', captureScreenshot);
+      if (captureBtnMobile) captureBtnMobile.addEventListener('click', captureScreenshot);
+
+
+      if (isMobile) {
+        let touchStartDist = 0;
+        let touchStartScale = 0; 
+        let touchStartX = 0; let touchStartY = 0;
+
+        scene.addEventListener('touchstart', (e) => {
+          if (!currentModel) return;
+          if (e.touches.length === 2) {
+            const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY;
+            touchStartDist = Math.sqrt(dx * dx + dy * dy);
+            touchStartScale = currentScale; 
+          } else if (e.touches.length === 1) { touchStartX = e.touches[0].pageX; touchStartY = e.touches[0].pageY; }
+        });
+
+        scene.addEventListener('touchmove', (e) => {
+          if (!currentModel) return; e.preventDefault();
+          if (e.touches.length === 2) {
+            const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            let newScale = touchStartScale * (dist / touchStartDist);
+            if (newScale < 0.001) newScale = 0.001; if (newScale > 100.0) newScale = 100.0;
+            currentScale = newScale;
+            currentModel.setAttribute('scale', `${currentScale} ${currentScale} ${currentScale}`);
+            if (zoomLevel) zoomLevel.textContent = `${currentScale.toFixed(2)}x`;
+          } else if (e.touches.length === 1) {
+            const dX = e.touches[0].pageX - touchStartX; const dY = e.touches[0].pageY - touchStartY;
+            currentRotation.y += dX * 0.5; currentRotation.x -= dY * 0.5;
+            updateRot(); touchStartX = e.touches[0].pageX; touchStartY = e.touches[0].pageY;
+          }
+        });
+      }
+
+      scene.addEventListener('arjs-video-loaded', () => {
+        const v = document.querySelector('video');
+        if(v) { 
+          v.style.width='100vw'; v.style.height='100vh'; v.style.objectFit='cover'; 
+        }
+      });
+    });
+  </script>
+</body>
+</html>
