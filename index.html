@@ -351,21 +351,16 @@ footer {
 </div>
 
 <script>
-/* ============================================================
-    1) FUNCIÓN PARA IMAGEN + TEXTO
-============================================================ */
 function createImageWithCenteredText(imageUrl, text) {
   const c = document.createElement("canvas");
   c.width = 1024;
   c.height = 1024;
   const ctx = c.getContext("2d");
 
-  const img = new Image();
-  img.src = imageUrl;
-  img.crossOrigin = "anonymous";
-
   const texture = new THREE.CanvasTexture(c);
 
+  const img = new Image();
+  
   img.onload = () => {
     ctx.drawImage(img, 0, 0, 1024, 1024);
     const bannerHeight = 220;
@@ -379,8 +374,11 @@ function createImageWithCenteredText(imageUrl, text) {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(text, 512, bannerY + bannerHeight / 2);
+    
     texture.needsUpdate = true;
   };
+
+  img.src = imageUrl;
 
   return texture;
 }
@@ -434,12 +432,12 @@ scene.add(light);
 
 async function loadMaterials() {
   return [
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos.jpeg", "Dinos") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas.jpeg", "Minas") }),
+    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("./assets/dinos.jpeg", "Dinos") }),
+    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("./assets/minas.jpeg", "Minas") }),
     new THREE.MeshStandardMaterial({ map: createTextTexture("", "#033773") }),
     new THREE.MeshStandardMaterial({ map: createTextTexture("", "#033773") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro.jpeg", "Astro") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio.jpeg", "Bio") }),
+    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("./assets/astro.jpeg", "Astro") }),
+    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("./assets/bio.jpeg", "Bio") }),
   ];
 }
 
