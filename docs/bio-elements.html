@@ -219,10 +219,9 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra suave */
 }
 
-/* Efecto al pasar el mouse */
 .back-home-btn:hover {
-  background: white; /* Fondo blanco al pasar el mouse */
-  color: black; /* Flecha negra para contraste */
+  background: white; 
+  color: black; 
   transform: scale(1.1); /* Crece un poquito */
 }
 @media (max-width: 768px) {
@@ -299,6 +298,9 @@
         <button class="ar-btn" id="arBtnMobile" aria-label="Activar Realidad Aumentada">
           Ver en AR
         </button>
+        <button class="ar-btn" id="arCoreBtnMobile" style="margin-top: 12px; background: linear-gradient(135deg, #a0cc44, #779B2C); color: #000;">
+ Ver en el Espacio Libre
+</button>
       </div>
     </main>
 
@@ -322,6 +324,9 @@
           </label>
         </div>
         <button class="ar-btn" id="arBtn">Ver en Realidad Aumentada</button>
+        <button class="ar-btn" id="arCoreBtn" style="margin-top: 12px; background: linear-gradient(135deg, #a0cc44, #779B2C); color: #000;">
+ Ver en el Espacio Libre
+</button>
       </div>
     </aside>
   </div>
@@ -524,6 +529,25 @@
     updateToCurrentFiltered = function() { originalUpdateFunction(); renderMobileList(); syncMobileSpecs(); };
 
     renderCategories(); filterByGroup('Todas');
+    // ========== NUEVA EXPERIENCIA ARCORE (BIOLOGÍA) ==========
+const arCoreBtn = document.getElementById('arCoreBtn');
+const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
+
+function irAExperienciaEspacial() {
+  if (filteredIndexes.length === 0) return;
+  
+  const m = bioModels[filteredIndexes[currentFilteredIndex]];
+
+  const isProduction = window.location.hostname.includes('github.io');
+  const basePathLocal = isProduction ? '/AppMindAr' : '';
+
+  const url = `${basePathLocal}/visor-espacial-bio.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+  
+  window.location.href = url;
+}
+
+if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);
+if (arCoreBtnMobile) arCoreBtnMobile.addEventListener('click', irAExperienciaEspacial);
   </script>
 </body>
 </html>

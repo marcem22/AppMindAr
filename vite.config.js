@@ -9,9 +9,9 @@ export default defineConfig(({ command }) => {
     plugins: [basicSsl()],
     server: {
       host: true,
-      open: true, // abre el navegador
+      open: true, 
     },
-    base: isDev ? './' : '/AppMindAr/', // ✅ rutas correctas para ambos entornos
+    base: isDev ? './' : '/AppMindAr/', 
     build: {
       outDir: 'docs',
       rollupOptions: {

@@ -752,6 +752,9 @@
         <button class="ar-btn" id="arBtnMobile" aria-label="Activar Realidad Aumentada">
           Ver en AR
         </button>
+        <button class="ar-btn" id="arCoreBtnMobile" style="margin-top: 12px; background: linear-gradient(135deg, #00ff99, #00cc7a); color: #000;">
+   Ver en el Espacio Libre
+</button>
       </div>
     </main>
 
@@ -780,6 +783,9 @@
           </label>
         </div>
         <button class="ar-btn" id="arBtn">Ver en Realidad Aumentada</button>
+        <button class="ar-btn" id="arCoreBtn" style="margin-top: 12px; background: linear-gradient(135deg, #00ff99, #00cc7a); color: #000;">
+        Ver en el Espacio (Sin Escanear)
+        </button>
       </div>
     </aside>
   </div>
@@ -788,7 +794,7 @@
 
   <script>
     // ✅ Detectar entorno y configurar base URL
-    const isProduction = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+    const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
     
     const machines = [
@@ -797,7 +803,7 @@
 
       { name:"Máquina Araña", group:"Maquinaria", category:"Perforación", image:`${BASE_PATH}/assets/garras.png`, description:"Equipo de perforación especializado con brazos articulados tipo araña. Permite perforación en túneles y espacios confinados con alta precisión y estabilidad.", capacity:"12-15 m³", power:"450 HP", weight:"45,000 kg", application:"Perforación en túneles", arMarker:"garras" },
 
-      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:`${BASE_PATH}/assets/carga.png`, description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"camion" },
+      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:`${BASE_PATH}/assets/carga.png`, description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"camionamarilloTelone" },
 
       { name:"Perforadora Rotativa", group:"Equipamiento", category:"Perforación", image:`${BASE_PATH}/assets/perforadora.png`, description:"Equipo de perforación de alto rendimiento para barrenos de voladura. Sistema rotativo de precisión para operaciones de exploración y extracción.", capacity:"311 mm diámetro", power:"783 HP", weight:"95,000 kg", application:"Perforación y voladura", arMarker:"perforadora" },
 
@@ -1048,6 +1054,24 @@
         alert('Por favor, otorgá permiso para usar la cámara.');
       }
     });
+    // ========== NUEVA EXPERIENCIA ARCORE ==========
+const arCoreBtn = document.getElementById('arCoreBtn');
+const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
+
+    function irAExperienciaEspacial() {
+    if (filteredIndexes.length === 0) return;
+    
+    const m = machines[filteredIndexes[currentFilteredIndex]];
+    
+    // Aquí pones el nombre del archivo HTML que creamos hoy (ej: visor-espacial.html)
+    // Pasamos el identificador del modelo por URL para que la otra vista sepa qué cargar
+    const url = `${BASE_PATH}/visor-espacial.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+    
+    window.location.href = url;
+    }
+
+    if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);
+    if (arCoreBtnMobile) arCoreBtnMobile.addEventListener('click', irAExperienciaEspacial);
 
     // Render mobile machinery list
     function renderMobileList() {
