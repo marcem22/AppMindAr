@@ -648,26 +648,26 @@
 
   /* CENTRAR LA FLECHA */
   display: flex;
-  justify-content: center; /* Centrado horizontal */
-  align-items: center;     /* Centrado vertical */
+  justify-content: center; 
+  align-items: center;    
 
-  /* ESTILO BLANCO */
-  color: white; /* Color de la flecha */
-  background: rgba(0, 0, 0, 0.3); /* Fondo sutil para contraste */
-  border: 2px solid white; /* Borde blanco circular */
+ 
+  color: white; 
+  background: rgba(0, 0, 0, 0.3); 
+  border: 2px solid white; 
   text-decoration: none;
-  font-size: 22px; /* Tamaño de la flecha */
+  font-size: 22px; 
   
   z-index: 100;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra suave */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
 }
 
 /* Efecto al pasar el mouse */
 .back-home-btn:hover {
-  background: white; /* Fondo blanco al pasar el mouse */
-  color: black; /* Flecha negra para contraste */
-  transform: scale(1.1); /* Crece un poquito */
+  background: white; 
+  color: black; 
+  transform: scale(1.1);
 }
   </style>
 </head>
@@ -694,7 +694,7 @@
   </div>
 
   <header>
-    <img src="./assets/logo sied horizontal-02-BF-xqR4y.png" class="header-logo" alt="SIED Logo">
+    <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
     <a href="index.html" class="back-home-btn" title="Volver al Menú">
   &#8592; </a>
   </header>
@@ -738,10 +738,7 @@
         <div class="mobile-section">
           <h3>Modo AR</h3>
           <div class="ar-mode-selector">
-            <!--<label class="mode-label">
-              <input type="radio" name="arModeMobile" value="mindar" id="modeMindARMobile">
-              <span class="mode-text">📦 MindAR</span>
-            </label>-->
+           
             <label class="mode-label">
               <input type="radio" name="arModeMobile" value="arjs" checked id="modeARjsMobile">
               <span class="mode-text">🔲 AR.js</span>
@@ -773,10 +770,7 @@
         <div class="spec-row"><div class="spec-label">Aplicación</div><div class="spec-val" id="specApplication">Minería a cielo abierto</div></div>
         
         <div class="ar-mode-selector">
-          <!--<label class="mode-label">
-            <input type="radio" name="arMode" value="mindar" id="modeMindAR">
-            <span class="mode-text">📦 MindAR (Marcadores compilados)</span>
-          </label>-->
+         
           <label class="mode-label">
             <input type="radio" name="arMode" value="arjs" checked id="modeARjs">
             <span class="mode-text">🔲 AR.js (Códigos de barras)</span>
@@ -793,17 +787,17 @@
   <div class="page-indicator" id="pageIndicator">01 <span>/ 10</span></div>
 
   <script>
-    // ✅ Detectar entorno y configurar base URL
+  
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
     
     const machines = [
-      // ✅ ACTIVOS - Con marcadores (13 elementos)
+
       { name:"Túnel de Acceso", group:"Infraestructura", category:"Entrada de Mina", image:`${BASE_PATH}/assets/tunel.png`, description:"Entrada fortificada para acceso a la mina subterránea. Estructura reforzada con soportes metálicos y sistemas de ventilación integrados para garantizar operaciones seguras.", capacity:"4.5 m altura", power:"N/A", weight:"Estructura fija", application:"Minería subterránea", arMarker:"tunel" },
 
       { name:"Máquina Araña", group:"Maquinaria", category:"Perforación", image:`${BASE_PATH}/assets/garras.png`, description:"Equipo de perforación especializado con brazos articulados tipo araña. Permite perforación en túneles y espacios confinados con alta precisión y estabilidad.", capacity:"12-15 m³", power:"450 HP", weight:"45,000 kg", application:"Perforación en túneles", arMarker:"garras" },
 
-      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:`${BASE_PATH}/assets/carga.png`, description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"camionamarilloTelone" },
+      { name:"Camión Minero", group:"Transporte", category:"Transporte", image:`${BASE_PATH}/assets/carga.png`, description:"Camión ultra clase diseñado para transporte de material pesado en grandes distancias. Capacidad máxima de carga para operaciones mineras a gran escala.", capacity:"363 t", power:"4,000 HP", weight:"687,000 kg", application:"Transporte de mineral", arMarker:"carga" },
 
       { name:"Perforadora Rotativa", group:"Equipamiento", category:"Perforación", image:`${BASE_PATH}/assets/perforadora.png`, description:"Equipo de perforación de alto rendimiento para barrenos de voladura. Sistema rotativo de precisión para operaciones de exploración y extracción.", capacity:"311 mm diámetro", power:"783 HP", weight:"95,000 kg", application:"Perforación y voladura", arMarker:"perforadora" },
 
@@ -825,10 +819,7 @@
       
       { name:"Ensamblaje de Rueda", group:"Componentes", category:"Repuestos", image:`${BASE_PATH}/assets/rueda.jpeg`, description:"Conjunto completo de rueda para vehículos de carga ultra pesados. Incluye neumático radial reforzado, llanta de acero y sistema de montaje. Diseñado para soportar cargas extremas en terreno minero.", capacity:"63 pulgadas", power:"N/A", weight:"5,400 kg", application:"Camiones mineros ultra clase", arMarker:"rueda" },
 
-      // ⏸️ DESACTIVADOS TEMPORALMENTE - Sin marcadores aún (para integrar después)
-      // { name:"Pala Eléctrica", group:"Maquinaria", category:"Excavación", image:"./assets/maquina.png", description:"Pala eléctrica de alto tonelaje para operaciones de carga continua. Sistema eléctrico de alta eficiencia para extracción masiva de mineral.", capacity:"120 m³", power:"6,200 kW", weight:"980,000 kg", application:"Carga de mineral", arMarker:"pala" },
-      // { name:"Bulldozer", group:"Maquinaria", category:"Movimiento de tierra", image:"./assets/maquina.png", description:"Tractor de orugas de alta potencia para empuje y nivelación. Sistema hidráulico de precisión para movimiento de grandes volúmenes de tierra.", capacity:"27 m³ hoja", power:"850 HP", weight:"112,000 kg", application:"Empuje y nivelación", arMarker:"bulldozer" },
-      // { name:"Motoniveladora", group:"Mantenimiento", category:"Mantenimiento", image:"./assets/maquina.png", description:"Motoniveladora de precisión para mantenimiento de caminos mineros. Sistema de nivelación láser para superficies perfectamente uniformes.", capacity:"7.3 m hoja", power:"525 HP", weight:"64,000 kg", application:"Mantenimiento vial", arMarker:"motoniveladora" },
+     
     ];
 
     const groups = ["Todas", ...Array.from(new Set(machines.map(m => m.group)))];
