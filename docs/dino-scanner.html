@@ -89,6 +89,7 @@
     <model-viewer 
       id="visorDino"
       src=""
+      ios-src=""
       alt="Modelo 3D"
       ar ar-modes="webxr scene-viewer quick-look" 
       ar-scale="auto"
@@ -137,14 +138,20 @@
     visor.orientation = orientacionBase;
   }
 
-  function cargarDino() {
-    visor.src = BASE_PATH + dinoData.archivo;
-    nombreUI.textContent = dinoData.nombre;
-    visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
-    aplicarOrientacionInicial();
-    const soundPath = isProd ? '/AppMindAr/' + dinoData.sonido : dinoData.sonido;
-    reproductorAudio.src = soundPath;
+ function cargarDino() {
+  visor.src = BASE_PATH + dinoData.archivo;
+  
+  if (dinoData.archivoUsdz) {
+    visor.setAttribute('ios-src', BASE_PATH + dinoData.archivoUsdz);
   }
+
+  nombreUI.textContent = dinoData.nombre;
+  visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+  aplicarOrientacionInicial();
+  
+  const soundPath = isProd ? '/AppMindAr/' + dinoData.sonido : dinoData.sonido;
+  reproductorAudio.src = soundPath;
+}
 
   cargarDino();
 
