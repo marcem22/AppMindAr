@@ -86,19 +86,20 @@
       <div class="model-name" id="nombreDino">Cargando...</div>
     </div>
 
-    <model-viewer 
-      id="visorDino"
-      src=""
-      ios-src=""
-      alt="Modelo 3D"
-      ar ar-modes="webxr scene-viewer quick-look" 
-      ar-scale="auto"
-      camera-controls 
-      
-      shadow-intensity="1">
-      
-      <button slot="ar-button" class="btn-proyectar">Proyectar en el piso</button>
-    </model-viewer>
+   <model-viewer 
+  id="visorDino"
+  src=""
+  ios-src=""
+  alt="Modelo 3D"
+  ar 
+  ar-modes="scene-viewer webxr quick-look" 
+  ar-scale="auto"
+  camera-controls 
+  touch-action="pan-y"
+  shadow-intensity="1">
+  
+  <button slot="ar-button" class="btn-proyectar">Proyectar en el piso</button>
+</model-viewer>
 
     <div class="controls-panel">
       <button class="control-btn" id="plus">+</button>
@@ -139,11 +140,14 @@
   }
 
  function cargarDino() {
-  visor.src = BASE_PATH + dinoData.archivo;
-  
-  if (dinoData.archivoUsdz) {
-    visor.setAttribute('ios-src', BASE_PATH + dinoData.archivoUsdz);
-  }
+  visor.removeAttribute('src');
+  visor.removeAttribute('ios-src');
+
+  const pathGlb = BASE_PATH + dinoData.archivo;
+  const pathUsdz = BASE_PATH + dinoData.archivo.replace('.glb', '.usdz');
+
+  visor.src = pathGlb;
+  visor.setAttribute('ios-src', pathUsdz);
 
   nombreUI.textContent = dinoData.nombre;
   visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
