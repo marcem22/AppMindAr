@@ -72,25 +72,35 @@
       cursor: pointer; z-index: 40; box-shadow: 0 4px 15px rgba(0,255,153,0.4);
     }
     
-    @media (max-width: 768px) {
-    .btn-proyectar {
-        bottom: 50px; 
-        width: 80%; 
-        padding: 12px 20px; 
-    }
-    
-    .controls-panel {
-        bottom: 50px; 
-    }
-    
-    .btn-captura {
-        bottom: 50px; 
-    }
-    
-    .visor-container {
-        margin-top: 70px;
-    }
-    }
+/* Ajustes específicos para móviles */
+@media (max-width: 768px) {
+  
+
+  .model-info {
+    top: -20px; 
+  }
+
+  .btn-proyectar {
+    bottom: 30px; 
+    width: 85%; 
+    padding: 14px 20px; 
+  }
+  
+  .btn-captura {
+    bottom: 110px; 
+    right: 15px; 
+    transform: scale(0.9); 
+  }
+
+  .controls-panel {
+    bottom: 110px; 
+    left: 15px;
+    transform: scale(0.9);
+  }
+  .visor-container {
+    margin-top: 110px; 
+  }
+}
   </style>
 </head>
 <body>
