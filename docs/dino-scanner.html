@@ -13,7 +13,7 @@
     body {
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
       background-color: #111; color: white;
-      width: 100vw; height: 100vh;
+      width: 100vw; height: 100dvh;;
       display: flex; flex-direction: column; overflow: hidden;
     }
 
@@ -71,6 +71,26 @@
       color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; 
       cursor: pointer; z-index: 40; box-shadow: 0 4px 15px rgba(0,255,153,0.4);
     }
+    
+@media (max-width: 768px) {
+  .btn-proyectar {
+    bottom: 50px; 
+    width: 80%; 
+    padding: 12px 20px; 
+  }
+  
+  .controls-panel {
+    bottom: 50px; 
+  }
+  
+  .btn-captura {
+    bottom: 50px; 
+  }
+  
+  .visor-container {
+    margin-top: 70px;
+  }
+}
   </style>
   <script type="module" crossorigin src="/AppMindAr/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
 </head>
