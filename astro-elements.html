@@ -16,72 +16,61 @@
       --accent-r: 138,43,226;
     }
     html,body{height:100%}
-    body{
-      font-family:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
-      background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
-      color:#fff; overflow:hidden;
-    }
+    body {
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+  background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
+  color: #fff; 
+  overflow-x: hidden; 
+  overflow-y: auto; 
+}
 
-    header{
-      position:fixed; top:0; left:0; width:100%;
-      padding:22px 56px; display:flex; align-items:center;
-      z-index:50; background:linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
-      
-      /* Animación */
-      opacity: 0;
-      animation: fadeInDown 0.8s ease-out 0.1s forwards;
-    }
-    .header-logo{
-      max-height: 120px;
-      width: auto;
-      transition: transform 0.3s ease;
-    }
+   header {
+  position: fixed; top: 0; left: 0; width: 100%;
+  padding: 15px 56px;
+  display: flex; align-items: center;
+  z-index: 50; background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out 0.1s forwards;
+}
+
+.header-logo {
+  max-height: 65px; 
+  width: auto;
+  transition: transform 0.3s ease;
+}
     .header-logo:hover{
       transform: scale(1.05);
     }
     
     @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-  .layout {
+    .layout {
       display: grid;
       grid-template-columns: 320px 1fr 320px;
       gap: 36px;
       height: 100vh;
       align-items: center;
-      padding: 100px 60px 60px;
+      padding: 76px 60px 30px;
     }
 
-    .sidebar-left{
-      display:flex; flex-direction:column; gap:18px;
-      align-self:stretch;
-      justify-content:center;
-      
-      /* Animación */
-      opacity: 0;
-      animation: fadeInLeft 0.8s ease-out 0.3s forwards;
-    }
+   .sidebar-left {
+  display: flex; flex-direction: column; gap: 18px;
+  align-self: flex-start; 
+  justify-content: flex-start; 
+  margin-top: 20px; 
+  opacity: 0;
+  animation: fadeInLeft 0.8s ease-out 0.3s forwards;
+}
     .sidebar-left h3{
-    color:var(--violet-primary); font-size:13px; text-transform:uppercase; letter-spacing:2px;
+      color:var(--violet-primary); font-size:13px; text-transform:uppercase; letter-spacing:2px;
     }
     
     @keyframes fadeInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
     }
     .machinery-list{
       list-style:none; overflow:auto; padding-right:8px; max-height:calc(100vh - 200px);
@@ -91,8 +80,6 @@
       border-bottom:1px solid rgba(255,255,255,0.03);
       display:flex; justify-content:space-between; align-items:center;
       transition:all .22s ease;
-      
-      /* Animación escalonada */
       opacity: 0;
       animation: fadeInSlideList 0.5s ease-out forwards;
     }
@@ -107,58 +94,51 @@
     .machinery-list li:nth-child(9) { animation-delay: 1.2s; }
     
     @keyframes fadeInSlideList {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
     
-  .machinery-list li:hover{ color:var(--violet-primary); transform:translateX(4px) }
-  .machinery-list li.active{ color:var(--violet-primary); font-weight:700; padding-left:10px }
+    .machinery-list li:hover{ color:var(--violet-primary); transform:translateX(4px) }
+    .machinery-list li.active{ color:var(--violet-primary); font-weight:700; padding-left:10px }
 
     .small-model{ font-size:12px; color:rgba(255,255,255,0.25); margin-left:8px }
 
     .machine-view{
       position:relative; text-align:center; padding:24px;
-      
-      /* Animación */
       opacity: 0;
       animation: fadeInScale 0.8s ease-out 0.5s forwards;
     }
     
     @keyframes fadeInScale {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .machine-category{
       position:absolute; top:6px; left:50%; transform:translateX(-50%);
       padding:8px 18px; border-radius:20px; border:1px solid var(--violet-primary);
-      color:var(--violet-primary); font-size:12px; background:rgba(var(--violet-r),0.06);
+      color:white; font-size:12px; background:rgba(var(--violet-r),0.06);
       z-index:20;
     }
 
-    .machine-wrap{
-      display:inline-block; transition:transform .45s ease, filter .45s ease;
+    .machine-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .45s ease, filter .45s ease;
+  height: 280px; 
     }
-
-    .machine-img{
-      width: 480px;
-      max-width: 70vw;
-      transition:opacity .35s ease, transform .45s ease;
-      display:block; margin:0 auto; filter: drop-shadow(0 28px 60px rgba(var(--violet-r),0.25));
-      opacity:1;
-    }
+    .machine-img {
+  width: 480px;
+  max-width: 70vw;
+  max-height: 100%;
+  object-fit: contain; 
+  transition: opacity .35s ease, transform .45s ease;
+  display: block; 
+  margin: 0 auto; 
+  filter: drop-shadow(0 28px 60px rgba(var(--violet-r),0.25));
+  opacity: 1;
+}
     .fade-out .machine-img{ opacity:0; transform:scale(.985) }
     .fade-in .machine-img{ opacity:1; transform:scale(1) }
 
@@ -170,40 +150,28 @@
       width:46px; height:46px; border-radius:50%; border:1px solid #222; background:transparent;
       color:#9a9a9a; font-size:18px; cursor:pointer; transition:all .22s;
     }
-  .nav-btn:hover{ border-color:var(--violet-primary); color:var(--violet-primary); background:rgba(var(--violet-r),0.06) }
+    .nav-btn:hover{ border-color:var(--violet-primary); color:var(--violet-primary); background:rgba(var(--violet-r),0.06) }
     
-    /* Hide mobile specs container on desktop */
     .mobile-specs-container { display: none; }
 
-    .sidebar-right{ 
-      align-self:stretch; 
-      display:flex; 
-      flex-direction:column; 
-      gap:22px; 
-      justify-content:center;
-      
-      /* Animación */
-      opacity: 0;
-      animation: fadeInRight 0.8s ease-out 0.3s forwards;
+    .sidebar-right { 
+        display: flex; flex-direction: column; gap: 22px; 
+        align-self: flex-start; 
+        justify-content: flex-start; 
+        margin-top: 20px; 
+        opacity: 0;
+        animation: fadeInRight 0.8s ease-out 0.3s forwards;
     }
     
     @keyframes fadeInRight {
-      from {
-        opacity: 0;
-        transform: translateX(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
     }
     
     .categories{ display:flex; gap:10px; flex-wrap:wrap }
     .cat-btn{
       padding:10px 14px; border-radius:20px; background:transparent; border:1px solid rgba(255,255,255,0.04);
       color:#bbb; cursor:pointer; font-weight:600; transition:all .18s;
-      
-      /* Animación */
       opacity: 0;
       animation: fadeInScale 0.5s ease-out forwards;
     }
@@ -213,25 +181,23 @@
     .cat-btn:nth-child(4) { animation-delay: 0.7s; }
     .cat-btn:nth-child(5) { animation-delay: 0.8s; }
     
-  .cat-btn.active{ border-color:var(--violet-primary); color:var(--violet-primary); background:rgba(var(--violet-r),0.06) }
+    .cat-btn.active{ border-color:var(--violet-primary); color:var(--violet-primary); background:rgba(var(--violet-r),0.06) }
 
     .specs{
       background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       padding:18px; border-radius:8px; border:1px solid rgba(255,255,255,0.03);
-      /* Mejoras para textos largos: limitar altura y permitir scroll */
       min-width: 260px;
       max-height: calc(100vh - 260px);
       overflow-y: auto;
-      padding-right: 12px; /* espacio para el scrollbar */
-      /* Animación */
+      padding-right: 12px; 
       opacity: 0;
       animation: fadeInUp 0.8s ease-out 0.9s forwards;
     }
-  .specs h4{ color:var(--violet-primary); font-size:14px; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px }
+    .specs h4{ color:var(--violet-primary); font-size:14px; margin-bottom:12px; text-transform:uppercase; letter-spacing:1px }
     .spec-row{ display:flex; justify-content:space-between; margin-bottom:12px; align-items:flex-start; gap:12px }
     .spec-label{ font-size:12px; color:#9a9a9a; text-transform:uppercase; letter-spacing:1px; width:40%; }
     .spec-val{ font-weight:700; color:#fff; font-size:13px; max-width:60%; word-break:break-word; text-align:right; }
-    /* Ajustes específicos para la versión móvil de las specs */
+    
     .mobile-specs-container .spec-val { font-size:14px; text-align:left; }
 
     .ar-btn{
@@ -248,37 +214,25 @@
       text-transform:uppercase;
       letter-spacing:1px;
       box-shadow: 0 4px 15px rgba(var(--violet-r),0.3);
-      
-      /* Animación inicial y pulso suave */
       opacity: 0;
       animation: fadeInPulse 1s ease-out 1.1s forwards, pulse 2s ease-in-out 2s infinite;
     }
     
     @keyframes fadeInPulse {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
     
     @keyframes pulse {
-      0%, 100% {
-        box-shadow: 0 4px 15px rgba(var(--violet-r),0.3);
-      }
-      50% {
-        box-shadow: 0 4px 25px rgba(var(--violet-r),0.5);
-      }
+      0%, 100% { box-shadow: 0 4px 15px rgba(var(--violet-r),0.3); }
+      50% { box-shadow: 0 4px 25px rgba(var(--violet-r),0.5); }
     }
     
     .ar-btn:hover{
       transform:translateY(-2px);
       box-shadow: 0 6px 20px rgba(var(--violet-r),0.5);
-      animation: none; /* Detiene el pulso al hacer hover */
-      opacity: 1; /* Mantiene la opacidad completa en hover */
+      animation: none; 
+      opacity: 1; 
     }
     
     .ar-btn:active{
@@ -286,79 +240,24 @@
       box-shadow: 0 2px 10px rgba(var(--violet-r),0.4);
     }
 
-    /* Selector de modo AR */
-    .ar-mode-selector {
-      margin-top: 12px;
-      margin-bottom: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out 1.0s forwards;
-    }
-
-    .mode-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      user-select: none;
-    }
-
-    .mode-label:hover {
-      background: rgba(var(--violet-r),0.06);
-      border-color: rgba(var(--violet-r),0.18);
-    }
-
-    .mode-label input[type="radio"] {
-      margin: 0;
-      cursor: pointer;
-  accent-color: var(--violet-primary);
-    }
-
-    .mode-label input[type="radio"]:checked + .mode-text {
-  color: var(--violet-primary);
-      font-weight: 600;
-    }
-
-    .mode-text {
-      font-size: 12px;
-      color: #9a9a9a;
-      transition: all 0.3s ease;
-    }
-
     .page-indicator{ 
       position:fixed; 
-      bottom:36px; 
+      bottom:130px; 
       left:60px; 
       font-size:42px; 
-      color:rgba(255,255,255,0.08); 
+      color:rba(255,255,255,0.08); 
       font-weight:700;
-      
-      /* Animación */
       opacity: 0;
       animation: fadeInUp 0.8s ease-out 0.7s forwards;
     }
     
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .empty-msg{ color:#9a9a9a; font-size:15px; padding:10px 6px }
 
-    /* Hamburger menu button */
     .menu-toggle {
       display: none;
       position: fixed;
@@ -386,19 +285,10 @@
       transition: all 0.3s ease;
     }
 
-    .menu-toggle.active span:nth-child(1) {
-      transform: rotate(45deg) translate(7px, 7px);
-    }
+    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(7px, 7px); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
 
-    .menu-toggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .menu-toggle.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -7px);
-    }
-
-    /* Mobile sidebar */
     .mobile-sidebar {
       display: none;
       position: fixed;
@@ -415,9 +305,7 @@
       box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
     }
 
-    .mobile-sidebar.active {
-      right: 0;
-    }
+    .mobile-sidebar.active { right: 0; }
 
     .mobile-overlay {
       display: none;
@@ -433,18 +321,12 @@
       pointer-events: none;
     }
 
-    .mobile-overlay.active {
-      display: block;
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .mobile-overlay.active { display: block; opacity: 1; pointer-events: auto; }
 
-    .mobile-section {
-      margin-bottom: 30px;
-    }
+    .mobile-section { margin-bottom: 30px; }
 
     .mobile-section h3 {
-  color: var(--violet-primary);
+      color: var(--violet-primary);
       font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -462,14 +344,11 @@
         min-height: 100vh;
       }
       
-      body {
-        overflow-y: auto;
-      }
+      body { overflow-y: auto; }
       
       .sidebar-left{ display:none }
       .sidebar-right { display: none }
       
-      /* Mostrar contenedor de specs móvil */
       .mobile-specs-container {
         display: flex;
         flex-direction: column;
@@ -485,10 +364,7 @@
         justify-content: center;
       }
       
-      .cat-btn {
-        padding: 8px 12px;
-        font-size: 13px;
-      }
+      .cat-btn { padding: 8px 12px; font-size: 13px; }
       
       .specs {
         max-width: 600px;
@@ -504,20 +380,9 @@
         font-size: 16px;
       }
       
-      .ar-mode-selector {
-        max-width: 600px;
-        margin: 0 auto 16px;
-        width: 100%;
-      }
+      .menu-toggle, .mobile-sidebar, .mobile-overlay { display: flex; }
       
-      .menu-toggle, .mobile-sidebar, .mobile-overlay {
-        display: flex;
-      }
-      
-      .machine-view {
-        padding: 20px 10px;
-        order: 2;
-      }
+      .machine-view { padding: 20px 10px; order: 2; }
       
       .machine-img{ 
         width: 100%;
@@ -556,156 +421,69 @@
     }
 
     @media (max-width: 768px) {
-      .layout {
-        padding: 100px 20px 30px;
-      }
-      
-      .machine-name {
-        font-size: 24px;
-      }
-      
-      .machine-description {
-        font-size: 14px;
-      }
-      
-      .nav-btn {
-        width: 50px;
-        height: 50px;
-        font-size: 22px;
-      }
-      
-      .specs {
-        padding: 16px;
-      }
-      
-      .specs h4 {
-        font-size: 13px;
-        margin-bottom: 10px;
-      }
-      
-      .spec-row {
-        margin-bottom: 10px;
-      }
-      
-      .spec-label {
-        font-size: 11px;
-      }
-      
-      .spec-val {
-        font-size: 14px;
-      }
-      
-      .ar-btn {
-        padding: 14px 28px;
-        font-size: 15px;
-      }
-      @media (max-width: 768px) {
-  .back-home-btn {
-    display: none !important;
-  }
-}
+      .layout { padding: 100px 20px 30px; }
+      .machine-name { font-size: 24px; }
+      .machine-description { font-size: 14px; }
+      .nav-btn { width: 50px; height: 50px; font-size: 22px; }
+      .specs { padding: 16px; }
+      .specs h4 { font-size: 13px; margin-bottom: 10px; }
+      .spec-row { margin-bottom: 10px; }
+      .spec-label { font-size: 11px; }
+      .spec-val { font-size: 14px; }
+      .ar-btn { padding: 14px 28px; font-size: 15px; }
+      .back-home-btn { display: none !important; }
     }
 
     @media (max-width: 480px) {
-      .layout {
-        padding: 90px 15px 25px;
-      }
-      
-      .machine-img {
-        max-width: 100%;
-      }
-      
-      .machine-name {
-        font-size: 22px;
-      }
-      
-      .machine-description {
-        font-size: 13px;
-        margin: 12px 0 20px;
-      }
-      
-      .nav-btn {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
-      }
-      
-      .cat-btn {
-        padding: 7px 10px;
-        font-size: 12px;
-      }
-      
-      .specs {
-        padding: 14px;
-      }
-      
-      .ar-btn {
-        padding: 13px 24px;
-        font-size: 14px;
-      }
-      
-      .mode-label {
-        font-size: 13px;
-        padding: 8px 12px;
-      }
-      
-      .mobile-sidebar {
-        width: 90%;
-      }
+      .layout { padding: 90px 15px 25px; }
+      .machine-img { max-width: 100%; }
+      .machine-name { font-size: 22px; }
+      .machine-description { font-size: 13px; margin: 12px 0 20px; }
+      .nav-btn { width: 48px; height: 48px; font-size: 20px; }
+      .cat-btn { padding: 7px 10px; font-size: 12px; }
+      .specs { padding: 14px; }
+      .ar-btn { padding: 13px 24px; font-size: 14px; }
+      .mobile-sidebar { width: 90%; }
     }
-    /* ESTILO NUEVO: Botón circular blanco a la derecha */
-.back-home-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px; /* <-- MOVIDO AL OTRO EXTREMO (Derecha) */
-  /* left: 20px; <-- Eliminado */
 
-  /* HAGAMOS UN CÍRCULO */
-  width: 44px;  /* Ancho fijo */
-  height: 44px; /* Alto igual al ancho */
-  border-radius: 50%; /* Esto lo hace redondo */
-  padding: 0; /* Quitamos el relleno rectangular */
+    .back-home-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;  
+      height: 44px; 
+      border-radius: 50%; 
+      padding: 0; 
+      display: flex;
+      justify-content: center; 
+      align-items: center;     
+      color: white; 
+      background: rgba(0, 0, 0, 0.3); 
+      border: 2px solid white; 
+      text-decoration: none;
+      font-size: 22px; 
+      z-index: 100;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+    }
 
-  /* CENTRAR LA FLECHA */
-  display: flex;
-  justify-content: center; /* Centrado horizontal */
-  align-items: center;     /* Centrado vertical */
-
-  /* ESTILO BLANCO */
-  color: white; /* Color de la flecha */
-  background: rgba(0, 0, 0, 0.3); /* Fondo sutil para contraste */
-  border: 2px solid white; /* Borde blanco circular */
-  text-decoration: none;
-  font-size: 22px; /* Tamaño de la flecha */
-  
-  z-index: 100;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra suave */
-}
-
-/* Efecto al pasar el mouse */
-.back-home-btn:hover {
-  background: white; /* Fondo blanco al pasar el mouse */
-  color: black; /* Flecha negra para contraste */
-  transform: scale(1.1); /* Crece un poquito */
-}
-
+    .back-home-btn:hover {
+      background: white; 
+      color: black; 
+      transform: scale(1.1); 
+    }
   </style>
 </head>
 <body>
 
-  <!-- Mobile Menu Toggle -->
   <button class="menu-toggle" id="menuToggle" aria-label="Menú">
     <span></span>
     <span></span>
     <span></span>
   </button>
 
-  <!-- Mobile Overlay -->
   <div class="mobile-overlay" id="mobileOverlay"></div>
 
-  <!-- Mobile Sidebar -->
-    <!-- Mobile Sidebar -->
   <div class="mobile-sidebar" id="mobileSidebar">
     <div class="mobile-section">
       <h3>Seleccionar objeto</h3>
@@ -715,20 +493,19 @@
   </div>
 
   <header>
-    <img src="/AppMindAr/assets/logo sied horizontal-02-BF-xqR4y.png" class="header-logo" alt="SIED Logo">
-   <a href="index.html" class="back-home-btn" title="Volver al Menú">
-  &#8592; </a>
+    <img src="/assets/LOGO SIED SOLO-01.png" class="header-logo" alt="SIED Logo">
+    <a href="index.html" class="back-home-btn" title="Volver al Menú">&#8592;</a>
   </header>
 
   <div class="layout">
     <aside class="sidebar-left">
       <h3>Cuerpos celestes</h3>
-  <ul id="machineryList" class="machinery-list" aria-label="Lista de objetos">
+      <ul id="machineryList" class="machinery-list" aria-label="Lista de objetos">
       </ul>
     </aside>
 
     <main class="machine-view" role="main">
-  <div class="machine-category" id="machineCategory">OBJETO</div>
+      <div class="machine-category" id="machineCategory">OBJETO</div>
 
       <div id="machineWrapper" class="machine-wrap fade-in">
         <img id="machineImage" class="machine-img" src="" alt="Objeto" />
@@ -744,7 +521,6 @@
         <button class="nav-btn" id="nextBtn" title="Siguiente">→</button>
       </div>
 
-      <!-- Mobile Specs and AR (visible only on mobile) -->
       <div class="mobile-specs-container">
         <div class="mobile-section">
           <h3>Especificaciones</h3>
@@ -756,57 +532,25 @@
           </div>
         </div>
 
-        <div class="mobile-section">
-          <h3>Modo AR</h3>
-          <div class="ar-mode-selector">
-            <!--<label class="mode-label">
-              <input type="radio" name="arModeMobile" value="mindar" id="modeMindARMobile">
-              <span class="mode-text">📦 MindAR</span>
-            </label>-->
-            <label class="mode-label">
-              <input type="radio" name="arModeMobile" value="arjs" checked id="modeARjsMobile">
-              <span class="mode-text">🔲 AR.js</span>
-            </label>
-          </div>
-        </div>
-
-        <button class="ar-btn" id="arBtnMobile" aria-label="Activar Realidad Aumentada">
-          Ver en AR
-        </button>
-        <button class="ar-btn" id="arCoreBtnMobile" style="margin-top: 12px; background: linear-gradient(135deg, #c9a8ff, #8a2be2); color: #000;">
-        Ver en el Espacio Libre
-        </button>
+        <button class="ar-btn" id="arCoreBtnMobile" aria-label="Activar Realidad Aumentada">Ver en Realidad Aumentada</button>
       </div>
     </main>
 
     <aside class="sidebar-right">
       <div>
-    <h3 style="color:var(--violet-primary); text-transform:uppercase; font-size:13px; margin-bottom:12px">Categorías</h3>
+        <h3 style="color:var(--violet-primary); text-transform:uppercase; font-size:13px; margin-bottom:12px">Categorías</h3>
         <div class="categories" id="categories">
         </div>
       </div>
 
       <div class="specs" id="specsBox" aria-live="polite">
         <h4>Especificaciones</h4>
-  <div class="spec-row"><div class="spec-label">Diámetro</div><div class="spec-val" id="specDiameter">-</div></div>
-  <div class="spec-row"><div class="spec-label">Masa</div><div class="spec-val" id="specMass">-</div></div>
-  <div class="spec-row"><div class="spec-label">Distancia al Sol</div><div class="spec-val" id="specDistance">-</div></div>
-  <div class="spec-row"><div class="spec-label">Notas</div><div class="spec-val" id="specNotes">-</div></div>
+        <div class="spec-row"><div class="spec-label">Diámetro</div><div class="spec-val" id="specDiameter">-</div></div>
+        <div class="spec-row"><div class="spec-label">Masa</div><div class="spec-val" id="specMass">-</div></div>
+        <div class="spec-row"><div class="spec-label">Distancia al Sol</div><div class="spec-val" id="specDistance">-</div></div>
+        <div class="spec-row"><div class="spec-label">Notas</div><div class="spec-val" id="specNotes">-</div></div>
         
-        <div class="ar-mode-selector">
-          <!--<label class="mode-label">
-            <input type="radio" name="arMode" value="mindar" id="modeMindAR">
-            <span class="mode-text">📦 MindAR (Marcadores compilados)</span>
-          </label>-->
-          <label class="mode-label">
-            <input type="radio" name="arMode" value="arjs" checked id="modeARjs">
-            <span class="mode-text">🔲 AR.js (Códigos de barras)</span>
-          </label>
-        </div>
-        <button class="ar-btn" id="arBtn">Ver en Realidad Aumentada</button>
-        <button class="ar-btn" id="arCoreBtn" style="margin-top: 12px; background: linear-gradient(135deg, #c9a8ff, #8a2be2); color: #000;">
-        Ver en el Espacio Libre
-        </button>
+        <button class="ar-btn" id="arCoreBtn">Ver en Realidad Aumentada</button>
       </div>
     </aside>
   </div>
@@ -817,13 +561,12 @@
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
 
-  const machines = [
-     
+    const machines = [
       { name: "Sol", group: "Astronomía", category: "Estrella", image: `${BASE_PATH}/assets/sun.png`, description: "La estrella en el centro de nuestro sistema solar. Fuente principal de energía y luz.", diameter: "1,392,700 km", mass: "1.989 × 10^30 kg", distance: "0 km (referencia)", notes: "Composición: hidrógeno y helio.", arMarker: "sun" },
       { name: "Astronauta", group: "Astronomía", category: "Humano", image: `${BASE_PATH}/assets/astronauta.png`, description: "Modelo de un astronauta en traje espacial. Ideal para experiencias educativas y demostraciones.", diameter: "N/A", mass: "~80 kg (traje incluido)", distance: "Variable", notes: "Representación humana para interacción AR.", arMarker: "astronauta" },
-  { name: "Rover Perseverance", group: "Astronomía", category: "Rover", image: `${BASE_PATH}/assets/rover2.png`, description: "Rover NASA Perseverance: vehículo robótico que explora la superficie de Marte en búsqueda de signos de vida pasada y recogida de muestras.", diameter: "≈ 3 m (longitud)", mass: "≈ 1,025 kg", distance: "~225,000,000 km (media desde la Tierra al Sol varía)", notes: "Aterrizó en Marte el 18 de febrero de 2021. Objetivos: astrobiología, caracterización geológica y recogida de muestras para futura devolución.", arMarker: "rover2" },
+      { name: "Rover Perseverance", group: "Astronomía", category: "Rover", image: `${BASE_PATH}/assets/rover2.png`, description: "Rover NASA Perseverance: vehículo robótico que explora la superficie de Marte en búsqueda de signos de vida pasada y recogida de muestras.", diameter: "≈ 3 m (longitud)", mass: "≈ 1,025 kg", distance: "~225,000,000 km (media)", notes: "Aterrizó en Marte el 18 de febrero de 2021.", arMarker: "rover2" },
       { name: "Luna", group: "Astronomía", category: "Satélite", image: `${BASE_PATH}/assets/moon.png`, description: "El satélite natural de la Tierra. Superficie con cráteres y mares basálticos.", diameter: "3,474 km", mass: "7.35 × 10^22 kg", distance: "384,400 km", notes: "Fases: nueva, creciente, llena, menguante.", arMarker: "moon" },
-      { name: "Tierra", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/tierra.png`, description: "Nuestro planeta, con océanos y atmósfera que sustenta la vida.", diameter: "12,742 km", mass: "5.97 × 10^24 kg", distance: "149,600,000 km", notes: "Composición: núcleo, manto y corteza.", arMarker: "tierra" },
+      { name: "Tierra", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/tierra.png`, description: "Nuestro planeta, con océanos y atmósfera que sustenta la vida.", diameter: "12,742 km", mass: "5.97 × 10^24 kg", distance: "149,600,000 km", notes: "Composición: núcleo, manto y corteza.", arMarker: "earth" },
       { name: "Marte", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/marte.png`, description: "El planeta rojo, objetivo de múltiples misiones robóticas y estudios sobre habitabilidad.", diameter: "6,779 km", mass: "6.39 × 10^23 kg", distance: "~227,900,000 km (media)", notes: "Características: casquetes polares y valles profundos.", arMarker: "marte" },
     ];
 
@@ -833,7 +576,7 @@
     let filteredIndexes = machines.map((_,i)=>i);
     let currentFilteredIndex = 0;
 
-  const listEl = document.getElementById('machineryList');
+    const listEl = document.getElementById('machineryList');
     const categoriesEl = document.getElementById('categories');
     const machineImage = document.getElementById('machineImage');
     const machineName = document.getElementById('machineName');
@@ -845,7 +588,6 @@
     const specNotes = document.getElementById('specNotes');
     const pageIndicator = document.getElementById('pageIndicator');
     const wrapper = document.getElementById('machineWrapper');
-    const arBtn = document.getElementById('arBtn');
 
     function renderCategories(){
       categoriesEl.innerHTML = "";
@@ -898,10 +640,10 @@
         machineName.textContent = "";
         machineDesc.textContent = "";
         machineCategory.textContent = currentGroup.toUpperCase();
-          specDiameter.textContent = "-";
-          specMass.textContent = "-";
-          specDistance.textContent = "-";
-          specNotes.textContent = "-";
+        specDiameter.textContent = "-";
+        specMass.textContent = "-";
+        specDistance.textContent = "-";
+        specNotes.textContent = "-";
         pageIndicator.innerHTML = `00 <span>/ ${String(filteredIndexes.length).padStart(2,'0')}</span>`;
         return;
       }
@@ -916,11 +658,11 @@
         machineImage.src = m.image;
         machineName.textContent = m.name;
         machineDesc.textContent = m.description;
-  machineCategory.textContent = m.category.toUpperCase();
-  specDiameter.textContent = m.diameter || '-';
-  specMass.textContent = m.mass || '-';
-  specDistance.textContent = m.distance || '-';
-  specNotes.textContent = m.notes || '-';
+        machineCategory.textContent = m.category.toUpperCase();
+        specDiameter.textContent = m.diameter || '-';
+        specMass.textContent = m.mass || '-';
+        specDistance.textContent = m.distance || '-';
+        specNotes.textContent = m.notes || '-';
 
         document.querySelectorAll('.machinery-list li').forEach((li) => li.classList.remove('active'));
         const listItems = document.querySelectorAll('.machinery-list li');
@@ -947,59 +689,11 @@
       if (e.key === 'ArrowRight') changeMachine(1);
     });
 
-    arBtn.addEventListener('click', async () => {
-  if (filteredIndexes.length === 0) return;
-
-  try {
-    // ✅ Paso 1: Solicitar permiso de cámara
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    // Detener inmediatamente el stream (solo era para obtener permiso)
-    stream.getTracks().forEach(track => track.stop());
-
-    // ✅ Paso 2: Leer el modo AR seleccionado
-    const selectedMode = document.querySelector('input[name="arMode"]:checked').value;
-    const m = machines[filteredIndexes[currentFilteredIndex]];
-
-    // ✅ Paso 3: Redirigir al escáner correspondiente
-    let url;
-    if (selectedMode === 'mindar') {
-      // Usar scanner.html para MindAR (marcadores compilados)
-      url = `scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
-    } else if (selectedMode === 'arjs') {
-      // Usar astro-scanner.html para AR.js (códigos de barras)
-     url = `astro-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
-    }
-    
-    window.location.href = url;
-
-  } catch (err) {
-    // ❌ Paso 3: Si no se otorga el permiso, mostrar aviso visual
-    console.warn("Acceso a la cámara denegado o error:", err);
-    
-    // Crear mensaje de error si no existe
-    if (!document.getElementById("cameraError")) {
-      const errorDiv = document.createElement("div");
-      errorDiv.id = "cameraError";
-      errorDiv.className = "error-message";
-      errorDiv.innerHTML = `
-        <h3>No se pudo acceder a la cámara</h3>
-        <p>Por favor, otorgá permiso para usar la cámara y vuelve a intentarlo.</p>
-      `;
-      document.body.appendChild(errorDiv);
-
-      setTimeout(() => errorDiv.remove(), 4000);
-    }
-  }
-});
-
-    // ========== MOBILE MENU FUNCTIONALITY ==========
     const menuToggle = document.getElementById('menuToggle');
     const mobileSidebar = document.getElementById('mobileSidebar');
     const mobileOverlay = document.getElementById('mobileOverlay');
     const mobileMachineryList = document.getElementById('mobileMachineryList');
-    const arBtnMobile = document.getElementById('arBtnMobile');
 
-    // Toggle mobile menu
     function toggleMobileMenu() {
       menuToggle.classList.toggle('active');
       mobileSidebar.classList.toggle('active');
@@ -1010,48 +704,6 @@
     menuToggle.addEventListener('click', toggleMobileMenu);
     mobileOverlay.addEventListener('click', toggleMobileMenu);
 
-    // Sync AR mode radios between desktop and mobile
-    document.querySelectorAll('input[name="arMode"]').forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        const mobileRadio = document.querySelector(`input[name="arModeMobile"][value="${e.target.value}"]`);
-        if (mobileRadio) mobileRadio.checked = true;
-      });
-    });
-
-    document.querySelectorAll('input[name="arModeMobile"]').forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        const desktopRadio = document.querySelector(`input[name="arMode"][value="${e.target.value}"]`);
-        if (desktopRadio) desktopRadio.checked = true;
-      });
-    });
-
-    // Mobile AR button functionality
-    arBtnMobile.addEventListener('click', async () => {
-      if (filteredIndexes.length === 0) return;
-
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop());
-
-        const selectedMode = document.querySelector('input[name="arModeMobile"]:checked').value;
-        const m = machines[filteredIndexes[currentFilteredIndex]];
-
-        let url;
-        if (selectedMode === 'mindar') {
-          url = `scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
-        } else if (selectedMode === 'arjs') {
-          url = `astro-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
-        }
-        
-        window.location.href = url;
-
-      } catch (err) {
-        console.warn("Acceso a la cámara denegado:", err);
-        alert('Por favor, otorgá permiso para usar la cámara.');
-      }
-    });
-
-    // Render mobile machinery list
     function renderMobileList() {
       mobileMachineryList.innerHTML = "";
       filteredIndexes.forEach((machineIdx, pos) => {
@@ -1069,7 +721,6 @@
       });
     }
 
-    // Sync mobile specs with current machine
     function syncMobileSpecs() {
       if (filteredIndexes.length === 0) return;
       const m = machines[filteredIndexes[currentFilteredIndex]];
@@ -1079,7 +730,6 @@
       document.getElementById('mobileSpecNotes').textContent = m.notes || '-';
     }
 
-    // Initialize mobile menu content
     renderMobileList();
     syncMobileSpecs();
 
@@ -1097,13 +747,10 @@
     const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
 
     function irAExperienciaEspacial() {
-    if (filteredIndexes.length === 0) return;
-    
-    const m = machines[filteredIndexes[currentFilteredIndex]];
-
-    const url = `${BASE_PATH}/visor-espacial-astro.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
-    
-    window.location.href = url;
+      if (filteredIndexes.length === 0) return;
+      const m = machines[filteredIndexes[currentFilteredIndex]];
+      const url = `${BASE_PATH}/visor-espacial-astro.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+      window.location.href = url;
     }
 
     if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>SIED - Paleontología AR</title>
+  <title>SIED - Dinos AR</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
 
@@ -28,7 +28,7 @@
       animation: fadeInDown 0.8s ease-out forwards;
     }
     .header-logo{
-      max-height: 100px;
+      max-height: 60px;
       width: auto;
       transition: transform 0.3s ease;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); 
@@ -50,9 +50,10 @@
 
     .sidebar-left{
       display:flex; flex-direction:column; gap:18px;
-      align-self:stretch;
+      align-self:self-start;
       justify-content:center;
       animation: fadeInLeft 0.8s ease-out forwards;
+      margin-top: 10px;
     }
     .sidebar-left h3{
       color:var(--dino-light); font-size:13px; text-transform:uppercase; letter-spacing:2px;
@@ -98,7 +99,7 @@
     }
 
     .machine-wrap{
-      display:inline-block; transition:transform .3s ease; height: 350px; display: flex; align-items: center; justify-content: center;
+      display:inline-block; transition:transform .3s ease; height: 280px; display: flex; align-items: center; justify-content: center;
     }
 
     .machine-img{
@@ -108,7 +109,7 @@
       transition: opacity 0.3s ease;
     }
 
-    .machine-name{ margin-top:28px; font-size:34px; font-weight:700 }
+    .machine-name{ margin-top:15px; font-size:34px; font-weight:700 }
     .machine-description{ color:#a9a9a9; margin:14px auto; max-width:700px; line-height:1.6; height: 60px; overflow: hidden; }
 
     .machine-nav{ margin-top:20px; display:flex; gap:18px; justify-content:center }
@@ -124,8 +125,9 @@
 
     .sidebar-right{ 
       align-self:stretch; 
-      display:flex; 
+      display:flex-start; 
       flex-direction:column; 
+      margin-top: 10px; 
       gap:22px; 
       justify-content:center;
       animation: fadeInRight 0.8s ease-out forwards;
@@ -164,10 +166,13 @@
     .ar-btn:hover{ transform:translateY(-2px); box-shadow: 0 6px 20px rgba(var(--dino-r),0.5); }
     .ar-btn:active{ transform:translateY(0); }
 
-    .page-indicator{ 
-      position:fixed; bottom:36px; left:60px; font-size:42px; 
-      color:rgba(255,255,255,0.08); font-weight:700;
-    }
+    .page-indicator { 
+  position: fixed; 
+  bottom: 130px; 
+  font-size: 42px; 
+  color: rgba(255,255,255,0.08); 
+  font-weight: 700;
+}
 
     .back-home-btn {
       position: absolute; top: 20px; right: 20px; 
@@ -262,8 +267,7 @@
           <div class="spec-row"><div class="spec-label">Peso Est.</div><div class="spec-val" id="mobileSpecWeight">-</div></div>
           <div class="spec-row"><div class="spec-label">Longitud</div><div class="spec-val" id="mobileSpecLength">-</div></div>
         </div>
-        <button class="ar-btn" id="arBtnMobile" style="width: 100%; margin-top: 20px;">Ver en Realidad Aumentada</button>
-        <button class="ar-btn" id="arCoreBtnMobile" style="width: 100%; margin-top: 10px;">Ver en el Espacio Libre</button>
+        <button class="ar-btn" id="arCoreBtnMobile" style="width: 100%; margin-top: 20px;">Ver en Realidad Aumentada</button>
       </div>
     </main>
 
@@ -279,16 +283,15 @@
         <div class="spec-row"><div class="spec-label">Período</div><div class="spec-val" id="specPeriod">-</div></div>
         <div class="spec-row"><div class="spec-label">Peso Est.</div><div class="spec-val" id="specWeight">-</div></div>
         <div class="spec-row"><div class="spec-label">Longitud</div><div class="spec-val" id="specLength">-</div></div>
+        <button class="ar-btn" id="arCoreBtn" style="width: 100%; margin-top: 20px;">Ver en Realidad Aumentada</button>
         
-        <button class="ar-btn" id="arBtn" style="width: 100%; margin-top: 20px;">Ver en Realidad Aumentada</button>
-        <button class="ar-btn" id="arCoreBtn" style="width: 100%; margin-top: 10px;">Ver en el Espacio Libre</button>
       </div>
     </aside>
   </div>
 
   <div class="page-indicator" id="pageIndicator">01 <span>/ 06</span></div>
 
-  <script>
+ <script>
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
 
@@ -318,8 +321,7 @@
       page: document.getElementById('pageIndicator'),
       prev: document.getElementById('prevBtn'),
       next: document.getElementById('nextBtn'),
-      btnARDesktop: document.getElementById('arBtn'),
-      btnARMobile: document.getElementById('arBtnMobile'),
+
       btnDesktop: document.getElementById('arCoreBtn'),
       btnMobile: document.getElementById('arCoreBtnMobile')
     };
@@ -411,11 +413,6 @@
       if (e.key === 'ArrowRight') navigate(1);
     });
 
-    function openMindAR() {
-      if (filteredDinos.length === 0) return;
-      const dino = filteredDinos[currentIndex];
-      window.location.href = `${BASE_PATH}/dino-scannerconMindAr.html?marker=${dino.arMarker}`;
-    }
 
     function openARCore() {
       if (filteredDinos.length === 0) return;
@@ -423,11 +420,9 @@
       window.location.href = `${BASE_PATH}/dino-scanner.html?modelo=${dino.arMarker}`;
     }
 
-    dom.btnARDesktop.addEventListener('click', openMindAR);
-    dom.btnARMobile.addEventListener('click', openMindAR);
-    
-    dom.btnDesktop.addEventListener('click', openARCore);
-    dom.btnMobile.addEventListener('click', openARCore);
+    // Le asignamos la función a los dos botones de la interfaz
+    if(dom.btnDesktop) dom.btnDesktop.addEventListener('click', openARCore);
+    if(dom.btnMobile) dom.btnMobile.addEventListener('click', openARCore);
 
     const toggleMenu = () => {
       document.getElementById('mobileSidebar').classList.toggle('active');

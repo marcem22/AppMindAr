@@ -10,22 +10,23 @@
     html,body{height:100%}
     body{
       font-family:"Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
-      /* Fondo Bosque con overlay */
       background: linear-gradient(rgba(0, 20, 0, 0.85), rgba(0, 10, 0, 0.95)), url('assets/bosque.png') no-repeat center center fixed;
       background-size: cover;
-      color:#fff; overflow:hidden;
+      color:#fff; 
+      /* Se activa el scroll vertical para pantallas pequeñas de escritorio */
+      overflow-x:hidden; overflow-y:auto; 
     }
 
-    /* Header Modificado */
     header{
       position:fixed; top:0; left:0; width:100%;
-      padding:22px 56px; display:flex; align-items:center;
+      padding:15px 56px; /* Header más fino */
+      display:flex; align-items:center;
       z-index:50; background:linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
       opacity: 0; animation: fadeInDown 0.8s ease-out 0.1s forwards;
     }
     
     .header-logo{ 
-      max-height: 100px; /* Un poco más grande ya que está solo */
+      max-height: 65px; /* Logo más chico y estilizado */
       width: auto; 
       transition: transform 0.3s ease;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); 
@@ -35,7 +36,8 @@
 
     .layout {
       display: grid; grid-template-columns: 320px 1fr 320px; gap: 36px;
-      height: 100vh; align-items: center; padding: 100px 60px 60px;
+      min-height: 100vh; height: auto; align-items: center; 
+      padding: 85px 60px 40px; /* Contenido subido (padding-top menor) */
     }
 
     .sidebar-left{
@@ -63,36 +65,25 @@
     .machine-view{ position:relative; text-align:center; padding:24px; opacity: 0; animation: fadeInScale 0.8s ease-out 0.5s forwards; }
     @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     
-    /* ✅ CORRECCIÓN ETIQUETA: Ahora es Sólida y Visible */
     .machine-category{
-      position:absolute; 
-      top: 0; 
-      left: 50%; 
-      transform: translateX(-50%);
-      padding: 8px 24px; 
-      border-radius: 30px; 
-      /* Fondo Verde Sólido */
-      background: #779B2C;
-      /* Texto Blanco */
-      color: #ffffff; 
-      font-size: 13px; 
-      font-weight: 700;
-      letter-spacing: 1px;
-      /* Sombra para despegarlo del fondo */
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      z-index: 20;
-      border: 1px solid rgba(255,255,255,0.2);
+      position:absolute; top: 0; left: 50%; transform: translateX(-50%);
+      padding: 8px 24px; border-radius: 30px; 
+      background: #779B2C; color: #ffffff; font-size: 13px; font-weight: 700;
+      letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      z-index: 20; border: 1px solid rgba(255,255,255,0.2);
     }
 
     .machine-wrap{ display:inline-block; transition:transform .45s ease, filter .45s ease; }
     .machine-img{
-      width: 480px; max-width: 70vw; transition:opacity .35s ease, transform .45s ease;
+      width: 480px; max-width: 70vw; 
+      max-height: 42vh; object-fit: contain; /* Límite de altura para que no empuje el texto */
+      transition:opacity .35s ease, transform .45s ease;
       display:block; margin:0 auto; filter: drop-shadow(0 28px 60px rgba(0, 0, 0, 0.5)); opacity:1;
     }
     .fade-out .machine-img{ opacity:0; transform:scale(.985) } .fade-in .machine-img{ opacity:1; transform:scale(1) }
 
-    .machine-name{ margin-top:28px; font-size:34px; font-weight:700 }
-    .machine-description{ color:#a9a9a9; margin:14px auto; max-width:700px; line-height:1.6 }
+    .machine-name{ margin-top:15px; font-size:34px; font-weight:700 }
+    .machine-description{ color:#a9a9a9; margin:10px auto; max-width:700px; line-height:1.6 }
 
     .machine-nav{ margin-top:20px; display:flex; gap:18px; justify-content:center }
     .nav-btn{
@@ -140,22 +131,15 @@
     .ar-btn:hover{ transform:translateY(-2px); box-shadow: 0 6px 20px rgba(119, 155, 44, 0.5); animation: none; opacity: 1; }
     .ar-btn:active{ transform:translateY(0); box-shadow: 0 2px 10px rgba(119, 155, 44, 0.4); }
 
-    .ar-mode-selector { margin-top: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; opacity: 0; animation: fadeInUp 0.8s ease-out 1.0s forwards; }
-    .mode-label { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; cursor: pointer; transition: all 0.3s ease; user-select: none; }
-    .mode-label:hover { background: rgba(119, 155, 44, 0.1); border-color: rgba(119, 155, 44, 0.3); }
-    .mode-label input[type="radio"] { margin: 0; cursor: pointer; accent-color: #779B2C; }
-    .mode-label input[type="radio"]:checked + .mode-text { color: #779B2C; font-weight: 600; }
-    .mode-text { font-size: 12px; color: #9a9a9a; transition: all 0.3s ease; }
-
-    .page-indicator{ position:fixed; bottom:36px; left:60px; font-size:42px; color:rgba(255,255,255,0.08); font-weight:700; opacity: 0; animation: fadeInUp 0.8s ease-out 0.7s forwards; }
+    .page-indicator{ position:fixed; bottom:20px; left:60px; font-size:42px; color:rgba(255,255,255,0.08); font-weight:700; opacity: 0; animation: fadeInUp 0.8s ease-out 0.7s forwards; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     .empty-msg{ color:#9a9a9a; font-size:15px; padding:10px 6px }
 
-    .menu-toggle { display: none; position: fixed; top: 20px; right: 24px; z-index: 1000; background: rgba(119, 155, 44, 0.9); border: none; border-radius: 8px; width: 50px; height: 50px; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s ease; }
-    .menu-toggle span { width: 24px; height: 3px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
-    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(7px, 7px); }
+    .menu-toggle { display: none; position: fixed; top: 15px; right: 24px; z-index: 1000; background: rgba(119, 155, 44, 0.9); border: none; border-radius: 8px; width: 45px; height: 45px; cursor: pointer; flex-direction: column; align-items: center; justify-content: center; gap: 5px; transition: all 0.3s ease; }
+    .menu-toggle span { width: 22px; height: 3px; background: #fff; border-radius: 2px; transition: all 0.3s ease; }
+    .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(6px, 6px); }
     .menu-toggle.active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+    .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
 
     .mobile-sidebar { display: none; position: fixed; top: 0; right: -100%; width: 85%; max-width: 400px; height: 100vh; background: linear-gradient(180deg, #1a2010 0%, #0f0f10 100%); z-index: 999; overflow-y: auto; padding: 80px 25px 30px; transition: right 0.3s ease; box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5); }
     .mobile-sidebar.active { right: 0; }
@@ -167,7 +151,7 @@
     .mobile-section h3 { color: #779B2C; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 
     @media (max-width:1100px){
-      .layout{ grid-template-columns: 1fr; padding: 110px 30px 30px; gap: 20px; height: auto; min-height: 100vh; }
+      .layout{ grid-template-columns: 1fr; padding: 90px 30px 30px; gap: 20px; height: auto; min-height: 100vh; }
       body { overflow-y: auto; }
       .sidebar-left{ display:none } .sidebar-right { display: none }
       .mobile-specs-container { display: flex; flex-direction: column; gap: 20px; padding: 20px 0; margin-top: 20px; }
@@ -179,56 +163,27 @@
       .menu-toggle, .mobile-sidebar, .mobile-overlay { display: flex; }
       .machine-view { padding: 20px 10px; order: 2; }
       .machine-img{ width: 100%; max-width: 500px; margin: 0 auto; }
-      header{ padding:18px 24px }
+      header{ padding:12px 24px }
       .machine-name{ font-size:28px; margin-top: 20px; }
-      .machine-description { font-size: 15px; margin: 15px 0 25px; }
+      .machine-description { font-size: 15px; margin: 10px 0 20px; }
       .machine-nav { margin-top: 25px; gap: 15px; }
       .nav-btn { width: 55px; height: 55px; font-size: 24px; }
       .page-indicator { position: relative; bottom: auto; left: auto; text-align: center; font-size: 32px; margin-top: 20px; }
     }
-    @media (max-width: 768px) { .layout { padding: 100px 20px 30px; } .machine-name { font-size: 24px; } .machine-description { font-size: 14px; } .nav-btn { width: 50px; height: 50px; font-size: 22px; } .ar-btn { padding: 14px 28px; font-size: 15px; } }
-    @media (max-width: 480px) { .layout { padding: 90px 15px 25px; } .machine-name { font-size: 22px; } .machine-description { font-size: 13px; margin: 12px 0 20px; } .nav-btn { width: 48px; height: 48px; font-size: 20px; } .ar-btn { padding: 13px 24px; font-size: 14px; } .mobile-sidebar { width: 90%; } }
+    @media (max-width: 768px) { .layout { padding: 90px 20px 30px; } .machine-name { font-size: 24px; } .machine-description { font-size: 14px; } .nav-btn { width: 50px; height: 50px; font-size: 22px; } .ar-btn { padding: 14px 28px; font-size: 15px; } }
+    @media (max-width: 480px) { .layout { padding: 80px 15px 25px; } .machine-name { font-size: 22px; } .machine-description { font-size: 13px; margin: 10px 0 20px; } .nav-btn { width: 48px; height: 48px; font-size: 20px; } .ar-btn { padding: 13px 24px; font-size: 14px; } .mobile-sidebar { width: 90%; } }
 
-    /* ESTILO NUEVO: Botón circular blanco a la derecha */
-.back-home-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px; /* <-- MOVIDO AL OTRO EXTREMO (Derecha) */
-  /* left: 20px; <-- Eliminado */
+    .back-home-btn {
+      position: absolute; top: 15px; right: 20px; 
+      width: 40px; height: 40px; border-radius: 50%; padding: 0; 
+      display: flex; justify-content: center; align-items: center;    
+      color: white; background: rgba(0, 0, 0, 0.3); border: 2px solid white; 
+      text-decoration: none; font-size: 20px; z-index: 100;
+      transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+    }
 
-  /* HAGAMOS UN CÍRCULO */
-  width: 44px;  /* Ancho fijo */
-  height: 44px; /* Alto igual al ancho */
-  border-radius: 50%; /* Esto lo hace redondo */
-  padding: 0; /* Quitamos el relleno rectangular */
-
-  /* CENTRAR LA FLECHA */
-  display: flex;
-  justify-content: center; /* Centrado horizontal */
-  align-items: center;     /* Centrado vertical */
-
-  /* ESTILO BLANCO */
-  color: white; /* Color de la flecha */
-  background: rgba(0, 0, 0, 0.3); /* Fondo sutil para contraste */
-  border: 2px solid white; /* Borde blanco circular */
-  text-decoration: none;
-  font-size: 22px; /* Tamaño de la flecha */
-  
-  z-index: 100;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra suave */
-}
-
-.back-home-btn:hover {
-  background: white; 
-  color: black; 
-  transform: scale(1.1); /* Crece un poquito */
-}
-@media (max-width: 768px) {
-  .back-home-btn {
-    display: none !important;
-  }
-}
+    .back-home-btn:hover { background: white; color: black; transform: scale(1.1); }
+    @media (max-width: 768px) { .back-home-btn { display: none !important; } }
   </style>
 </head>
 <body>
@@ -246,9 +201,7 @@
 
   <header>
     <img src="assets/LOGO SIED SOLO-01.png" class="header-logo" alt="SIED Logo">
-    <a href="index.html" class="back-home-btn" title="Volver al Menú">
-  &#8592; </a>   
-
+    <a href="index.html" class="back-home-btn" title="Volver al Menú">&#8592;</a>   
   </header>
 
   <div class="layout">
@@ -284,23 +237,7 @@
             <div class="spec-row"><div class="spec-label">Habitat / Función</div><div class="spec-val" id="mobileSpecApplication">-</div></div>
           </div>
         </div>
-
-        <div class="mobile-section">
-          <h3>Modo AR</h3>
-          <div class="ar-mode-selector">
-            <label class="mode-label">
-              <input type="radio" name="arModeMobile" value="arjs" checked id="modeARjsMobile">
-              <span class="mode-text">🔲 AR.js</span>
-            </label>
-          </div>
-        </div>
-
-        <button class="ar-btn" id="arBtnMobile" aria-label="Activar Realidad Aumentada">
-          Ver en AR
-        </button>
-        <button class="ar-btn" id="arCoreBtnMobile" style="margin-top: 12px; background: linear-gradient(135deg, #a0cc44, #779B2C); color: #000;">
- Ver en el Espacio Libre
-</button>
+       <button class="ar-btn" id="arCoreBtnMobile" aria-label="Activar Realidad Aumentada">Ver en AR</button>
       </div>
     </main>
 
@@ -317,16 +254,7 @@
         <div class="spec-row"><div class="spec-label">Clase</div><div class="spec-val" id="specWeight">-</div></div>
         <div class="spec-row"><div class="spec-label">Habitat / Función</div><div class="spec-val" id="specApplication">-</div></div>
         
-        <div class="ar-mode-selector">
-          <label class="mode-label">
-            <input type="radio" name="arMode" value="arjs" checked id="modeARjs">
-            <span class="mode-text">🔲 AR.js (Códigos de barras)</span>
-          </label>
-        </div>
-        <button class="ar-btn" id="arBtn">Ver en Realidad Aumentada</button>
-        <button class="ar-btn" id="arCoreBtn" style="margin-top: 12px; background: linear-gradient(135deg, #a0cc44, #779B2C); color: #000;">
- Ver en el Espacio Libre
-</button>
+        <button class="ar-btn" id="arCoreBtn">Ver en Realidad Aumentada</button>
       </div>
     </aside>
   </div>
@@ -337,43 +265,10 @@
     const bioModels = [
       { name: "Mariposa Cometa", group: "Fauna", category: "Insecto", image: "assets/mariposa.png", description: "Conocida por su vuelo lento y elegante. Es un polinizador clave en las regiones tropicales y demuestra la metamorfosis completa de los insectos.", subtitle: "Idea leuconoe", family: "Nymphalidae", type: "Insecta", habitat: "Polinizador", arMarker: "mariposa" },
       { name: "Helecho", group: "Flora", category: "Planta Vascular", image: "assets/helecho.png", description: "Plantas vasculares sin semillas que se reproducen mediante esporas. Son fósiles vivientes que dominaron la Tierra hace millones de años.", subtitle: "Pteridophyta", family: "Polypodiaceae", type: "Plantae", habitat: "Bosques húmedos", arMarker: "helecho" },
-      { 
-  name: "Cactus Catedral", 
-  group: "Flora", 
-  category: "Suculenta", 
-  image: "assets/cactus.jpg", 
-  description: "A pesar de su nombre, no es un verdadero cactus, sino una planta suculenta. Se caracteriza por sus tallos altos de tres lados (triangulares) y por tener pequeñas hojas verdes en las aristas, algo que los cactus no poseen.", 
-  subtitle: "Euphorbia trigona", 
-  family: "Euphorbiaceae", 
-  type: "Plantae", 
-  habitat: "África Central", 
-  arMarker: "cactus" 
-},
-      { 
-    name: "Mariquita", 
-    group: "Fauna", 
-    category: "Insecto", 
-    image: "assets/mariquita.png", // Asegúrate de tener la foto .png
-    description: "Pequeño escarabajo de la familia Coccinellidae. Es muy apreciado en la agricultura porque funciona como controlador biológico de plagas, alimentándose vorazmente de pulgones y ácaros.", 
-    subtitle: "Coccinellidae", 
-    family: "Coccinellidae", 
-    type: "Insecta", 
-    habitat: "Jardines y cultivos", 
-    arMarker: "mariquita" 
-  },
-      { name: "Araña Lobo", group: "Fauna", category: "Arácnido", image: "assets/arania.png", description: "Arácnido cazador que no teje telarañas para atrapar presas, sino que las persigue gracias a su excelente visión y agilidad.", subtitle: "Lycosidae", family: "Lycosidae", type: "Arachnida", habitat: "Terrestre / Cazador", arMarker: "arana" },
-      { 
-    name: "Grillo", 
-    group: "Fauna", 
-    category: "Insecto", 
-    image: "assets/grillo.jpeg", // Usamos la foto que subiste
-    description: "Insecto omnívoro de hábitos nocturnos. Es famoso por su canto (estridulación), que producen los machos frotando sus alas para atraer a las hembras. Poseen antenas largas y patas adaptadas para saltar.", 
-    subtitle: "Gryllidae", 
-    family: "Gryllidae", 
-    type: "Insecta", 
-    habitat: "Praderas y grietas", 
-    arMarker: "grillo" 
-  }
+      { name: "Cactus Catedral", group: "Flora", category: "Suculenta", image: "assets/cactus.jpg", description: "A pesar de su nombre, no es un verdadero cactus, sino una planta suculenta. Se caracteriza por sus tallos altos de tres lados (triangulares) y por tener pequeñas hojas verdes en las aristas.", subtitle: "Euphorbia trigona", family: "Euphorbiaceae", type: "Plantae", habitat: "África Central", arMarker: "cactus" },
+      { name: "Mariquita", group: "Fauna", category: "Insecto", image: "assets/mariquita.png", description: "Pequeño escarabajo de la familia Coccinellidae. Es muy apreciado en la agricultura porque funciona como controlador biológico de plagas, alimentándose vorazmente de pulgones y ácaros.", subtitle: "Coccinellidae", family: "Coccinellidae", type: "Insecta", habitat: "Jardines y cultivos", arMarker: "mariquita" },
+      { name: "Araña Lobo", group: "Fauna", category: "Arácnido", image: "assets/arania.png", description: "Arácnido cazador que no teje telarañas para atrapar presas, sino que las persigue gracias a su excelente visión y agilidad.", subtitle: "Lycosidae", family: "Lycosidae", type: "Arachnida", habitat: "Terrestre / Cazador", arMarker: "arania" },
+      { name: "Grillo", group: "Fauna", category: "Insecto", image: "assets/grillo.jpeg", description: "Insecto omnívoro de hábitos nocturnos. Es famoso por su canto (estridulación), que producen los machos frotando sus alas para atraer a las hembras.", subtitle: "Gryllidae", family: "Gryllidae", type: "Insecta", habitat: "Praderas y grietas", arMarker: "grillo" }
     ];
 
     const groups = ["Todas", ...Array.from(new Set(bioModels.map(m => m.group)))];
@@ -393,7 +288,6 @@
     const specApplication = document.getElementById('specApplication');
     const pageIndicator = document.getElementById('pageIndicator');
     const wrapper = document.getElementById('machineWrapper');
-    const arBtn = document.getElementById('arBtn');
 
     function renderCategories(){
       categoriesEl.innerHTML = "";
@@ -462,24 +356,10 @@
     document.getElementById('nextBtn').addEventListener('click', () => changeMachine(1));
     document.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') changeMachine(-1); if (e.key === 'ArrowRight') changeMachine(1); });
 
-    arBtn.addEventListener('click', async () => {
-      if (filteredIndexes.length === 0) return;
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop());
-        const m = bioModels[filteredIndexes[currentFilteredIndex]];
-        const url = `bio-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
-        window.location.href = url;
-      } catch (err) {
-        alert('Permiso de cámara denegado.');
-      }
-    });
-
     const menuToggle = document.getElementById('menuToggle');
     const mobileSidebar = document.getElementById('mobileSidebar');
     const mobileOverlay = document.getElementById('mobileOverlay');
     const mobileMachineryList = document.getElementById('mobileMachineryList');
-    const arBtnMobile = document.getElementById('arBtnMobile');
 
     function toggleMobileMenu() {
       menuToggle.classList.toggle('active');
@@ -490,19 +370,6 @@
 
     menuToggle.addEventListener('click', toggleMobileMenu);
     mobileOverlay.addEventListener('click', toggleMobileMenu);
-
-    arBtnMobile.addEventListener('click', async () => {
-      if (filteredIndexes.length === 0) return;
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop());
-        const m = bioModels[filteredIndexes[currentFilteredIndex]];
-        const url = `bio-scanner.html?marker=${m.arMarker}&name=${encodeURIComponent(m.name)}`;
-        window.location.href = url;
-      } catch (err) {
-        alert('Permiso de cámara denegado.');
-      }
-    });
 
     function renderMobileList() {
       mobileMachineryList.innerHTML = "";
@@ -529,25 +396,21 @@
     updateToCurrentFiltered = function() { originalUpdateFunction(); renderMobileList(); syncMobileSpecs(); };
 
     renderCategories(); filterByGroup('Todas');
-    // ========== NUEVA EXPERIENCIA ARCORE (BIOLOGÍA) ==========
-const arCoreBtn = document.getElementById('arCoreBtn');
-const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
 
-function irAExperienciaEspacial() {
-  if (filteredIndexes.length === 0) return;
-  
-  const m = bioModels[filteredIndexes[currentFilteredIndex]];
+    const arCoreBtn = document.getElementById('arCoreBtn');
+    const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
 
-  const isProduction = window.location.hostname.includes('github.io');
-  const basePathLocal = isProduction ? '/AppMindAr' : '';
+    function irAExperienciaEspacial() {
+      if (filteredIndexes.length === 0) return;
+      const m = bioModels[filteredIndexes[currentFilteredIndex]];
+      const isProduction = window.location.hostname.includes('github.io');
+      const basePathLocal = isProduction ? '/AppMindAr' : '';
+      const url = `${basePathLocal}/visor-espacial-bio.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+      window.location.href = url;
+    }
 
-  const url = `${basePathLocal}/visor-espacial-bio.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
-  
-  window.location.href = url;
-}
-
-if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);
-if (arCoreBtnMobile) arCoreBtnMobile.addEventListener('click', irAExperienciaEspacial);
+    if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);
+    if (arCoreBtnMobile) arCoreBtnMobile.addEventListener('click', irAExperienciaEspacial);
   </script>
 </body>
 </html>
