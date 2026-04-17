@@ -19,7 +19,7 @@
       background: radial-gradient(circle at center, #1a2010 0%, #0a1005 100%);
       color: white;
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -153,6 +153,31 @@
 
     .btn-captura:active {
       transform: scale(0.9);
+    }
+    @media (max-width: 768px) {
+
+        .model-info {
+            top: 65px ; 
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+        }
+
+        .btn-proyectar {
+            bottom: 30px !important; 
+            width: 85% !important; 
+        }
+
+        .btn-captura {
+            bottom: 130px !important; 
+            right: 15px !important;
+            transform: scale(0.9) !important;
+        }
+
+        .controls-panel {
+            bottom: 130px !important; 
+            left: 15px !important;
+            transform: scale(0.9) !important;
+        }
     }
   </style>
 </head>

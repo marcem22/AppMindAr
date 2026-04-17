@@ -154,21 +154,30 @@
     .btn-captura:active {
       transform: scale(0.9);
     }
-        @media (max-width: 768px) {
-    .btn-proyectar {
-        bottom: 50px; 
-        width: 80%; 
-        padding: 12px 20px; 
-    }   
-    .controls-panel {
-        bottom: 50px; 
-    }   
-    .btn-captura {
-        bottom: 50px; 
-    }
-    .visor-container {
-        margin-top: 70px;
-    }
+    @media (max-width: 768px) {
+
+        .model-info {
+            top: 65px ; 
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+        }
+
+        .btn-proyectar {
+            bottom: 30px !important; 
+            width: 85% !important; 
+        }
+
+        .btn-captura {
+            bottom: 130px !important; 
+            right: 15px !important;
+            transform: scale(0.9) !important;
+        }
+
+        .controls-panel {
+            bottom: 130px !important; 
+            left: 15px !important;
+            transform: scale(0.9) !important;
+        }
     }
   </style>
 </head>

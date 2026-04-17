@@ -71,34 +71,30 @@
       color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; 
       cursor: pointer; z-index: 40; box-shadow: 0 4px 15px rgba(0,255,153,0.4);
     }
-    
-/* Ajustes específicos para móviles */
+
 @media (max-width: 768px) {
-  
 
   .model-info {
-    top: -20px; 
+    top: 15px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) !important;
   }
 
   .btn-proyectar {
-    bottom: 30px; 
-    width: 85%; 
-    padding: 14px 20px; 
+    bottom: 30px !important; 
+    width: 85% !important; 
   }
-  
+
   .btn-captura {
-    bottom: 110px; 
-    right: 15px; 
-    transform: scale(0.9); 
+    bottom: 130px !important; 
+    right: 15px !important;
+    transform: scale(0.9) !important;
   }
 
   .controls-panel {
-    bottom: 110px; 
-    left: 15px;
-    transform: scale(0.9);
-  }
-  .visor-container {
-    margin-top: 110px; 
+    bottom: 130px !important; 
+    left: 15px !important;
+    transform: scale(0.9) !important;
   }
 }
   </style>
