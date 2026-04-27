@@ -18,12 +18,9 @@ html, body {
   padding: 0;
   overflow: hidden;
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  
-  /* Fondo Tech/Grilla de puntos sutil */
-  background-color: #f8faff; 
-  background-image: radial-gradient(#c6d6f0 1.5px, transparent 1.5px);
+  background-color: #ffffff; 
+  background-image: radial-gradient(#d1dce5 1.5px, transparent 1.5px);
   background-size: 30px 30px;
-  
   height: 100vh;
   height: 100dvh; 
   width: 100%;
@@ -31,10 +28,9 @@ html, body {
   flex-direction: column;
 }
 
-/* ⭐ Header */
 header {
   background: transparent; 
-  height: 110px; 
+  height: 140px; 
   width: 100%;
   display: flex;
   align-items: center;
@@ -42,31 +38,21 @@ header {
   padding: 0 8%; 
   z-index: 10;
   flex-shrink: 0;
-  border: none; 
 }
 
 .logos-container {
   display: flex;
   align-items: center;
-  gap: 40px; 
+  gap: 60px; 
 }
 
-/* Logos un poco más grandes */
 .logos-container img {
-  height: 95px; 
+  height: 120px; 
   width: auto;
   display: block;
-  transition: height 0.3s ease;
-  filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.04));
+  filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.05));
 }
 
-@media (min-width: 1400px) {
-  header { height: 140px; }
-  .logos-container { gap: 50px; }
-  .logos-container img { height: 130px; }
-}
-
-/* ⭐ MAIN */
 main {
   flex-grow: 1;
   position: relative;
@@ -76,75 +62,66 @@ main {
   justify-content: center;
   padding: 0 8%;
   gap: 5%;
-  overflow: hidden;
-  background: transparent; 
+  overflow: visible; 
   z-index: 1;
 }
 
-/* Resplandor volumétrico detrás del cubo - Subido para acompañar al cubo */
 .glow-orb {
   position: absolute;
-  width: 60vw;
-  height: 60vw;
-  max-width: 800px;
-  max-height: 800px;
-  background: radial-gradient(circle, rgba(3,55,115,0.08) 0%, rgba(248,250,255,0) 70%);
+  width: 70vw;
+  height: 70vw;
+  background: radial-gradient(circle, rgba(3,55,115,0.04) 0%, rgba(255,255,255,0) 70%);
   border-radius: 50%;
-  top: 40%; /* Subido más arriba (antes 45%) */
-  right: -5%;
+  top: 45%; 
+  right: -10%;
   transform: translateY(-50%);
   z-index: 0;
   pointer-events: none;
 }
 
-/* Sección Texto */
 .left-content {
   flex: 1;
   max-width: 550px;
   z-index: 2;
-  margin-top: -30px; 
+  margin-top: -20px; 
 }
 
-/* Título con degradado premium */
 h1 {
   margin: 0;
-  font-size: clamp(3rem, 6vw, 4.5rem); 
+  font-size: clamp(2.8rem, 5.5vw, 4.2rem); 
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -2px;
   text-transform: uppercase; 
   background: linear-gradient(135deg, #033773 0%, #0066cc 100%);
-  -webkit-background-clip: text;
+    background-clip  : text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .desc {
-  font-size: clamp(1.1rem, 1.5vw, 1.3rem); 
+  font-size: clamp(1.1rem, 1.4vw, 1.25rem); 
   color: #444;
   line-height: 1.5;
   margin-top: 25px;
-  max-width: 550px;
 }
 
 .hint-text {
-  margin-top: 25px;
-  font-size: 1.05rem;
+  margin-top: 30px;
+  font-size: 1rem;
   color: #033773;
   font-weight: 700;
   text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 8px;
-  opacity: 0.9;
-  background: rgba(3, 55, 115, 0.05);
-  padding: 10px 15px;
+  gap: 10px;
+  background: rgba(3, 55, 115, 0.08);
+  padding: 12px 18px;
   border-radius: 8px;
   width: fit-content;
   border: 1px solid rgba(3, 55, 115, 0.1);
+  animation: pulseHint 2s infinite;
 }
 
-/* Sección Visual (Cubo) */
 .right-content {
   flex: 1.2; 
   height: 100%;
@@ -153,160 +130,54 @@ h1 {
   justify-content: center;
   position: relative;
   z-index: 2;
+  transform: translateY(-60px); 
 }
 
 #cube-wrapper {
   width: 100%;
-  height: 85vh;
-  transform: translateY(-80px); /* ⬅️ MÁS ARRIBA TODAVÍA */
+  height: 100%;
 }
 
-/* ⭐ Footer */
+@keyframes pulseHint {
+  0% { box-shadow: 0 0 0 0 rgba(3, 55, 115, 0.2); }
+  70% { box-shadow: 0 0 0 10px rgba(3, 55, 115, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(3, 55, 115, 0); }
+}
+
 footer {
-  background: rgba(255, 255, 255, 0.9); 
+  background: rgba(255, 255, 255, 0.95); 
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(3, 55, 115, 0.1); 
   text-align: center;
-  color: #333; 
   padding: 15px 0;
-  z-index: 3;
-  flex-shrink: 0;
+  z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
-footer .copyright {
-  font-size: 0.85rem;
-  font-weight: 500;
-}
+footer .copyright { font-size: 0.85rem; font-weight: 500; color: #333; }
+footer .devs-credits { font-size: 0.75rem; font-weight: 600; color: #777; }
 
-footer .devs-credits {
-  font-size: 0.75rem;
+.dev-link {
+  color: #033773;
+  text-decoration: none;
   font-weight: 700;
   text-transform: uppercase;
-  color: #033773; 
+  transition: color 0.3s ease;
 }
+.dev-link:hover { color: #b87333; text-decoration: underline; }
 
-/* ⭐ Partículas */
-#particles {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 📱 MÓVIL VERTICAL */
-@media (max-width: 900px) and (orientation: portrait) {
-  header { height: 80px; justify-content: center; }
+@media (max-width: 900px) {
+  header { height: 100px; justify-content: center; padding: 0 20px; }
   .logos-container { gap: 25px; }
-  .logos-container img { height: 50px; }
-  main { flex-direction: column; text-align: center; padding: 15px 20px 0 20px; justify-content: flex-start; gap: 0; }
-  .left-content { margin-top: 10px; margin-bottom: 5px; flex: 0 0 auto; width: 100%; display: flex; flex-direction: column; align-items: center;}
-  h1 { font-size: 2.2rem; line-height: 0.95; letter-spacing: -1px; }
-  .desc { font-size: 1rem; margin-top: 8px; margin-bottom: 0; }
-  .hint-text { justify-content: center; margin-top: 15px; }
-  .glow-orb { top: 55%; right: 50%; transform: translate(50%, -50%); width: 150vw; height: 150vw;}
-  .right-content { order: 2; width: 100%; flex: 1; margin-bottom: 0; }
-  
-  /* Más arriba en móviles también */
-  #cube-wrapper { height: 100%; transform: translateY(-30px); } 
+  .logos-container img { height: 75px; }
+  main { flex-direction: column; text-align: center; padding-top: 20px; gap: 0; overflow: visible;}
+  .left-content { margin-top: 0; width: 100%; align-items: center; display: flex; flex-direction: column;}
+  .right-content { transform: translateY(0); width: 100%; flex: 1.5; }
+  .hint-text { margin-top: 15px; }
+  h1 { font-size: 2.4rem; }
 }
-
-/* 📱 MÓVIL HORIZONTAL */
-@media (max-width: 900px) and (orientation: landscape) {
-  header { height: 60px; padding: 0 15px; }
-  .logos-container { gap: 30px; }
-  .logos-container img { height: 45px; }
-  main { flex-direction: row; align-items: center; padding: 0 10px; gap: 10px; }
-  .left-content { width: 45%; flex: 0 0 45%; text-align: left; margin-top: 0; padding-left: 10px; display: block;}
-  h1 { font-size: 1.8rem; margin-bottom: 5px; line-height: 0.95; letter-spacing: -1px; }
-  .desc { font-size: 0.85rem; line-height: 1.2; margin-top: 5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .hint-text { margin-top: 8px; font-size: 0.8rem; justify-content: flex-start; padding: 5px 10px;}
-  .glow-orb { top: 45%; right: -10%; width: 80vw; height: 80vw;}
-  .right-content { width: 55%; flex: 1; height: 100%; }
-  
-  /* Más arriba en horizontal */
-  #cube-wrapper { height: 100%; transform: translateY(-35px); }
-  footer { padding: 5px 0; }
-  footer .copyright { font-size: 0.7rem; }
-  footer .devs-credits { font-size: 0.6rem; }
-}
-
-/* TABLETS */
-@media (min-width: 600px) and (max-width: 1024px) and (orientation: portrait) {
-   h1 { font-size: 3.5rem; }
-   .desc { font-size: 1.4rem; }
-   .logos-container { gap: 35px; }
-   .logos-container img { height: 75px; }
-   header { height: 100px; }
-}
-
-/* Botón Ayuda */
-#help-btn {
-  position: fixed;
-  bottom: 80px; 
-  right: 20px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #033773 0%, #0066cc 100%); 
-  color: white;
-  font-size: 1.4rem;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 6px 15px rgba(3, 55, 115, 0.3); 
-  z-index: 40;
-  padding: 0;
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  transition: transform 0.2s ease;
-}
-#help-btn:hover { transform: scale(1.05); }
-
-@media (max-width: 900px) and (orientation: landscape) {
-  #help-btn { bottom: 15px; right: 15px; width: 35px; height: 35px; font-size: 1rem; }
-}
-
-/* Modal */
-#help-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(4px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  padding: 20px;
-}
-.help-box {
-  background: #fff;
-  padding: 30px;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 340px;
-  text-align: center;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-  border: 1px solid rgba(0,0,0,0.05);
-}
-.help-box h3 { margin-top: 0; color: #033773; font-size: 1.3rem;}
-#close-help {
-  margin-top: 20px;
-  background: #033773;
-  color: #fff;
-  padding: 10px 30px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s ease;
-}
-#close-help:hover { background: #0066cc; }
 </style>
 </head>
 
@@ -314,16 +185,13 @@ footer .devs-credits {
 
 <header>
   <div class="logos-container">
-    <img src="assets/logo UNSJ horizontal-02.png" class="logo-unsj" alt="UNSJ" />
-    <img src="assets/logo sied horizontal-02.png" class="logo-sied" alt="SIED" />
+    <img src="assets/logo UNSJ horizontal-02.png" alt="UNSJ" />
+    <img src="assets/logo sied horizontal-02.png" alt="SIED" />
   </div>
 </header>
 
 <main>
   <div class="glow-orb"></div>
-  
-  <canvas id="particles"></canvas>
-
   <div class="left-content">
     <h1>Explorá en Realidad Aumentada</h1>
     <p class="desc">
@@ -340,112 +208,98 @@ footer .devs-credits {
 </main>
 
 <footer>
-  <div class="copyright">© 2026 SIED - Universidad Nacional de San Juan</div>
-  <div class="devs-credits">Desarrolladores: Mara Brizuela Marcela Mancini Emanuel Pintor</div>
-</footer>
-
-<div id="help-btn">?</div>
-<div id="help-modal">
-  <div class="help-box">
-    <h3>¿Cómo funciona?</h3>
-    <p>Girá el cubo, tocá una cara y comenzá a explorar el contenido interactivo.</p>
-    <button id="close-help">Cerrar</button>
+  <div class="copyright">© 2025 - 2026 SIED - Universidad Nacional de San Juan</div>
+  <div class="devs-credits">
+    Desarrolladores: 
+    <a href="#" target="_blank" class="dev-link">Mara Brizuela</a> | 
+    <a href="https://www.marcelam-portfolio.vercel.app" target="_blank" class="dev-link">Marcela Mancini</a> | 
+    <a href="#" target="_blank" class="dev-link">Emanuel Pintor</a>
   </div>
-</div>
+</footer>
 
 <script>
 function createImageWithCenteredText(imageUrl, text) {
   const c = document.createElement("canvas");
-  c.width = 1024;
-  c.height = 1024;
+  c.width = 1024; c.height = 1024;
   const ctx = c.getContext("2d");
   const texture = new THREE.CanvasTexture(c);
   const img = new Image();
-  
   img.crossOrigin = "Anonymous"; 
-  
   img.onload = () => {
     ctx.drawImage(img, 0, 0, 1024, 1024);
-    const bannerHeight = 220;
-    const bannerY = (1024 - bannerHeight) / 2;
-
+    const bh = 220; const by = (1024 - bh) / 2;
     ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
-    ctx.fillRect(0, bannerY, 1024, bannerHeight);
-
+    ctx.fillRect(0, by, 1024, bh);
     ctx.fillStyle = "#ffffff";
     ctx.font = "bold 140px Segoe UI, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(text, 512, bannerY + bannerHeight / 2);
-    
+    ctx.fillText(text, 512, by + bh / 2);
     texture.needsUpdate = true;
   };
-  
-  img.onerror = () => {
-    console.error("Error al cargar la imagen: " + imageUrl + ". Verifica la ruta o abre usando un Servidor Local.");
-  };
-
   img.src = imageUrl;
   return texture;
 }
 
-function createTextTexture(text, bg, color="#fff") {
-  const c = document.createElement("canvas");
+function createLogoWithBackground(imagePath, bgColor) {
+  const c = document.createElement('canvas');
   c.width = 512; c.height = 512;
-  const ctx = c.getContext("2d");
-
-  ctx.fillStyle = bg;
-  ctx.fillRect(0,0,512,512);
-  ctx.fillStyle = color;
-  ctx.font = "bold 90px Segoe UI, sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(text, 256, 256);
-
-  return new THREE.CanvasTexture(c);
+  const ctx = c.getContext('2d');
+  const texture = new THREE.CanvasTexture(c);
+  const img = new Image();
+  img.onload = () => {
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, 512, 512);
+    const size = 350;
+    let dw = img.width; let dh = img.height;
+    const ratio = Math.min(size / dw, size / dh);
+    dw *= ratio; dh *= ratio;
+    ctx.drawImage(img, (512 - dw) / 2, (512 - dh) / 2, dw, dh);
+    texture.needsUpdate = true;
+  };
+  img.src = imagePath;
+  return texture;
 }
 
 const container = document.getElementById("cube-wrapper");
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 1000);
-camera.position.set(5, 5, 5);
+const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+camera.position.set(6, 6, 6); 
 
-const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setClearColor(0x000000, 0); 
 renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableZoom = false;
-controls.enablePan = false;
-controls.enableDamping = true;
-controls.dampingFactor = 0.08;
-controls.autoRotate = true;
+controls.enableZoom = false; controls.enablePan = false;
+controls.enableDamping = true; controls.autoRotate = true;
 controls.autoRotateSpeed = 1.2;
 
 scene.add(new THREE.AmbientLight(0xffffff, 1));
-const light = new THREE.DirectionalLight(0xffffff, 0.9);
-light.position.set(6, 6, 4);
+const light = new THREE.DirectionalLight(0xffffff, 0.8);
+light.position.set(5, 5, 5);
 scene.add(light);
 
 async function loadMaterials() {
   return [
     new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos.jpeg", "Dinos") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas.jpeg", "Minas") }),
-    new THREE.MeshStandardMaterial({ map: createTextTexture("SIED", "#033773") }),
-    new THREE.MeshStandardMaterial({ map: createTextTexture("UNSJ", "#033773") }),
+    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas.jpeg", "Minería") }),
+    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minerales.png", "Minerales") }),
+    new THREE.MeshStandardMaterial({ map: createLogoWithBackground("assets/Logosiedvertical-02.png", "#00000") }),
     new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro.jpeg", "Astro") }),
     new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio.jpeg", "Bio") }),
   ];
 }
 
 async function initCube() {
-  const materials = await loadMaterials();
-  const cube = new THREE.Mesh(new THREE.BoxGeometry(3.2, 3.2, 3.2), materials);
+  const mats = await loadMaterials();
+  const cube = new THREE.Mesh(new THREE.BoxGeometry(4.5, 4.5, 4.5), mats);
   scene.add(cube);
 
-  const routes = ["index-dino.html", "minas.html", "", "", "astro.html", "bio.html"];
+  const routes = ["index-dino.html", "minas.html", "minerales.html", "", "astro.html", "bio.html"];
   const ray = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
 
@@ -464,18 +318,13 @@ async function initCube() {
   renderer.domElement.addEventListener("touchend", (e) => {
     if (e.changedTouches[0]) detect(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
   });
-  renderer.domElement.addEventListener("pointermove", (e) => {
-    const rect = renderer.domElement.getBoundingClientRect();
-    pointer.x = ((e.clientX - rect.left) / rect.width) *2 - 1;
-    pointer.y = -((e.clientY - rect.top) / rect.height)*2 +1;
-    ray.setFromCamera(pointer, camera);
-    const hit = ray.intersectObject(cube);
-    renderer.domElement.style.cursor = (hit.length && routes[hit[0].face.materialIndex] !== "") ? "pointer" : "grab";
-  });
 
+  const clock = new THREE.Clock();
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
+    const t = clock.getElapsedTime();
+    cube.position.y = Math.sin(t * 1.2) * 0.2; 
     renderer.render(scene, camera);
   }
   animate();
@@ -483,67 +332,10 @@ async function initCube() {
 
 initCube();
 
-const resizeObserver = new ResizeObserver(() => {
-  const w = container.clientWidth;
-  const h = container.clientHeight;
-  if (w && h) {
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-});
-resizeObserver.observe(container);
-
-/* Lógica de Partículas */
-const pCanvas = document.getElementById("particles");
-const pCtx = pCanvas.getContext("2d");
-
-function resizeParticles() {
-  const main = document.querySelector("main");
-  pCanvas.width = main.clientWidth;
-  pCanvas.height = main.clientHeight;
-}
-resizeParticles();
-window.addEventListener("resize", resizeParticles);
-
-const particles = [];
-const count = window.innerWidth < 850 ? 35 : 70;
-
-for (let i = 0; i < count; i++) {
-  particles.push({
-    x: Math.random() * pCanvas.width,
-    y: Math.random() * pCanvas.height,
-    r: Math.random() * 2 + .7,
-    s: Math.random() * .25 + .05
-  });
-}
-
-function animateParticles() {
-  pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
-  particles.forEach(p => {
-    pCtx.beginPath();
-    pCtx.fillStyle = "rgba(3,55,115,0.25)"; 
-    pCtx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    pCtx.fill();
-    p.y -= p.s;
-    if (p.y < -5) {
-      p.y = pCanvas.height + 5;
-      p.x = Math.random() * pCanvas.width;
-    }
-  });
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-/* Lógica de Botón Ayuda */
-const helpBtn = document.getElementById("help-btn");
-const helpModal = document.getElementById("help-modal");
-const closeHelp = document.getElementById("close-help");
-
-helpBtn.addEventListener("click", () => { helpModal.style.display = "flex"; });
-closeHelp.addEventListener("click", () => { helpModal.style.display = "none"; });
-helpModal.addEventListener("click", (e) => {
-  if (e.target === helpModal) helpModal.style.display = "none";
+window.addEventListener("resize", () => {
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
 });
 </script>
 </body>
