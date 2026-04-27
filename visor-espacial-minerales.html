@@ -16,7 +16,6 @@
     
     body {
       font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-      /* Fondo radial oscuro con tono tierra/cobrizo */
       background: radial-gradient(circle at center, #1a100a 0%, #000 100%);
       color: white;
       width: 100vw;
@@ -45,7 +44,7 @@
     }
 
     .logo span {
-      color: #b87333; /* Color cobre */
+      color: #b87333; 
     }
 
     .close-btn {
@@ -115,7 +114,6 @@
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      /* Degradado de dorado claro a cobre oscuro */
       background: linear-gradient(135deg, #fcd581, #b87333);
       color: #000;
       border: none;
@@ -141,7 +139,7 @@
       bottom: 40px;
       width: 60px;
       height: 60px;
-      background: rgba(184, 115, 51, 0.9); /* Fondo cobrizo */
+      background: rgba(184, 115, 51, 0.9); 
       border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       color: white;
@@ -241,7 +239,6 @@
     nombreUI.textContent = nombreSolicitado;
 
     btnCaptura.addEventListener('click', async () => {
-      // Destello dorado al sacar foto
       btnCaptura.style.background = "#d4af37";
       try {
         const blob = await visor.toBlob({ idealAspect: true });
