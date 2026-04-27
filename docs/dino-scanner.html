@@ -116,7 +116,6 @@
    <model-viewer 
   id="visorDino"
   src=""
-  ios-src=""
   alt="Modelo 3D"
   ar 
   ar-modes="scene-viewer webxr quick-look" 
@@ -168,13 +167,10 @@
 
  function cargarDino() {
   visor.removeAttribute('src');
-  visor.removeAttribute('ios-src');
 
   const pathGlb = BASE_PATH + dinoData.archivo;
-  const pathUsdz = BASE_PATH + dinoData.archivo.replace('.glb', '.usdz');
 
   visor.src = pathGlb;
-  visor.setAttribute('ios-src', pathUsdz);
 
   nombreUI.textContent = dinoData.nombre;
   visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
@@ -223,9 +219,6 @@
     setTimeout(() => { btnCaptura.style.background = "rgba(0,255,153,0.9)"; }, 500);
   });
 
-  
- 
-  
 </script>
 </body>
 </html>

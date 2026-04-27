@@ -120,39 +120,39 @@
     }
 
     .mineral-img {
-  height: 38vh;
-  max-height: 320px;
-  width: auto;
-  object-fit: contain;
-  transition: opacity .35s ease, transform .45s ease;
-  display: block; 
-  margin: 0 auto; 
-  filter: drop-shadow(0 28px 60px rgba(184, 115, 51, 0.15));
-  opacity: 1;
-}
+      height: 38vh;
+      max-height: 320px;
+      width: auto;
+      object-fit: contain;
+      transition: opacity .35s ease, transform .45s ease;
+      display: block; 
+      margin: 0 auto; 
+      filter: drop-shadow(0 28px 60px rgba(184, 115, 51, 0.15));
+      opacity: 1;
+    }
     .fade-out .mineral-img{ opacity:0; transform:scale(.985) }
     .fade-in .mineral-img{ opacity:1; transform:scale(1) }
 
     .mineral-name { 
-  margin-top: 15px; 
-  font-size: 30px; 
-  font-weight: 700; 
-  color: #fff; 
-}
+      margin-top: 15px; 
+      font-size: 30px; 
+      font-weight: 700; 
+      color: #fff; 
+    }
     .mineral-description { 
-  color: #b0b0b0; 
-  margin: 10px auto; 
-  max-width: 650px; 
-  line-height: 1.5;
-  font-size: 15px;
-}
+      color: #b0b0b0; 
+      margin: 10px auto; 
+      max-width: 650px; 
+      line-height: 1.5;
+      font-size: 15px;
+    }
 
     .mineral-nav { 
-  margin-top: 15px; 
-  display: flex; 
-  gap: 18px; 
-  justify-content: center; 
-}
+      margin-top: 15px; 
+      display: flex; 
+      gap: 18px; 
+      justify-content: center; 
+    }
     .nav-btn{
       width:46px; height:46px; border-radius:50%; border:1px solid #333; background:transparent;
       color:#9a9a9a; font-size:18px; cursor:pointer; transition:all .22s;
@@ -563,13 +563,13 @@
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
     
-    // Array de Minerales
+    // Array de Minerales CON LA ESCALA AGREGADA
     const minerales = [
-      { name: "Cuarzo", group: "No Metalíferos", category: "Silicatos", image: `${BASE_PATH}/assets/cuarzo.png`, description: "Mineral compuesto de sílice, de gran dureza y resistencia. Esencial para la industria tecnológica, óptica y electrónica. Se encuentra principalmente en la Región Central (Precordillera Principal), asociado a formaciones metamórficas.", capacity: "7 (Mohs)", power: "Trigonal", weight: "2.65 g/cm³", application: "Tecnología, óptica, vidrio", arMarker: "cuarzo" },
-      { name: "Calcita", group: "No Metalíferos", category: "Carbonatos", image: `${BASE_PATH}/assets/calcita.png`, description: "Mineral compuesto de carbonato de calcio. San Juan cuenta con las mayores reservas de alta calidad del país y es el primer productor nacional de cales. Es sumamente abundante en la Precordillera.", capacity: "3 (Mohs)", power: "Trigonal", weight: "2.71 g/cm³", application: "Construcción, cal, metalurgia", arMarker: "calcita" },
-      { name: "Cobre", group: "Metales Base", category: "Elementos Nativos", image: `${BASE_PATH}/assets/cobre.png`, description: "Metal rojizo, altamente maleable y excelente conductor de electricidad. Pilar fundamental de la transición energética mundial. San Juan posee megaproyectos de clase mundial en Calingasta e Iglesia.", capacity: "3 (Mohs)", power: "Cúbico", weight: "8.96 g/cm³", application: "Conductores, energía renovable", arMarker: "cobre" },
-      { name: "Plata", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/plata.png`, description: "Metal precioso muy brillante y dúctil. Fundamental para la fabricación de paneles solares y tecnología de precisión. Sus mineralizaciones están presentes en toda la región occidental cordillerana.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "10.49 g/cm³", application: "Paneles solares, medicina", arMarker: "plata" },
-      { name: "Oro", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/oro.png`, description: "El metal precioso por excelencia, valorado por su resistencia a la oxidación y alta conductividad. San Juan es la segunda provincia productora de oro del país, con operaciones en la Cordillera Frontal.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "19.3 g/cm³", application: "Electrónica de precisión, joyería", arMarker: "oro" }
+      { name: "Cuarzo", group: "No Metalíferos", category: "Silicatos", image: `${BASE_PATH}/assets/cuarzo.png`, description: "Mineral compuesto de sílice, de gran dureza y resistencia. Esencial para la industria tecnológica, óptica y electrónica. Se encuentra principalmente en la Región Central (Precordillera Principal), asociado a formaciones metamórficas.", capacity: "7 (Mohs)", power: "Trigonal", weight: "2.65 g/cm³", application: "Tecnología, óptica, vidrio", arMarker: "cuarzo", escala: "1 1 1" },
+      { name: "Calcita", group: "No Metalíferos", category: "Carbonatos", image: `${BASE_PATH}/assets/calcita.png`, description: "Mineral compuesto de carbonato de calcio. San Juan cuenta con las mayores reservas de alta calidad del país y es el primer productor nacional de cales. Es sumamente abundante en la Precordillera.", capacity: "3 (Mohs)", power: "Trigonal", weight: "2.71 g/cm³", application: "Construcción, cal, metalurgia", arMarker: "calcita", escala: "1 1 1" },
+      { name: "Cobre", group: "Metales Base", category: "Elementos Nativos", image: `${BASE_PATH}/assets/cobre.png`, description: "Metal rojizo, altamente maleable y excelente conductor de electricidad. Pilar fundamental de la transición energética mundial. San Juan posee megaproyectos de clase mundial en Calingasta e Iglesia.", capacity: "3 (Mohs)", power: "Cúbico", weight: "8.96 g/cm³", application: "Conductores, energía renovable", arMarker: "cobre", escala: "0.2 0.2 0.2" },
+      { name: "Plata", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/plata.png`, description: "Metal precioso muy brillante y dúctil. Fundamental para la fabricación de paneles solares y tecnología de precisión. Sus mineralizaciones están presentes en toda la región occidental cordillerana.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "10.49 g/cm³", application: "Paneles solares, medicina", arMarker: "plata", escala: "0.2 0.2 0.2" },
+      { name: "Oro", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/oro.png`, description: "El metal precioso por excelencia, valorado por su resistencia a la oxidación y alta conductividad. San Juan es la segunda provincia productora de oro del país, con operaciones en la Cordillera Frontal.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "19.3 g/cm³", application: "Electrónica de precisión, joyería", arMarker: "oro", escala: "0.2 0.2 0.2" }
     ];
 
     const groups = ["Todos", ...Array.from(new Set(minerales.map(m => m.group)))];
@@ -653,7 +653,6 @@
         mineralDesc.textContent = m.description;
         mineralCategory.textContent = m.category.toUpperCase();
         
-        // Mapeo de especificaciones a los campos geológicos
         specCapacity.textContent = m.capacity;
         specPower.textContent = m.power;
         specWeight.textContent = m.weight;
@@ -684,7 +683,6 @@
       if (e.key === 'ArrowRight') changeMineral(1);
     });
 
-    // ========== MOBILE MENU FUNCTIONALITY ==========
     const menuToggle = document.getElementById('menuToggle');
     const mobileSidebar = document.getElementById('mobileSidebar');
     const mobileOverlay = document.getElementById('mobileOverlay');
@@ -700,7 +698,6 @@
     menuToggle.addEventListener('click', toggleMobileMenu);
     mobileOverlay.addEventListener('click', toggleMobileMenu);
 
-    // ========== NAVEGACIÓN AR ==========
     const arCoreBtn = document.getElementById('arCoreBtn');
     const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
 
@@ -708,8 +705,8 @@
       if (filteredIndexes.length === 0) return;
       const m = minerales[filteredIndexes[currentFilteredIndex]];
       
-      // Apunta al visor espacial de minerales (asegurate de tener este archivo o ajustá el nombre)
-      const url = `${BASE_PATH}/visor-espacial-minerales.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+      // ACÁ AGREGAMOS LA ESCALA A LA URL
+      const url = `${BASE_PATH}/visor-espacial-minerales.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}&escala=${encodeURIComponent(m.escala)}`;
       window.location.href = url;
     }
 

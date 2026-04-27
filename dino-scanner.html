@@ -14,7 +14,7 @@
     body {
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
       background-color: #111; color: white;
-      width: 100vw; height: 100dvh;;
+      width: 100vw; height: 100dvh;
       display: flex; flex-direction: column; overflow: hidden;
     }
 
@@ -73,31 +73,27 @@
       cursor: pointer; z-index: 40; box-shadow: 0 4px 15px rgba(0,255,153,0.4);
     }
 
-@media (max-width: 768px) {
-
-  .model-info {
-    top: 15px !important; 
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-  }
-
-  .btn-proyectar {
-    bottom: 30px !important; 
-    width: 85% !important; 
-  }
-
-  .btn-captura {
-    bottom: 130px !important; 
-    right: 15px !important;
-    transform: scale(0.9) !important;
-  }
-
-  .controls-panel {
-    bottom: 130px !important; 
-    left: 15px !important;
-    transform: scale(0.9) !important;
-  }
-}
+    @media (max-width: 768px) {
+      .model-info {
+        top: 15px !important; 
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
+      .btn-proyectar {
+        bottom: 30px !important; 
+        width: 85% !important; 
+      }
+      .btn-captura {
+        bottom: 130px !important; 
+        right: 15px !important;
+        transform: scale(0.9) !important;
+      }
+      .controls-panel {
+        bottom: 130px !important; 
+        left: 15px !important;
+        transform: scale(0.9) !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -113,18 +109,17 @@
     </div>
 
    <model-viewer 
-  id="visorDino"
-  src=""
-  alt="Modelo 3D"
-  ar 
-  ar-modes="scene-viewer webxr quick-look" 
-  ar-scale="auto"
-  camera-controls 
-  touch-action="pan-y"
-  shadow-intensity="1">
-  
-  <button slot="ar-button" class="btn-proyectar">Proyectar en el piso</button>
-</model-viewer>
+      id="visorDino"
+      src=""
+      alt="Modelo 3D"
+      ar 
+      ar-modes="webxr scene-viewer quick-look" 
+      camera-controls 
+      touch-action="pan-y"
+      shadow-intensity="1">
+      
+      <button slot="ar-button" class="btn-proyectar">Proyectar en el piso</button>
+    </model-viewer>
 
     <div class="controls-panel">
       <button class="control-btn" id="plus">+</button>
@@ -159,25 +154,18 @@
   const dinoData = dinos.find(d => d.slug === modUrl) || dinos[1];
   let escalaActual = dinoData.escalaWeb;
 
-  function aplicarOrientacionInicial() {
-    const orientacionBase = dinoData.orientacion || '0deg 0deg 0deg';
-    visor.orientation = orientacionBase;
+  function cargarDino() {
+    const pathGlb = BASE_PATH + dinoData.archivo;
+    
+    // Asignación directa y limpia, como en la vista de minerales
+    visor.src = pathGlb;
+    nombreUI.textContent = dinoData.nombre;
+    visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+    visor.orientation = dinoData.orientacion || '0deg 0deg 0deg';
+    
+    const soundPath = isProd ? '/AppMindAr/' + dinoData.sonido : dinoData.sonido;
+    reproductorAudio.src = soundPath;
   }
-
- function cargarDino() {
-  visor.removeAttribute('src');
-
-  const pathGlb = BASE_PATH + dinoData.archivo;
-
-  visor.src = pathGlb;
-
-  nombreUI.textContent = dinoData.nombre;
-  visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
-  aplicarOrientacionInicial();
-  
-  const soundPath = isProd ? '/AppMindAr/' + dinoData.sonido : dinoData.sonido;
-  reproductorAudio.src = soundPath;
-}
 
   cargarDino();
 
