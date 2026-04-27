@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIED - Astronomía Inicio</title>
+    <title>SIED-Minerales Inicio</title>
      <link rel="icon" type="image/png" href="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png">
     <style>
         * {
@@ -13,24 +13,20 @@
         }
 
         :root {
-            /* Paleta violeta personalizada */
-            --violet-dark: #3b0d6f;
-            --violet-primary: #6b21a8;
-            --violet-accent: #8a2be2;
-            --violet-light: #c9a8ff;
-            --violet-r: 107,33,168;
-            --accent-r: 138,43,226;
+            --theme-dark: #4a2511;
+            --theme-primary: #b87333;
+            --theme-accent: #d4af37;
+            --theme-light: #fcd581;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("./assets/fondoAstro2.jpeg") no-repeat center center/cover;
+            background-color: #000; 
             color: #e0e0e0;
             overflow-x: hidden;
             overflow-y: auto;
         }
 
-        /* Contenedor principal */
         #home {
             position: relative;
             min-height: 100vh;
@@ -40,7 +36,6 @@
             overflow: visible;
         }
 
-        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -53,14 +48,13 @@
             z-index: 100;
         }
 
+        
+
         .header-logo {
-            max-height: 120px;
+            max-height: 90px; 
             width: auto;
             transition: transform 0.3s ease;
-        }
-
-        .header-logo:hover {
-            transform: scale(1.05);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .back-home-btn {
@@ -71,90 +65,56 @@
             transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             touch-action: manipulation;
         }
-        .back-home-btn:hover { background: white; color: black; transform: scale(1.1); }
 
-        .red-backdrop {
-            position: absolute;
-            right: 28%;
+        .back-home-btn:hover { 
+            background: white; color: black; transform: scale(1.1); 
+        }
+
+        .full-screen-image {
+            position: fixed; 
             top: 0;
-            width: 28%;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background: var(--violet-primary);
-            z-index: 1;
-            filter: brightness(1.2);
-            
-            /* Animación */
+            object-fit: cover; 
+            z-index: 1; 
+            filter: brightness(0.7); 
             opacity: 0;
-            animation: fadeIn 1s ease-out 0.1s forwards;
-        }
-        
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
+            animation: fadeInCover 1.2s ease-out forwards;
         }
 
+        @keyframes fadeInCover {
+            to { opacity: 1; }
+        }
 
-        .machine-image {
-            position: absolute;
-            right: 5%;
-            top: 52%;
-            transform: translateY(-50%);
-            width: 75%;
-            max-width: 1050px;
-            height: auto;
+        .color-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 20%, rgba(var(--theme-primary-rgb), 0.2) 60%, rgba(0,0,0,0.7));
             z-index: 2;
-            filter: drop-shadow(-10px 20px 50px rgba(0, 0, 0, 0.6));
-            margin-right: 60px;
-            
-            /* Animación de entrada */
-            opacity: 0;
-            animation: fadeInSlide 1.2s ease-out 0.3s forwards;
         }
 
-        @keyframes fadeInSlide {
-            0% {
-                opacity: 0;
-                transform: translateY(-50%) translateX(100px);
-                filter: drop-shadow(-10px 20px 50px rgba(0, 0, 0, 0.6)) blur(8px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(-50%) translateX(0);
-                filter: drop-shadow(-10px 20px 50px rgba(0, 0, 0, 0.6)) blur(0px);
-            }
-        }
-        
-        @keyframes fadeInSlideMobile {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Contenido principal */
         .hero-content {
-            max-width: 500px;
-            z-index: 4;
-            position: relative;
-            margin-left: 80px; 
-        }
+    max-width: 500px;
+    z-index: 4; 
+    position: relative;
+    margin-left: 120px; 
+}
 
         .hero-subtitle {
-            font-size: 14px;
-            color: #aaa;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
             margin-bottom: 20px;
             letter-spacing: 0.5px;
             position: relative;
             padding-left: 25px;
-            
-            /* Animación */
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            text-shadow: 2px 2px 6px #000000, 0 0 15px #000000;
         }
 
         .hero-subtitle::before {
@@ -165,7 +125,7 @@
             transform: translateY(-50%);
             width: 15px;
             height: 2px;
-            background-color: var(--violet-primary);
+            background-color: var(--theme-primary);
         }
 
         .hero-title {
@@ -175,27 +135,29 @@
             margin-bottom: 30px;
             letter-spacing: -1.5px;
             color: #fff;
-            
-            /* Animación */
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9);
         }
 
         .hero-description {
-            font-size: 16px;
-            color: #b0b0b0;
-            margin-bottom: 40px;
-            border-left: 2px solid var(--violet-primary);
-            padding-left: 25px;
-            line-height: 1.6;
-            
-            /* Animación */
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 0.6s forwards;
-        }
+    font-size: 16px;
+    color: #ffffff;
+    margin-bottom: 40px;
+    border-left: 2px solid var(--theme-primary);
+    padding: 15px 25px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+    background-color: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
 
         .hero-description strong {
-            color: #e0e0e0;
+            color: #fff;
             font-weight: 600;
         }
 
@@ -212,10 +174,9 @@
             padding: 10px 0;
             transition: gap 0.3s ease;
             text-decoration: none;
-            
-            /* Animación */
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.8s forwards;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
         }
 
         @keyframes fadeInUp {
@@ -242,17 +203,18 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             transition: border-color 0.3s ease;
+            background-color: rgba(0,0,0,0.3); /* Hace que el botón resalte más */
         }
 
         .learn-more-btn:hover .arrow-circle {
             border-color: #fff;
+            background-color: rgba(255,255,255,0.1);
         }
 
         .learn-more-btn .arrow {
             font-size: 20px;
         }
 
-        /* Indicador de página */
         .page-indicator {
             position: fixed;
             bottom: 40px;
@@ -270,52 +232,11 @@
             font-weight: 400;
         }
 
-        .info-section {
-            z-index: 4;
-            position: relative;
-            padding: 60px 0;
-            max-width: 1100px;
-            margin-left: 80px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-top: 16px;
-        }
-
-        .info-card {
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            padding: 18px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-        }
-
-        .info-card h3 {
-            color: #ffffff;
-            margin-bottom: 8px;
-            font-size: 18px;
-        }
-
-        .info-card p {
-            color: #cfcfcf;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        @media (max-width: 992px) {
-            .info-grid { grid-template-columns: 1fr; margin: 20px; }
-            .info-section { margin-left: 0; padding: 30px 20px; }
-        }
-
         /* Responsivo */
         @media (max-width: 1200px) {
             #home { padding: 0 80px; }
             header { padding: 30px 80px; }
             .hero-title { font-size: 54px; }
-            .machine-image { width: 80%; }
-            .red-backdrop { right: 18%; width: 30%; }
             .page-indicator { left: 80px; }
         }
 
@@ -336,7 +257,7 @@
             
             header {
                 padding: 25px 50px;
-                background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.7), transparent);
+                background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
             }
             
             .hero-content { 
@@ -364,8 +285,12 @@
                 font-size: 18px;
                 margin-bottom: 40px;
                 line-height: 1.7;
-                padding-left: 0;
+                padding: 20px; 
                 border-left: none;
+                /* En móvil aplicamos un fondo tenue por defecto ya que no hay hover */
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
             }
             
             .learn-more-btn { 
@@ -379,12 +304,6 @@
             .arrow-circle {
                 width: 40px !important;
                 height: 40px !important;
-            }
-            
-            .red-backdrop { display: none; }
-            
-            .machine-image {
-                display: none;
             }
             
             .page-indicator {
@@ -406,129 +325,47 @@
                 padding: 20px 40px;
             }
             
-            .logo {
-                font-size: 26px;
-            }
-            
-            .hero-subtitle {
-                font-size: 15px;
+            .header-logo {
+                max-height: 40px !important;
             }
             
             .hero-title {
                 font-size: 44px;
-                line-height: 1.2;
-                margin-bottom: 25px;
             }
             
             .hero-description {
                 font-size: 17px;
-                line-height: 1.7;
-                margin-bottom: 35px;
-            }
-            
-            .learn-more-btn {
-                font-size: 17px;
-            }
-            
-            .page-indicator {
-                font-size: 38px;
-                margin-top: 35px;
             }
         }
         
         @media (max-width: 480px) {
-            #home {
-                padding: 80px 30px 50px;
-            }
-            
-            header {
-                padding: 18px 30px;
-            }
-            
-            .logo {
-                font-size: 24px;
-            }
-            
-            .hero-subtitle {
-                font-size: 14px;
-                margin-bottom: 20px;
-            }
-            
-            .hero-title {
-                font-size: 36px;
-                margin-bottom: 20px;
-                line-height: 1.2;
-            }
-            
-            .hero-description {
-                font-size: 16px;
-                margin-bottom: 30px;
-                line-height: 1.6;
-            }
-            
-            .learn-more-btn {
-                font-size: 16px;
-                padding: 10px 0;
-                gap: 18px;
-            }
-            
-            .arrow-circle {
-                width: 38px !important;
-                height: 38px !important;
-            }
-            
-            .page-indicator {
-                font-size: 32px;
-                margin-top: 30px;
-            }
-            
-            .page-indicator span {
-                font-size: 20px;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            #home {
-                padding: 75px 25px 45px;
-            }
-            
-            .hero-subtitle {
-                font-size: 13px;
-            }
-            
-            .hero-title {
-                font-size: 32px;
-            }
-            
-            .hero-description {
-                font-size: 15px;
-            }
-            
-            .learn-more-btn {
-                font-size: 15px;
-            }
+            #home { padding: 80px 30px 50px; }
+            header { padding: 18px 30px; }
+            .header-logo { max-height: 35px !important; }
+            .hero-title { font-size: 36px; }
+            .hero-description { font-size: 16px; }
         }
     </style>
 </head>
 <body>
     <div id="home">
         <header>
-            <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" alt="Logo SIED" class="header-logo">
+           <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" alt="Logo SIED" class="header-logo">
             <a href="index.html" class="back-home-btn" title="Volver al Menú Principal">🏠</a>
         </header>
 
-        <div class="red-backdrop"></div>
-        <img src="./assets/astronaut.png" alt="Astronauta" class="machine-image">
+        <img src="./assets/sanJuan.png" alt="Expo Minera San Juan" class="full-screen-image">
+        <div class="color-backdrop"></div>
 
         <div class="hero-content">
-            <div class="hero-subtitle">Recursos educativos interactivos</div>
-            <h1 class="hero-title">Explora el Universo en Realidad Aumentada</h1>
+            <div class="hero-subtitle">Recursos Minerales de San Juan</div>
+            <h1 class="hero-title">Explorá los tesoros de nuestra tierra</h1>
             <p class="hero-description">
-                Aprende conceptos básicos de astronomía y visualiza modelos 3D del Sol, la Luna, la Tierra y otros cuerpos celestes.
-                Pulsa "Explorar AR" para abrir la experiencia y visualizar los modelos en tu entorno.
+                Nuestra geología esconde minerales fundamentales para la industria y la tecnología. 
+                Pulsa "Explorar Minerales" para descubrir en Realidad Aumentada los recursos más representativos de San Juan.
             </p>
-            <a href="astro-elements.html" class="learn-more-btn">
-                Explorar AR
+            <a href="minerales-elements.html" class="learn-more-btn">
+                Explorar Minerales
                 <span class="arrow-circle">
                     <span class="arrow">&rarr;</span>
                 </span>

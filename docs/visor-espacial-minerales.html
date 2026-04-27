@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>SIED - AR Espacial Biología</title>
+  <title>Minerales - AR Visor</title>
    <link rel="icon" type="image/png" href="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png">
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
@@ -16,7 +16,8 @@
     
     body {
       font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-      background: radial-gradient(circle at center, #1a2010 0%, #0a1005 100%);
+      /* Fondo radial oscuro con tono tierra/cobrizo */
+      background: radial-gradient(circle at center, #1a100a 0%, #000 100%);
       color: white;
       width: 100vw;
       height: 100dvh;
@@ -44,7 +45,7 @@
     }
 
     .logo span {
-      color: #779B2C;
+      color: #b87333; /* Color cobre */
     }
 
     .close-btn {
@@ -85,26 +86,28 @@
     }
 
     .model-info {
-      position: absolute;
-      top: 110px;
-      left: 200px !important;
-      transform: none !important;
-      background: rgba(119, 155, 44, 0.15);
-      padding: 12px 24px;
-      border-radius: 12px;
-      border: 1px solid rgba(119, 155, 44, 0.5);
-      text-align: center;
-      pointer-events: none;
-      backdrop-filter: blur(8px);
-      z-index: 10;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+    position: absolute;
+    top: 110px; 
+    left: 200px !important; 
+    transform: none !important; 
+    background: rgba(0, 0, 0, 0.5); 
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    text-align: left;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    pointer-events: none;
+}
 
     .model-name {
       font-size: 20px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
+      color: #fcd581; 
     }
 
     .btn-proyectar {
@@ -112,14 +115,15 @@
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, #a0cc44, #779B2C);
+      /* Degradado de dorado claro a cobre oscuro */
+      background: linear-gradient(135deg, #fcd581, #b87333);
       color: #000;
       border: none;
       border-radius: 30px;
       padding: 16px 32px;
       font-size: 16px;
       font-weight: bold;
-      box-shadow: 0 4px 15px rgba(119, 155, 44, 0.3);
+      box-shadow: 0 4px 15px rgba(184, 115, 51, 0.4);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -137,7 +141,7 @@
       bottom: 40px;
       width: 60px;
       height: 60px;
-      background: rgba(119, 155, 44, 0.9);
+      background: rgba(184, 115, 51, 0.9); /* Fondo cobrizo */
       border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       color: white;
@@ -147,19 +151,23 @@
       justify-content: center;
       cursor: pointer;
       z-index: 40;
-      box-shadow: 0 4px 15px rgba(119, 155, 44, 0.4);
+      box-shadow: 0 4px 15px rgba(184, 115, 51, 0.4);
       transition: transform 0.2s, background 0.2s;
     }
 
     .btn-captura:active {
       transform: scale(0.9);
     }
-    @media (max-width: 768px) {
 
+    @media (max-width: 768px) {
         .model-info {
-            top: 65px ; 
-            left: 50% !important;
-            transform: translateX(-50%) !important;
+        top: 90px !important;
+        left: 20px !important;
+        padding: 8px 16px;
+    }
+    
+        .model-name {
+            font-size: 16px !important;
         }
 
         .btn-proyectar {
@@ -185,7 +193,7 @@
 <body>
 
   <div class="header">
-    <div class="logo">SIED <span>Bio</span></div>
+    <div class="logo">SIED <span>Minerales</span></div>
     <button class="close-btn" onclick="window.history.back()" title="Volver">←</button>
   </div>
 
@@ -198,15 +206,16 @@
       id="visorModelo"
       src=""
       alt="Modelo 3D"
-      scale="0.5 0.5 0.5"
+      scale="1 1 1" 
       ar 
       ar-modes="webxr scene-viewer quick-look" 
       camera-controls 
       auto-rotate
       autoplay
-      shadow-intensity="1">      
+      shadow-intensity="1">
+      
       <button slot="ar-button" class="btn-proyectar">
-        <span></span> Proyectar en el ambiente
+        <span></span> Proyectar en el espacio
       </button>
 
     </model-viewer>
@@ -216,8 +225,9 @@
 
   <script>
     const parametrosUrl = new URLSearchParams(window.location.search);
-    const modeloSolicitado = parametrosUrl.get('modelo') || 'mariposa';
-    const nombreSolicitado = parametrosUrl.get('nombre') || 'Especie';
+
+    const modeloSolicitado = parametrosUrl.get('modelo') || 'cuarzo';
+    const nombreSolicitado = parametrosUrl.get('nombre') || 'Cuarzo';
 
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
@@ -227,16 +237,18 @@
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
 
+  
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
     btnCaptura.addEventListener('click', async () => {
-      btnCaptura.style.background = "orange";
+      // Destello dorado al sacar foto
+      btnCaptura.style.background = "#d4af37";
       try {
         const blob = await visor.toBlob({ idealAspect: true });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.download = `BioAR-${Date.now()}.png`;
+        link.download = `MineralAR-${Date.now()}.png`;
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
@@ -244,7 +256,8 @@
         console.error(error);
       }
       setTimeout(() => {
-        btnCaptura.style.background = "rgba(119, 155, 44, 0.9)";
+  
+        btnCaptura.style.background = "rgba(184, 115, 51, 0.9)";
       }, 500);
     });
   </script>
