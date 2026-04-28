@@ -25,6 +25,11 @@
       overflow: hidden;
     }
 
+    /* Evitar zoom con doble toque en botones */
+    button, a {
+      touch-action: manipulation;
+    }
+
     .header {
       padding: 20px 24px;
       display: flex;
@@ -107,6 +112,39 @@
       letter-spacing: 1px;
     }
 
+    /* Panel de controles añadido para Bio */
+    .controls-panel {
+      position: absolute; 
+      left: 20px; 
+      bottom: 30px;
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      z-index: 150;
+    }
+
+    .control-btn {
+      width: 55px; 
+      height: 55px; 
+      background: rgba(119, 155, 44, 0.2); 
+      border: 2px solid #779B2C;
+      border-radius: 12px; 
+      color: #a0cc44; 
+      font-size: 24px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .control-btn:active { 
+      background: #779B2C; 
+      color: #fff; 
+    }
+
     .btn-proyectar {
       position: absolute;
       bottom: 40px;
@@ -154,10 +192,10 @@
     .btn-captura:active {
       transform: scale(0.9);
     }
-    @media (max-width: 768px) {
 
+    @media (max-width: 768px) {
         .model-info {
-            top: 65px ; 
+            top: 65px !important; 
             left: 50% !important;
             transform: translateX(-50%) !important;
         }
@@ -198,18 +236,24 @@
       id="visorModelo"
       src=""
       alt="Modelo 3D"
-      scale="0.5 0.5 0.5"
       ar 
       ar-modes="webxr scene-viewer quick-look" 
       camera-controls 
+      touch-action="pan-y"
       auto-rotate
       autoplay
       shadow-intensity="1">      
       <button slot="ar-button" class="btn-proyectar">
         <span></span> Proyectar en el ambiente
       </button>
-
     </model-viewer>
+
+    <div class="controls-panel">
+      <button class="control-btn" id="plus">+</button>
+      <button class="control-btn" id="minus">-</button>
+      <button class="control-btn" id="left">↺</button>
+      <button class="control-btn" id="right">↻</button>
+    </div>
     
     <button class="btn-captura" id="btnCaptura">📷</button>
   </div>
@@ -218,17 +262,43 @@
     const parametrosUrl = new URLSearchParams(window.location.search);
     const modeloSolicitado = parametrosUrl.get('modelo') || 'mariposa';
     const nombreSolicitado = parametrosUrl.get('nombre') || 'Especie';
+    
+    // Capturamos el número exacto de escala (dejamos 0.5 por defecto como tenías antes)
+    let escalaActual = parseFloat(parametrosUrl.get('escala')) || 0.5;
 
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
     const btnCaptura = document.getElementById('btnCaptura');
-
 
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
 
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
+
+    // Aplicamos la escala inicial 
+    visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+
+    // Lógica para botones de control de giro y tamaño
+    let timer;
+    function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
+    function detenerAccion() { clearInterval(timer); }
+
+    const acciones = {
+      plus: () => { escalaActual += 0.005; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
+      minus: () => { if (escalaActual > 0.005) escalaActual -= 0.005; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
+      left: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta - 0.05}rad ${o.phi}rad ${o.radius}m`; },
+      right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.05}rad ${o.phi}rad ${o.radius}m`; }
+    };
+
+    ['plus', 'minus', 'left', 'right'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('mousedown', () => iniciarAccion(acciones[id]));
+      el.addEventListener('touchstart', (e) => { e.preventDefault(); iniciarAccion(acciones[id]); }, { passive: false });
+      el.addEventListener('mouseup', detenerAccion);
+      el.addEventListener('mouseleave', detenerAccion);
+      el.addEventListener('touchend', detenerAccion);
+    });
 
     btnCaptura.addEventListener('click', async () => {
       btnCaptura.style.background = "orange";
