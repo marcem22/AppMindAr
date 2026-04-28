@@ -13,7 +13,6 @@
       background: linear-gradient(rgba(0, 20, 0, 0.85), rgba(0, 10, 0, 0.95)), url('assets/bosque.png') no-repeat center center fixed;
       background-size: cover;
       color:#fff; 
-      /* Se activa el scroll vertical para pantallas pequeñas de escritorio */
       overflow-x:hidden; overflow-y:auto; 
     }
 
@@ -265,10 +264,10 @@
     const bioModels = [
       { name: "Mariposa Cometa", group: "Fauna", category: "Insecto", image: "assets/mariposa.png", description: "Conocida por su vuelo lento y elegante. Es un polinizador clave en las regiones tropicales y demuestra la metamorfosis completa de los insectos.", subtitle: "Idea leuconoe", family: "Nymphalidae", type: "Insecta", habitat: "Polinizador", arMarker: "mariposa" },
       { name: "Helecho", group: "Flora", category: "Planta Vascular", image: "assets/helecho.png", description: "Plantas vasculares sin semillas que se reproducen mediante esporas. Son fósiles vivientes que dominaron la Tierra hace millones de años.", subtitle: "Pteridophyta", family: "Polypodiaceae", type: "Plantae", habitat: "Bosques húmedos", arMarker: "helecho" },
-      { name: "Cactus Catedral", group: "Flora", category: "Suculenta", image: "assets/cactus.jpg", description: "A pesar de su nombre, no es un verdadero cactus, sino una planta suculenta. Se caracteriza por sus tallos altos de tres lados (triangulares) y por tener pequeñas hojas verdes en las aristas.", subtitle: "Euphorbia trigona", family: "Euphorbiaceae", type: "Plantae", habitat: "África Central", arMarker: "cactus" },
+      { name: "Cactus Catedral", group: "Flora", category: "Suculenta", image: "assets/cactus.png", description: "A pesar de su nombre, no es un verdadero cactus, sino una planta suculenta. Se caracteriza por sus tallos altos de tres lados (triangulares) y por tener pequeñas hojas verdes en las aristas.", subtitle: "Euphorbia trigona", family: "Euphorbiaceae", type: "Plantae", habitat: "África Central", arMarker: "cactus" },
       { name: "Mariquita", group: "Fauna", category: "Insecto", image: "assets/mariquita.png", description: "Pequeño escarabajo de la familia Coccinellidae. Es muy apreciado en la agricultura porque funciona como controlador biológico de plagas, alimentándose vorazmente de pulgones y ácaros.", subtitle: "Coccinellidae", family: "Coccinellidae", type: "Insecta", habitat: "Jardines y cultivos", arMarker: "mariquita" },
       { name: "Araña Lobo", group: "Fauna", category: "Arácnido", image: "assets/arania.png", description: "Arácnido cazador que no teje telarañas para atrapar presas, sino que las persigue gracias a su excelente visión y agilidad.", subtitle: "Lycosidae", family: "Lycosidae", type: "Arachnida", habitat: "Terrestre / Cazador", arMarker: "arania" },
-      { name: "Grillo", group: "Fauna", category: "Insecto", image: "assets/grillo.jpeg", description: "Insecto omnívoro de hábitos nocturnos. Es famoso por su canto (estridulación), que producen los machos frotando sus alas para atraer a las hembras.", subtitle: "Gryllidae", family: "Gryllidae", type: "Insecta", habitat: "Praderas y grietas", arMarker: "grillo" }
+      { name: "Grillo", group: "Fauna", category: "Insecto", image: "assets/grillo.png", description: "Insecto omnívoro de hábitos nocturnos. Es famoso por su canto (estridulación), que producen los machos frotando sus alas para atraer a las hembras.", subtitle: "Gryllidae", family: "Gryllidae", type: "Insecta", habitat: "Praderas y grietas", arMarker: "grillo" }
     ];
 
     const groups = ["Todas", ...Array.from(new Set(bioModels.map(m => m.group)))];
