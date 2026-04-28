@@ -290,19 +290,21 @@
     </aside>
   </div>
 
-  <div class="page-indicator" id="pageIndicator">01 <span>/ 06</span></div>
+  <div class="page-indicator" id="pageIndicator">01 <span>/ 07</span></div>
 
  <script>
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
 
     const dinoModels = [
+      { name: "Giganotosaurus", group: "Terópodos", category: "Carnívoro", image: "./assets/giganotosaurus.png", description: "Uno de los mayores terópodos conocidos, superando incluso al T-Rex en tamaño. Descubierto en la Patagonia, Argentina.", diet: "Carnívoro", period: "Cretácico", weight: "8,500 kg", length: "13 metros", arMarker: "giganotosaurus" },
       { name: "Tyrannosaurus Rex", group: "Terópodos", category: "Carnívoro", image: "./assets/trex.png", description: "Uno de los depredadores terrestres más grandes y feroces de todos los tiempos.", diet: "Carnívoro", period: "Cretácico", weight: "8,000 kg", length: "12 metros", arMarker: "trex" },
       { name: "Triceratops", group: "Ceratópsidos", category: "Herbívoro", image: "./assets/triceratops.png", description: "Reconocible por sus tres cuernos y su gran gola ósea, un tanque viviente.", diet: "Herbívoro", period: "Cretácico", weight: "6,000 kg", length: "9 metros", arMarker: "triceratops" },
       { name: "Velociraptor", group: "Terópodos", category: "Carnívoro", image: "./assets/velociraptor.png", description: "Depredador pequeño, ágil e inteligente, conocido por la garra en forma de hoz.", diet: "Carnívoro", period: "Cretácico", weight: "15 kg", length: "2 metros", arMarker: "velociraptor" },
       { name: "Brachiosaurus", group: "Saurópodos", category: "Herbívoro", image: "./assets/brachiosaurus.png", description: "Un gigante de cuello largo adaptado para alimentarse de las copas altas.", diet: "Herbívoro", period: "Jurásico", weight: "40,000 kg", length: "26 metros", arMarker: "brachiosaurus" },
       { name: "Stegosaurus", group: "Tireóforos", category: "Herbívoro", image: "./assets/stegosaurio.png", description: "Famoso por las grandes placas óseas en su espalda y su cola armada.", diet: "Herbívoro", period: "Jurásico", weight: "5,000 kg", length: "9 metros", arMarker: "stegosaurio" },
       { name: "Ankylosaurus", group: "Tireóforos", category: "Herbívoro", image: "./assets/ankylosaurus.png", description: "Dinosaurio acorazado equipado con una maza ósea en la punta de su cola.", diet: "Herbívoro", period: "Cretácico", weight: "6,000 kg", length: "8 metros", arMarker: "ankylosaurus" }
+      
     ];
 
     const groups = ["Todas", ...Array.from(new Set(dinoModels.map(m => m.group)))];
@@ -421,7 +423,7 @@
       window.location.href = `${BASE_PATH}/dino-scanner.html?modelo=${dino.arMarker}`;
     }
 
-    // Le asignamos la función a los dos botones de la interfaz
+
     if(dom.btnDesktop) dom.btnDesktop.addEventListener('click', openARCore);
     if(dom.btnMobile) dom.btnMobile.addEventListener('click', openARCore);
 
