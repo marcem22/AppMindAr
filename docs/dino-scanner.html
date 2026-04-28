@@ -135,7 +135,7 @@
  <script>
   const dinos = [
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
-    { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.20, orientacion: '0deg 0deg 0deg' },
+    { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
     { slug: 'velociraptor', archivo: 'velociraptor.glb', sonido: 'sounds/velociraptor.mp3', nombre: 'Velociraptor', escalaWeb: 0.495, orientacion: '0deg 0deg 0deg'},
     { slug: 'stegosaurio', archivo: 'stegosaurio.glb', sonido: 'sounds/stegosaurio.mp3', nombre: 'Stegosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
@@ -157,8 +157,7 @@
 
   function cargarDino() {
     const pathGlb = BASE_PATH + dinoData.archivo;
-    
-    // Asignación directa y limpia, como en la vista de minerales
+
     visor.src = pathGlb;
     nombreUI.textContent = dinoData.nombre;
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;

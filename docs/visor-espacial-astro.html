@@ -25,6 +25,11 @@
       overflow: hidden;
     }
 
+    /* Solución para evitar zoom con doble toque en los controles del visor */
+    button, a {
+      touch-action: manipulation;
+    }
+
     .header {
       padding: 20px 24px;
       display: flex;
@@ -82,22 +87,24 @@
       height: 100%;
       background: transparent; 
       --poster-color: transparent;
+      touch-action: none;
     }
 
     .model-info {
       position: absolute;
-      top: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(107, 33, 168, 0.15);
+      top: 110px; 
+      left: 200px !important; 
+      transform: none !important; 
+      background: rgba(0, 0, 0, 0.5); 
       padding: 12px 24px;
       border-radius: 12px;
-      border: 1px solid rgba(138, 43, 226, 0.5);
-      text-align: center;
-      pointer-events: none;
-      backdrop-filter: blur(8px);
+      border: 1px solid rgba(138, 43, 226, 0.3);
+      text-align: left;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       z-index: 10;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      pointer-events: none;
     }
 
     .model-name {
@@ -105,6 +112,40 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
+      color: #c9a8ff;
+    }
+
+    /* Panel de controles añadido para Astro */
+    .controls-panel {
+      position: absolute; 
+      left: 20px; 
+      bottom: 30px;
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px; 
+      z-index: 150;
+    }
+
+    .control-btn {
+      width: 55px; 
+      height: 55px; 
+      background: rgba(138, 43, 226, 0.2); 
+      border: 2px solid #8a2be2;
+      border-radius: 12px; 
+      color: #c9a8ff; 
+      font-size: 24px; 
+      font-weight: bold; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .control-btn:active { 
+      background: #8a2be2; 
+      color: #fff; 
     }
 
     .btn-proyectar {
@@ -125,6 +166,7 @@
       align-items: center;
       gap: 10px;
       transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 100;
     }
 
     .btn-proyectar:active {
@@ -154,12 +196,16 @@
     .btn-captura:active {
       transform: scale(0.9);
     }
-    @media (max-width: 768px) {
 
+    @media (max-width: 768px) {
         .model-info {
-            top: 65px ; 
-            left: 50% !important;
-            transform: translateX(-50%) !important;
+            top: 90px !important;
+            left: 20px !important;
+            padding: 8px 16px;
+        }
+
+        .model-name {
+            font-size: 16px !important;
         }
 
         .btn-proyectar {
@@ -197,13 +243,11 @@
     <model-viewer 
       id="visorModelo"
       src=""
-      alt="Modelo 3D"
-      scale="0.2 0.2 0.2"
+      alt="Modelo Celeste"
       ar 
       ar-modes="webxr scene-viewer quick-look" 
       camera-controls 
-      auto-rotate
-      autoplay
+      touch-action="pan-y"
       shadow-intensity="1">
       
       <button slot="ar-button" class="btn-proyectar">
@@ -211,6 +255,13 @@
       </button>
 
     </model-viewer>
+
+    <div class="controls-panel">
+      <button class="control-btn" id="plus">+</button>
+      <button class="control-btn" id="minus">-</button>
+      <button class="control-btn" id="left">↺</button>
+      <button class="control-btn" id="right">↻</button>
+    </div>
     
     <button class="btn-captura" id="btnCaptura">📷</button>
   </div>
@@ -219,18 +270,45 @@
     const parametrosUrl = new URLSearchParams(window.location.search);
     const modeloSolicitado = parametrosUrl.get('modelo') || 'sun';
     const nombreSolicitado = parametrosUrl.get('nombre') || 'Objeto Celeste';
+    
+    // Capturamos el número exacto de escala
+    let escalaActual = parseFloat(parametrosUrl.get('escala')) || 0.2;
 
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
     const btnCaptura = document.getElementById('btnCaptura');
 
-    // Usamos la validación inteligente para que ande con Ngrok
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
 
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
+    // Aplicamos la escala inicial que viene de la lista
+    visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+
+    // Lógica para botones de control
+    let timer;
+    function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
+    function detenerAccion() { clearInterval(timer); }
+
+    const acciones = {
+      plus: () => { escalaActual += 0.002; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
+      minus: () => { if (escalaActual > 0.002) escalaActual -= 0.002; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
+      left: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta - 0.05}rad ${o.phi}rad ${o.radius}m`; },
+      right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.05}rad ${o.phi}rad ${o.radius}m`; }
+    };
+
+    ['plus', 'minus', 'left', 'right'].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener('mousedown', () => iniciarAccion(acciones[id]));
+      el.addEventListener('touchstart', (e) => { e.preventDefault(); iniciarAccion(acciones[id]); }, { passive: false });
+      el.addEventListener('mouseup', detenerAccion);
+      el.addEventListener('mouseleave', detenerAccion);
+      el.addEventListener('touchend', detenerAccion);
+    });
+
+    // Función de foto
     btnCaptura.addEventListener('click', async () => {
       btnCaptura.style.background = "orange";
       try {
