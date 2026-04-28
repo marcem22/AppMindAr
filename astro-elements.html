@@ -18,30 +18,33 @@
     }
     html,body{height:100%}
     body {
-  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
-  background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
-  color: #fff; 
-  overflow-x: hidden; 
-  overflow-y: auto; 
-}
-
-   header {
-  position: fixed; top: 0; left: 0; width: 100%;
-  padding: 15px 56px;
-  display: flex; align-items: center;
-  z-index: 50; background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
-  opacity: 0;
-  animation: fadeInDown 0.8s ease-out 0.1s forwards;
-}
-
-.header-logo {
-  max-height: 65px; 
-  width: auto;
-  transition: transform 0.3s ease;
-}
-    .header-logo:hover{
-      transform: scale(1.05);
+      font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
+      color: #fff; 
+      overflow-x: hidden; 
+      overflow-y: auto; 
     }
+
+    /* Solución para evitar el zoom con doble toque en los botones */
+    button, a, .nav-btn, .cat-btn, .machinery-list li {
+      touch-action: manipulation;
+    }
+
+    header {
+      position: fixed; top: 0; left: 0; width: 100%;
+      padding: 15px 56px;
+      display: flex; align-items: center;
+      z-index: 50; background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
+      opacity: 0;
+      animation: fadeInDown 0.8s ease-out 0.1s forwards;
+    }
+
+    .header-logo {
+      max-height: 65px; 
+      width: auto;
+      transition: transform 0.3s ease;
+    }
+    .header-logo:hover{ transform: scale(1.05); }
     
     @keyframes fadeInDown {
       from { opacity: 0; transform: translateY(-20px); }
@@ -57,14 +60,14 @@
       padding: 76px 60px 30px;
     }
 
-   .sidebar-left {
-  display: flex; flex-direction: column; gap: 18px;
-  align-self: flex-start; 
-  justify-content: flex-start; 
-  margin-top: 20px; 
-  opacity: 0;
-  animation: fadeInLeft 0.8s ease-out 0.3s forwards;
-}
+    .sidebar-left {
+      display: flex; flex-direction: column; gap: 18px;
+      align-self: flex-start; 
+      justify-content: flex-start; 
+      margin-top: 20px; 
+      opacity: 0;
+      animation: fadeInLeft 0.8s ease-out 0.3s forwards;
+    }
     .sidebar-left h3{
       color:var(--violet-primary); font-size:13px; text-transform:uppercase; letter-spacing:2px;
     }
@@ -123,23 +126,23 @@
     }
 
     .machine-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform .45s ease, filter .45s ease;
-  height: 280px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .45s ease, filter .45s ease;
+      height: 280px; 
     }
     .machine-img {
-  width: 480px;
-  max-width: 70vw;
-  max-height: 100%;
-  object-fit: contain; 
-  transition: opacity .35s ease, transform .45s ease;
-  display: block; 
-  margin: 0 auto; 
-  filter: drop-shadow(0 28px 60px rgba(var(--violet-r),0.25));
-  opacity: 1;
-}
+      width: 480px;
+      max-width: 70vw;
+      max-height: 100%;
+      object-fit: contain; 
+      transition: opacity .35s ease, transform .45s ease;
+      display: block; 
+      margin: 0 auto; 
+      filter: drop-shadow(0 28px 60px rgba(var(--violet-r),0.25));
+      opacity: 1;
+    }
     .fade-out .machine-img{ opacity:0; transform:scale(.985) }
     .fade-in .machine-img{ opacity:1; transform:scale(1) }
 
@@ -246,7 +249,7 @@
       bottom:130px; 
       left:60px; 
       font-size:42px; 
-      color:rba(255,255,255,0.08); 
+      color:rgba(255,255,255,0.08); 
       font-weight:700;
       opacity: 0;
       animation: fadeInUp 0.8s ease-out 0.7s forwards;
@@ -562,14 +565,15 @@
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
 
+    // ¡Acá está la magia! Le agregamos "escala" a cada objeto.
     const machines = [
-      {name: "Luna",group: "Astronomía",category: "Cuerpos Celestes",image: `${BASE_PATH}/assets/lunaNueva.png`,description: "Visualización fotorrealista de la superficie lunar basada en datos topográficos de misiones espaciales recientes, que permite observar con precisión milimétrica cráteres de impacto, mares lunares y accidentes geográficos.",diameter: "3,474 km",mass: "7.347 x 10²² kg",distance: "384,400 km",notes: "Imagen procesada a partir de capturas orbitales de alta definición para una experiencia de realidad aumentada inmersiva.",arMarker: "lunaNueva"},
-      { name: "Sol", group: "Astronomía", category: "Estrella", image: `${BASE_PATH}/assets/sun.png`, description: "La estrella en el centro de nuestro sistema solar. Fuente principal de energía y luz.", diameter: "1,392,700 km", mass: "1.989 × 10^30 kg", distance: "0 km (referencia)", notes: "Composición: hidrógeno y helio.", arMarker: "sun" },
-      { name: "Astronauta", group: "Astronomía", category: "Humano", image: `${BASE_PATH}/assets/astronauta.png`, description: "Modelo de un astronauta en traje espacial. Ideal para experiencias educativas y demostraciones.", diameter: "N/A", mass: "~80 kg (traje incluido)", distance: "Variable", notes: "Representación humana para interacción AR.", arMarker: "astronauta" },
-      { name: "Rover Perseverance", group: "Astronomía", category: "Rover", image: `${BASE_PATH}/assets/rover2.png`, description: "Rover NASA Perseverance: vehículo robótico que explora la superficie de Marte en búsqueda de signos de vida pasada y recogida de muestras.", diameter: "≈ 3 m (longitud)", mass: "≈ 1,025 kg", distance: "~225,000,000 km (media)", notes: "Aterrizó en Marte el 18 de febrero de 2021.", arMarker: "rover2" },
-      { name: "Luna", group: "Astronomía", category: "Satélite", image: `${BASE_PATH}/assets/moon.png`, description: "El satélite natural de la Tierra. Superficie con cráteres y mares basálticos.", diameter: "3,474 km", mass: "7.35 × 10^22 kg", distance: "384,400 km", notes: "Fases: nueva, creciente, llena, menguante.", arMarker: "moon" },
-      { name: "Tierra", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/tierra.png`, description: "Nuestro planeta, con océanos y atmósfera que sustenta la vida.", diameter: "12,742 km", mass: "5.97 × 10^24 kg", distance: "149,600,000 km", notes: "Composición: núcleo, manto y corteza.", arMarker: "earth" },
-      { name: "Marte", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/marte.png`, description: "El planeta rojo, objetivo de múltiples misiones robóticas y estudios sobre habitabilidad.", diameter: "6,779 km", mass: "6.39 × 10^23 kg", distance: "~227,900,000 km (media)", notes: "Características: casquetes polares y valles profundos.", arMarker: "marte" },
+      {name: "Luna",group: "Astronomía",category: "Cuerpos Celestes",image: `${BASE_PATH}/assets/lunaNueva.png`,description: "Visualización fotorrealista de la superficie lunar...",diameter: "3,474 km",mass: "7.347 x 10²² kg",distance: "384,400 km",notes: "Imagen procesada a partir de capturas orbitales.",arMarker: "lunaNueva", escala: 0.2},
+      { name: "Sol", group: "Astronomía", category: "Estrella", image: `${BASE_PATH}/assets/sun.png`, description: "La estrella en el centro de nuestro sistema solar.", diameter: "1,392,700 km", mass: "1.989 × 10^30 kg", distance: "0 km (referencia)", notes: "Composición: hidrógeno y helio.", arMarker: "sun", escala: 0.015 },
+      { name: "Astronauta", group: "Astronomía", category: "Humano", image: `${BASE_PATH}/assets/astronauta.png`, description: "Modelo de un astronauta en traje espacial.", diameter: "N/A", mass: "~80 kg (traje incluido)", distance: "Variable", notes: "Representación humana para interacción AR.", arMarker: "astronauta", escala: 0.5 },
+      { name: "Rover Perseverance", group: "Astronomía", category: "Rover", image: `${BASE_PATH}/assets/rover2.png`, description: "Rover NASA Perseverance: vehículo robótico que explora la superficie de Marte.", diameter: "≈ 3 m (longitud)", mass: "≈ 1,025 kg", distance: "~225,000,000 km (media)", notes: "Aterrizó en Marte el 18 de febrero de 2021.", arMarker: "rover2", escala: 0.5 },
+      { name: "Luna", group: "Astronomía", category: "Satélite", image: `${BASE_PATH}/assets/moon.png`, description: "El satélite natural de la Tierra.", diameter: "3,474 km", mass: "7.35 × 10^22 kg", distance: "384,400 km", notes: "Fases: nueva, creciente, llena, menguante.", arMarker: "moon", escala: 0.2 },
+      { name: "Tierra", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/tierra.png`, description: "Nuestro planeta, con océanos y atmósfera que sustenta la vida.", diameter: "12,742 km", mass: "5.97 × 10^24 kg", distance: "149,600,000 km", notes: "Composición: núcleo, manto y corteza.", arMarker: "earth", escala: 0.005 },
+      { name: "Marte", group: "Astronomía", category: "Planeta", image: `${BASE_PATH}/assets/marte.png`, description: "El planeta rojo, objetivo de múltiples misiones robóticas.", diameter: "6,779 km", mass: "6.39 × 10^23 kg", distance: "~227,900,000 km (media)", notes: "Características: casquetes polares y valles profundos.", arMarker: "marte", escala: 0.005 },
     ];
 
     const groups = ["Todas", ...Array.from(new Set(machines.map(m => m.category)))];
@@ -751,7 +755,8 @@
     function irAExperienciaEspacial() {
       if (filteredIndexes.length === 0) return;
       const m = machines[filteredIndexes[currentFilteredIndex]];
-      const url = `${BASE_PATH}/visor-espacial-astro.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}`;
+      // Pasamos la escala por la URL
+      const url = `${BASE_PATH}/visor-espacial-astro.html?modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}&escala=${m.escala}`;
       window.location.href = url;
     }
 

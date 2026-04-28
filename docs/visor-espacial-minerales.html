@@ -226,18 +226,21 @@
 
     const modeloSolicitado = parametrosUrl.get('modelo') || 'cuarzo';
     const nombreSolicitado = parametrosUrl.get('nombre') || 'Cuarzo';
+    // ACÁ RECIBIMOS LA ESCALA
+    const escalaSolicitada = parametrosUrl.get('escala') || '1 1 1';
 
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
     const btnCaptura = document.getElementById('btnCaptura');
 
-
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
 
-  
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
+    
+    // Y ACÁ LE APLICAMOS LA ESCALA AL MODELO
+    visor.scale = escalaSolicitada;
 
     btnCaptura.addEventListener('click', async () => {
       btnCaptura.style.background = "#d4af37";
@@ -253,7 +256,6 @@
         console.error(error);
       }
       setTimeout(() => {
-  
         btnCaptura.style.background = "rgba(184, 115, 51, 0.9)";
       }, 500);
     });

@@ -13,7 +13,9 @@
       background: radial-gradient(circle at center, #1a100a 0%, #000 100%);
       color:#fff; overflow:hidden;
     }
-
+    button, a, .nav-btn, .cat-btn, .mineral-list li {
+  touch-action: manipulation;
+}
     /* Colores del tema minero */
     :root {
         --theme-dark: #4a2511;
@@ -567,9 +569,10 @@
     const minerales = [
       { name: "Cuarzo", group: "No Metalíferos", category: "Silicatos", image: `${BASE_PATH}/assets/cuarzo.png`, description: "Mineral compuesto de sílice, de gran dureza y resistencia. Esencial para la industria tecnológica, óptica y electrónica. Se encuentra principalmente en la Región Central (Precordillera Principal), asociado a formaciones metamórficas.", capacity: "7 (Mohs)", power: "Trigonal", weight: "2.65 g/cm³", application: "Tecnología, óptica, vidrio", arMarker: "cuarzo", escala: "1 1 1" },
       { name: "Calcita", group: "No Metalíferos", category: "Carbonatos", image: `${BASE_PATH}/assets/calcita.png`, description: "Mineral compuesto de carbonato de calcio. San Juan cuenta con las mayores reservas de alta calidad del país y es el primer productor nacional de cales. Es sumamente abundante en la Precordillera.", capacity: "3 (Mohs)", power: "Trigonal", weight: "2.71 g/cm³", application: "Construcción, cal, metalurgia", arMarker: "calcita", escala: "1 1 1" },
-      { name: "Cobre", group: "Metales Base", category: "Elementos Nativos", image: `${BASE_PATH}/assets/cobre.png`, description: "Metal rojizo, altamente maleable y excelente conductor de electricidad. Pilar fundamental de la transición energética mundial. San Juan posee megaproyectos de clase mundial en Calingasta e Iglesia.", capacity: "3 (Mohs)", power: "Cúbico", weight: "8.96 g/cm³", application: "Conductores, energía renovable", arMarker: "cobre", escala: "0.2 0.2 0.2" },
-      { name: "Plata", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/plata.png`, description: "Metal precioso muy brillante y dúctil. Fundamental para la fabricación de paneles solares y tecnología de precisión. Sus mineralizaciones están presentes en toda la región occidental cordillerana.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "10.49 g/cm³", application: "Paneles solares, medicina", arMarker: "plata", escala: "0.2 0.2 0.2" },
-      { name: "Oro", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/oro.png`, description: "El metal precioso por excelencia, valorado por su resistencia a la oxidación y alta conductividad. San Juan es la segunda provincia productora de oro del país, con operaciones en la Cordillera Frontal.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "19.3 g/cm³", application: "Electrónica de precisión, joyería", arMarker: "oro", escala: "0.2 0.2 0.2" }
+      { name: "Cobre", group: "Metales Base", category: "Elementos Nativos", image: `${BASE_PATH}/assets/cobre.png`, description: "Metal rojizo, altamente maleable y excelente conductor de electricidad. Pilar fundamental de la transición energética mundial. San Juan posee megaproyectos de clase mundial en Calingasta e Iglesia.", capacity: "3 (Mohs)", power: "Cúbico", weight: "8.96 g/cm³", application: "Conductores, energía renovable", arMarker: "cobre", escala: "0.005 0.005 0.005" },
+      { name: "Plata", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/plata.png`, description: "Metal precioso muy brillante y dúctil. Fundamental para la fabricación de paneles solares y tecnología de precisión. Sus mineralizaciones están presentes en toda la región occidental cordillerana.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "10.49 g/cm³", application: "Paneles solares, medicina", arMarker: "plata", escala: "0.15 0.15 0.15" },
+      { name: "Oro", group: "Metales Preciosos", category: "Elementos Nativos", image: `${BASE_PATH}/assets/oro.png`, description: "El metal precioso por excelencia, valorado por su resistencia a la oxidación y alta conductividad. San Juan es la segunda provincia productora de oro del país, con operaciones en la Cordillera Frontal.", capacity: "2.5 - 3 (Mohs)", power: "Cúbico", weight: "19.3 g/cm³", application: "Electrónica de precisión, joyería", arMarker: "oro", escala: "0.009 0.009 0.009" }
+
     ];
 
     const groups = ["Todos", ...Array.from(new Set(minerales.map(m => m.group)))];
