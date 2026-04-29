@@ -275,10 +275,10 @@
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
-    // Aplicamos la escala inicial 
+
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
 
-    // Lógica para botones de control de giro y tamaño
+
     let timer;
     function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
     function detenerAccion() { clearInterval(timer); }

@@ -134,7 +134,7 @@
 
  <script>
   const dinos = [
-    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/trex.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
+    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/trex.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
@@ -159,8 +159,15 @@
 
   function cargarDino() {
     const pathGlb = BASE_PATH + dinoData.archivo;
-
+    
     visor.src = pathGlb;
+    
+    if (dinoData.tieneUsdz) {
+      visor.setAttribute('ios-src', pathGlb.replace('.glb', '.usdz'));
+    } else {
+      visor.removeAttribute('ios-src');
+    }
+    
     nombreUI.textContent = dinoData.nombre;
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
     visor.orientation = dinoData.orientacion || '0deg 0deg 0deg';
