@@ -11,88 +11,96 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
+    :root {
+      --dino-primary: #d35400;
+      --dino-light: #f39c12;
+      --dino-r: 211, 84, 0;
+    }
+
     body {
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background-color: #111; color: white;
+      background: radial-gradient(circle at center, #1a120b 0%, #000 100%);
+      color: white;
       width: 100vw; height: 100dvh;
       display: flex; flex-direction: column; overflow: hidden;
     }
 
+    /* Cabecera transparente y sin logo, solo para posicionar el botón */
     .header {
-      padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
-      background: rgba(0,0,0,0.8); z-index: 20; position: absolute; width: 100%; top: 0; left: 0;
+      padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center;
+      background: transparent; z-index: 20; position: absolute; width: 100%; top: 0; left: 0;
+      pointer-events: none; /* Deja que los toques pasen a través del div vacío */
     }
-
-    .header-logo { max-height: 80px; width: auto; }
 
     .close-btn {
-      background: rgba(0,0,0,0.5); border: 2px solid white; border-radius: 50%;
-      width: 44px; height: 44px; color: white; font-size: 22px; cursor: pointer;
+      background: rgba(26, 18, 11, 0.6); border: 2px solid var(--dino-primary); border-radius: 50%;
+      width: 48px; height: 48px; color: white; font-size: 22px; cursor: pointer;
       display: flex; align-items: center; justify-content: center; text-decoration: none;
+      pointer-events: auto; /* Reactiva los toques solo para el botón */
+      transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(var(--dino-r), 0.3);
+      backdrop-filter: blur(5px);
     }
+    
+    .close-btn:hover { background: var(--dino-primary); transform: scale(1.05); }
 
-    .visor-container { flex-grow: 1; width: 100%; position: relative; margin-top: 100px; }
+    .visor-container { flex-grow: 1; width: 100%; position: relative; }
 
     model-viewer {
-      width: 100%; height: 100%; background-color: #222; 
+      width: 100%; height: 100%; background: transparent; 
       --poster-color: transparent; touch-action: none; 
     }
 
     .btn-proyectar {
-      position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-      background-color: #00ff99; color: #000; border: none; border-radius: 30px;
-      padding: 15px 30px; font-size: 16px; font-weight: bold;
-      box-shadow: 0 4px 15px rgba(0,255,153,0.4); cursor: pointer; z-index: 100;
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--dino-light), var(--dino-primary)); 
+      color: #fff; border: none; border-radius: 30px;
+      padding: 16px 32px; font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(var(--dino-r), 0.4); cursor: pointer; z-index: 100;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
+    
+    .btn-proyectar:active { transform: translateX(-50%) scale(0.95); }
 
     .model-info {
-      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-      background: rgba(0,0,0,0.7); padding: 10px 20px; border-radius: 10px;
-      border: 1px solid #00ff99; text-align: center; pointer-events: none; z-index: 10;
+      position: absolute; top: 25px; left: 50%; transform: translateX(-50%);
+      background: rgba(26, 18, 11, 0.7); padding: 10px 24px; border-radius: 50px;
+      border: 1px solid var(--dino-primary); text-align: center; pointer-events: none; z-index: 10;
+      backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     }
 
-    .model-name { font-size: 18px; font-weight: bold; }
+    .model-name { font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #fff;}
 
     .controls-panel {
-      position: absolute; left: 20px; bottom: 30px;
+      position: absolute; left: 20px; bottom: 40px;
       display: flex; flex-direction: column; gap: 12px; z-index: 150;
     }
 
     .control-btn {
-      width: 55px; height: 55px; background: rgba(0, 255, 153, 0.2); border: 2px solid #00ff99;
-      border-radius: 12px; color: #00ff99; font-size: 24px; font-weight: bold; cursor: pointer; 
+      width: 55px; height: 55px; background: rgba(var(--dino-r), 0.15); border: 2px solid var(--dino-primary);
+      border-radius: 12px; color: var(--dino-light); font-size: 24px; font-weight: bold; cursor: pointer; 
       display: flex; align-items: center; justify-content: center; user-select: none;
+      backdrop-filter: blur(4px); transition: all 0.2s;
     }
 
-    .control-btn:active { background: #00ff99; color: #000; }
+    .control-btn:active { background: var(--dino-primary); color: #fff; transform: scale(0.95); }
 
     .btn-captura {
-      position: absolute; right: 20px; bottom: 30px; width: 60px; height: 60px;
-      background: rgba(0,255,153,0.9); border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; 
+      position: absolute; right: 20px; bottom: 40px; width: 60px; height: 60px;
+      background: rgba(var(--dino-r), 0.9); border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; 
       color: white; font-size: 24px; display: flex; align-items: center; justify-content: center; 
-      cursor: pointer; z-index: 40; box-shadow: 0 4px 15px rgba(0,255,153,0.4);
+      cursor: pointer; z-index: 40; box-shadow: 0 4px 15px rgba(var(--dino-r), 0.4);
+      transition: transform 0.2s;
     }
+    
+    .btn-captura:active { transform: scale(0.9); background: var(--dino-light); }
 
     @media (max-width: 768px) {
-      .model-info {
-        top: 15px !important; 
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-      }
-      .btn-proyectar {
-        bottom: 30px !important; 
-        width: 85% !important; 
-      }
-      .btn-captura {
-        bottom: 130px !important; 
-        right: 15px !important;
-        transform: scale(0.9) !important;
-      }
-      .controls-panel {
-        bottom: 130px !important; 
-        left: 15px !important;
-        transform: scale(0.9) !important;
-      }
+      .model-info { top: 25px; }
+      .header { padding: 15px; }
+      .close-btn { width: 42px; height: 42px; font-size: 18px; }
+      .btn-proyectar { bottom: 30px; width: 85%; }
+      .btn-captura { bottom: 130px; right: 15px; transform: scale(0.9); }
+      .controls-panel { bottom: 130px; left: 15px; transform: scale(0.9); }
     }
   </style>
   <script type="module" crossorigin src="/AppMindAr/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
@@ -100,7 +108,6 @@
 <body>
 
   <div class="header">
-    <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED">
     <button class="close-btn" onclick="window.location.href='index-dino.html'">🏠</button>
   </div>
 
@@ -115,12 +122,13 @@
       alt="Modelo 3D"
       ar 
       autoplay
+      auto-rotate
       ar-modes="webxr scene-viewer quick-look" 
       camera-controls 
       touch-action="pan-y"
       shadow-intensity="1">
       
-      <button slot="ar-button" class="btn-proyectar">Proyectar en el piso</button>
+      <button slot="ar-button" class="btn-proyectar">Proyectar en el ambiente</button>
     </model-viewer>
 
     <div class="controls-panel">
@@ -135,14 +143,13 @@
 
  <script>
   const dinos = [
-    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/trex.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
+    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/trex.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
     { slug: 'velociraptor', archivo: 'velociraptor.glb', sonido: 'sounds/velociraptor.mp3', nombre: 'Velociraptor', escalaWeb: 0.495, orientacion: '0deg 0deg 0deg'},
     { slug: 'stegosaurio', archivo: 'stegosaurio.glb', sonido: 'sounds/stegosaurio.mp3', nombre: 'Stegosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'ankylosaurus', archivo: 'ankylosaurus.glb', sonido: 'sounds/ankylosaurus.mp3', nombre: 'Ankylosaurus', escalaWeb: 0.001, orientacion: '0deg 0deg 0deg' }
-   
   ];
 
   const params = new URLSearchParams(window.location.search);
@@ -160,8 +167,17 @@
 
   function cargarDino() {
     const pathGlb = BASE_PATH + dinoData.archivo;
-
+    
     visor.src = pathGlb;
+    
+    // Engaño a Safari para que siempre descargue la última versión sin usar la caché rota
+    if (dinoData.tieneUsdz) {
+      const urlAntiCache = pathGlb.replace('.glb', '.usdz') + '?v=' + Date.now();
+      visor.setAttribute('ios-src', urlAntiCache);
+    } else {
+      visor.removeAttribute('ios-src');
+    }
+    
     nombreUI.textContent = dinoData.nombre;
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
     visor.orientation = dinoData.orientacion || '0deg 0deg 0deg';
@@ -198,7 +214,7 @@
 
   const btnCaptura = document.getElementById('btnCaptura');
   btnCaptura.addEventListener('click', async () => {
-    btnCaptura.style.background = "orange";
+    btnCaptura.style.background = "white";
     try {
       const blob = await visor.toBlob({ idealAspect: true });
       const url = URL.createObjectURL(blob);
@@ -206,7 +222,7 @@
       link.download = `Dino-${Date.now()}.png`;
       link.href = url; link.click(); URL.revokeObjectURL(url);
     } catch (e) {}
-    setTimeout(() => { btnCaptura.style.background = "rgba(0,255,153,0.9)"; }, 500);
+    setTimeout(() => { btnCaptura.style.background = "rgba(211, 84, 0, 0.9)"; }, 500);
   });
 
 </script>
