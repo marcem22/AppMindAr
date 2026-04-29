@@ -142,7 +142,7 @@
 
  <script>
   const dinos = [
-    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/trex.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
+    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/giganotosaurus.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
@@ -169,10 +169,8 @@
     
     visor.src = pathGlb;
     
-    // Engaño a Safari para que siempre descargue la última versión sin usar la caché rota
     if (dinoData.tieneUsdz) {
-      const urlAntiCache = pathGlb.replace('.glb', '.usdz') + '?v=' + Date.now();
-      visor.setAttribute('ios-src', urlAntiCache);
+      visor.setAttribute('ios-src', pathGlb.replace('.glb', '.usdz'));
     } else {
       visor.removeAttribute('ios-src');
     }
