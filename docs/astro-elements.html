@@ -497,9 +497,10 @@
   </div>
 
   <header>
-    <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
-    <a href="index.html" class="back-home-btn" title="Volver al Menú">&#8592;</a>
-  </header>
+    <a href="index.html" style="pointer-events: auto; display: inline-block;">
+        <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
+    </a>
+</header>
 
   <div class="layout">
     <aside class="sidebar-left">
@@ -565,7 +566,7 @@
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr' : '';
 
-    // ¡Acá está la magia! Le agregamos "escala" a cada objeto.
+
     const machines = [
       {name: "Luna",group: "Astronomía",category: "Cuerpos Celestes",image: `${BASE_PATH}/assets/lunaNueva.png`,description: "Visualización fotorrealista de la superficie lunar...",diameter: "3,474 km",mass: "7.347 x 10²² kg",distance: "384,400 km",notes: "Imagen procesada a partir de capturas orbitales.",arMarker: "lunaNueva", escala: 0.2},
       { name: "Sol", group: "Astronomía", category: "Estrella", image: `${BASE_PATH}/assets/sun.png`, description: "La estrella en el centro de nuestro sistema solar.", diameter: "1,392,700 km", mass: "1.989 × 10^30 kg", distance: "0 km (referencia)", notes: "Composición: hidrógeno y helio.", arMarker: "sun", escala: 0.015 },

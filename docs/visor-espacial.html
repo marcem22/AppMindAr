@@ -25,50 +25,9 @@
       overflow: hidden;
     }
 
-    .header {
-      padding: 20px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
-      z-index: 20;
-      position: absolute;
-      width: 100%;
-      top: 0;
-    }
-
-    .logo {
-      font-weight: 700;
-      font-size: 22px;
-      color: #fff;
-    }
-
-    .logo span {
-      color: #153B82;
-    }
-
-    .close-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.3);
-      border: 2px solid white;
-      color: white;
-      font-size: 22px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    }
-
-    .close-btn:hover {
-      background: white;
-      color: black;
-      transform: scale(1.1);
-    }
+    .header { padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; background: transparent; z-index: 20; position: absolute; width: 100%; top: 0; left: 0; pointer-events: none; }
+    .close-btn { background: rgba(0, 0, 0, 0.4); border: 2px solid #00ff99; border-radius: 50%; width: 48px; height: 48px; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; pointer-events: auto; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3); backdrop-filter: blur(5px); }
+    .close-btn:hover { background: #00ff99; color: black; transform: scale(1.05); }
 
     .visor-container {
       flex-grow: 1;
@@ -185,8 +144,7 @@
 <body>
 
   <div class="header">
-    <div class="logo">Mining<span>Tech</span></div>
-    <a href="elements.html" class="close-btn" title="Volver">←</a>
+    <button class="close-btn" onclick="window.history.back()">🏠</button>
   </div>
 
   <div class="visor-container">
