@@ -143,7 +143,7 @@
 
  <script>
   const dinos = [
-    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/giganotosaurus.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
+    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/trex.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
@@ -155,8 +155,10 @@
   const params = new URLSearchParams(window.location.search);
   const modUrl = params.get('modelo') || params.get('marker') || 'trex';
 
+  // Lógica a prueba de fallos: extrae tu repo automáticamente de la URL
   const isProd = window.location.hostname.includes('github.io');
-  const BASE_PATH = isProd ? '/AppMindAr/models/' : 'models/';
+  const repoName = isProd ? window.location.pathname.split('/')[1] : '';
+  const BASE_PATH = isProd ? `/${repoName}/models/` : 'models/';
 
   const visor = document.getElementById('visorDino');
   const nombreUI = document.getElementById('nombreDino');
@@ -165,15 +167,13 @@
   const dinoData = dinos.find(d => d.slug === modUrl) || dinos[1];
   let escalaActual = dinoData.escalaWeb;
 
- 
-
   function cargarDino() {
     const pathGlb = BASE_PATH + dinoData.archivo;
     
     visor.src = pathGlb;
     
     if (dinoData.tieneUsdz) {
-  
+      // Le pasamos el string limpio al iPhone
       visor.setAttribute('ios-src', pathGlb.replace('.glb', '.usdz'));
     } else {
       visor.removeAttribute('ios-src');
@@ -183,7 +183,8 @@
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
     visor.orientation = dinoData.orientacion || '0deg 0deg 0deg';
     
-    reproductorAudio.src = 'sounds/' + dinoData.sonido.split('/').pop();
+    const soundPath = isProd ? `/${repoName}/${dinoData.sonido}` : dinoData.sonido;
+    reproductorAudio.src = soundPath;
   }
 
   cargarDino();
