@@ -164,12 +164,15 @@
   const dinoData = dinos.find(d => d.slug === modUrl) || dinos[1];
   let escalaActual = dinoData.escalaWeb;
 
+ 
+
   function cargarDino() {
     const pathGlb = BASE_PATH + dinoData.archivo;
     
     visor.src = pathGlb;
     
     if (dinoData.tieneUsdz) {
+  
       visor.setAttribute('ios-src', pathGlb.replace('.glb', '.usdz'));
     } else {
       visor.removeAttribute('ios-src');
@@ -179,8 +182,7 @@
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
     visor.orientation = dinoData.orientacion || '0deg 0deg 0deg';
     
-    const soundPath = isProd ? '/AppMindAr/' + dinoData.sonido : dinoData.sonido;
-    reproductorAudio.src = soundPath;
+    reproductorAudio.src = 'sounds/' + dinoData.sonido.split('/').pop();
   }
 
   cargarDino();
