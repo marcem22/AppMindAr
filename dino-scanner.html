@@ -154,7 +154,7 @@
   const params = new URLSearchParams(window.location.search);
   const modUrl = params.get('modelo') || params.get('marker') || 'trex';
 
-  // Lógica a prueba de fallos: extrae tu repo automáticamente de la URL
+  
   const isProd = window.location.hostname.includes('github.io');
   const repoName = isProd ? window.location.pathname.split('/')[1] : '';
   const BASE_PATH = isProd ? `/${repoName}/models/` : 'models/';
@@ -172,7 +172,7 @@
     visor.src = pathGlb;
     
     if (dinoData.tieneUsdz) {
-      // Le pasamos el string limpio al iPhone
+
       visor.setAttribute('ios-src', pathGlb.replace('.glb', '.usdz'));
     } else {
       visor.removeAttribute('ios-src');
