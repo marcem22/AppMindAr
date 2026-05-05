@@ -265,7 +265,12 @@ footer .devs-credits {
   .left-content { margin-top: 0 !important; width: 100%; align-items: center; text-align: center; flex: 0 0 auto; }
   .title-badge { font-size: 0.7rem !important; margin-bottom: 12px; }
   h1 { font-size: 2.5rem !important; letter-spacing: -1px; text-shadow: none; }
-  .right-content { width: 100%; flex: 1; transform: translateY(-10px) !important; }
+  .right-content { 
+    width: 100%; 
+    flex: 1; 
+    transform: translateY(-60px) !important; 
+    height: 40vh !important; 
+  }
   .hint-text { bottom: 20px; left: 20px; height: 44px; display: inline-flex !important; }
   .hint-text.collapsed { max-width: 44px; }
   .hint-icon { width: 44px; height: 44px; font-size: 1.2rem; }
@@ -386,10 +391,12 @@ const container = document.getElementById("cube-wrapper");
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
-if (window.innerWidth <= 1500 || window.innerHeight <= 850) {
+if (window.innerWidth <= 900) {
+  camera.position.set(9.5, 9.5, 9.5); 
+} else if (window.innerWidth <= 1500 || window.innerHeight <= 850) {
   camera.position.set(6.5, 6.5, 6.5); 
 } else {
-  camera.position.set(5, 5, 5);
+  camera.position.set(5, 5, 5); 
 }
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
