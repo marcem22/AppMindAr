@@ -131,7 +131,7 @@ h1 .text-gradient {
   justify-content: center;
   position: relative;
   z-index: 2;
-  transform: translateY(-14.6vh); /* SUBIDO DE -12vh A -22vh */
+  transform: translateY(-14.6vh);
 }
 
 #cube-wrapper {
@@ -221,9 +221,7 @@ footer .devs-credits {
   margin: 0;
 }
 
-/* =========================================================
-   2. MODO COMPU / NOTEBOOK (Ajuste Final de Jerarquía)
-   ========================================================= */
+
 @media (max-width: 1500px), (max-height: 850px) {
   header { height: 115px !important; }
   .logos-container { gap: 40px !important; }
@@ -254,16 +252,13 @@ footer .devs-credits {
   .hint-text { display: inline-flex !important; } 
 }
 
-/* =========================================================
-   3. MODO CELULAR MÓVIL
-   ========================================================= */
 @media (max-width: 900px) {
   header { height: 100px !important; justify-content: center; padding: 0 20px; margin-top: 10px; }
-  .logos-container { gap: 25px !important; }
-  .logos-container img { height: 95px !important; }
+  .logos-container { gap: 30px !important; }
+  .logos-container img { height: 100px !important; }
   main { flex-direction: column; padding-top: 15px; gap: 0; }
   .left-content { margin-top: 0 !important; width: 100%; align-items: center; text-align: center; flex: 0 0 auto; }
-  .title-badge { font-size: 0.65rem !important; margin-bottom: 12px; }
+  .title-badge { font-size: 0.6rem !important; margin-bottom: 12px; }
   h1 { font-size: 2.5rem !important; letter-spacing: -1px; text-shadow: none; }
   .right-content { 
     width: 100%; 
@@ -392,7 +387,7 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
 if (window.innerWidth <= 900) {
-  camera.position.set(8.2, 8.2, 8.2); 
+  camera.position.set(8, 8, 8); 
 } else if (window.innerWidth <= 1500 || window.innerHeight <= 850) {
   camera.position.set(6.5, 6.5, 6.5); 
 } else {
