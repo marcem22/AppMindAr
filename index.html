@@ -30,7 +30,7 @@ html, body {
 
 header {
   background: transparent; 
-  height: 120px; 
+  height: clamp(130px, 15vh, 250px); 
   width: 100%;
   display: flex;
   align-items: center;
@@ -42,17 +42,17 @@ header {
 
 .logos-container {
   display: flex;
+  flex-direction: row; 
   align-items: center;
-  gap: 60px; 
+  gap: clamp(30px, 4vw, 80px); 
 }
 
 .logos-container img {
-  height: 135px; 
+  height: clamp(130px, 13vh, 280px); 
   width: auto;
   display: block;
   filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.05));
 }
-
 main {
   flex-grow: 1;
   position: relative;
@@ -81,21 +81,21 @@ main {
 
 .left-content {
   flex: 1;
-  max-width: 700px; 
+  max-width: 45vw; 
   z-index: 2;
-  margin-top: -80px; 
+  margin-top: -40px; /* Lo subimos un poco (antes estaba en -10px) */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
 .title-badge {
-  font-size: 0.85rem;
+  font-size: clamp(0.85rem, 0.9vw, 1.5rem); 
   font-weight: 800;
   color: #033773;
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 22px;
+  margin-bottom: 10px; 
   padding: 8px 18px;
   background: rgba(3, 55, 115, 0.08);
   border-radius: 50px;
@@ -104,8 +104,7 @@ main {
 
 h1 {
   margin: 0;
-  font-size: clamp(3rem, 5.5vw, 5rem); 
-  font-weight: 900;
+  font-size: clamp(3rem, 6.5vw, 12rem); 
   line-height: 1;
   letter-spacing: -2px;
   color: #1a1a1a; 
@@ -122,7 +121,7 @@ h1 .text-gradient {
 
 .right-content {
   flex: 1.2; 
-  height: 100%;
+  height: clamp(400px, 60vh, 1200px); 
   display: flex;
   align-items: center;
   justify-content: center;
