@@ -28,9 +28,6 @@ html, body {
   flex-direction: column;
 }
 
-/* =========================================================
-   1. MODO PANTALLA GIGANTE (EXPO / SMART TV) 
-   ========================================================= */
 header {
   background: transparent; 
   height: clamp(100px, 12vh, 180px); 
@@ -87,7 +84,7 @@ main {
   flex: 1;
   max-width: 45vw; 
   z-index: 2;
-  margin-top: -22vh; /* SUBIDO DE -12vh A -22vh */
+  margin-top: -22vh; 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -189,7 +186,6 @@ h1 .text-gradient {
 }
 
 .hint-text.collapsed .hint-message { opacity: 0; }
-
 footer {
   background: rgba(255, 255, 255, 0.95); 
   backdrop-filter: blur(10px);
@@ -220,7 +216,6 @@ footer .devs-credits {
   color: #777; 
   margin: 0;
 }
-
 
 @media (max-width: 1500px), (max-height: 850px) {
   header { height: 115px !important; }
@@ -393,7 +388,6 @@ if (window.innerWidth <= 900) {
 } else {
   camera.position.set(5, 5, 5); 
 }
-
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setClearColor(0x000000, 0); 
 renderer.setSize(container.clientWidth, container.clientHeight);
