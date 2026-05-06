@@ -249,10 +249,7 @@ footer .dev-link:hover {
   user-select: none;
 }
 
-/* =========================================================
-   MODO PANTALLA GIGANTE (PROYECTOR / SMART TV)
-   Todo unificado al breakpoint de 1600px
-   ========================================================= */
+
 @media (min-width: 1600px) {
   header { height: 160px; padding: 0 10%; }
   .logos-container { gap: 60px; }
@@ -260,8 +257,8 @@ footer .dev-link:hover {
 
   .glow-orb { width: 60vw; height: 60vw; }
 
-  h1 { font-size: 8rem; } 
-  .title-badge { font-size: 1.2rem; padding: 10px 24px; margin-bottom: 15px; }
+  h1 { font-size: 6.5rem; } 
+  .title-badge { font-size: 1rem; padding: 10px 24px; margin-bottom: 13px; }
 
   .left-content { margin-top: -15vh; } 
   .right-content { height: 75vh; transform: translateY(-8vh); }
@@ -271,6 +268,96 @@ footer .dev-link:hover {
   footer .devs-credits { font-size: 1.1rem; gap: 12px; }
   footer .dev-link { font-size: 1.1rem; }
   .dev-separator { font-size: 1rem; }
+}
+
+@media (min-width: 2560px) {
+  header {
+    height: 380px;
+    padding: 40px 10% 0 10%;
+  }
+
+  .logos-container {
+    gap: 220px;
+  }
+
+  .logos-container img {
+    height: 360px;
+  }
+
+  .left-content {
+    max-width: 45vw;
+    margin-top: 0;
+    transform: translateY(-12vh);
+  }
+
+  .title-badge {
+    font-size: 2.4rem;
+    padding: 20px 45px;
+    margin-bottom: 70px;
+    border-width: 2px;
+  }
+
+  h1 {
+    font-size: 15.5rem;
+    line-height: 1.25;
+    letter-spacing: -5px;
+  }
+
+  .right-content {
+    flex: 1.8;
+    height: 85vh;
+    transform: translateY(-12vh);
+  }
+
+  .glow-orb {
+    width: 75vw;
+    height: 75vw;
+  }
+
+  .hint-text {
+    bottom: 80px;
+    height: 90px;
+    border-radius: 90px;
+    max-width: 600px;
+  }
+
+  .hint-text.collapsed {
+    max-width: 90px;
+  }
+
+  .hint-icon {
+    width: 90px;
+    height: 90px;
+    font-size: 2.8rem;
+  }
+
+  .hint-message {
+    font-size: 1.8rem;
+    padding-right: 40px;
+  }
+
+  footer {
+    height: 220px;
+    padding: 40px 80px;
+    gap: 25px;
+  }
+
+  footer .copyright {
+    font-size: 2.4rem;
+  }
+
+  footer .devs-credits {
+    font-size: 2rem;
+    gap: 25px;
+  }
+
+  footer .dev-link {
+    font-size: 2.5rem;
+  }
+
+  .dev-separator {
+    font-size: 1.8rem;
+  }
 }
 
 /* =========================================================
@@ -410,12 +497,15 @@ const container = document.getElementById("cube-wrapper");
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+
 if (window.innerWidth <= 900) {
-  camera.position.set(7, 7, 7); 
+  camera.position.set(8, 8, 8); 
+} else if (window.innerWidth >= 2560) {
+  camera.position.set(8.5, 8.5, 8.5); 
 } else if (window.innerWidth >= 1600) {
-  camera.position.set(4.4, 4.4, 4.4); 
+  camera.position.set(5, 5, 5); 
 } else {
-  camera.position.set(5.5, 5.5, 5.5); 
+  camera.position.set(6.5, 6.5, 6.5);
 }
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setClearColor(0x000000, 0); 
