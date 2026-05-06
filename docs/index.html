@@ -28,12 +28,9 @@ html, body {
   flex-direction: column;
 }
 
-/* =========================================================
-   BASE: ESCRITORIO NORMAL (Notebooks, monitores estándar)
-   ========================================================= */
 header {
   background: transparent; 
-  height: 115px; 
+  height: 125px; 
   width: 100%;
   display: flex;
   align-items: center;
@@ -47,11 +44,11 @@ header {
   display: flex;
   flex-direction: row; 
   align-items: center;
-  gap: 40px; 
+  gap: 45px; 
 }
 
 .logos-container img {
-  height: 90px; 
+  height: 105px; 
   width: auto;
   display: block;
   filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.05));
@@ -99,8 +96,8 @@ main {
   color: #033773;
   letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 10px; 
-  padding: 8px 18px;
+  margin-bottom: 12px; 
+  padding: 10px 20px;
   background: rgba(3, 55, 115, 0.08);
   border-radius: 50px;
   border: 1px solid rgba(3, 55, 115, 0.2);
@@ -108,7 +105,7 @@ main {
 
 h1 {
   margin: 0;
-  font-size: 5.5rem; 
+  font-size: 5.2rem; 
   line-height: 1;
   letter-spacing: -2px;
   color: #1a1a1a; 
@@ -139,7 +136,6 @@ h1 .text-gradient {
   height: 100%;
 }
 
-/* -- TOOLTIP CUBO -- */
 .hint-text {
   position: absolute;
   bottom: 20px;
@@ -191,7 +187,6 @@ h1 .text-gradient {
 
 .hint-text.collapsed .hint-message { opacity: 0; }
 
-/* -- FOOTER MODERNO Y LIMPIO -- */
 footer {
   background: rgba(255, 255, 255, 0.85); 
   backdrop-filter: blur(12px);
@@ -249,16 +244,15 @@ footer .dev-link:hover {
   user-select: none;
 }
 
-
 @media (min-width: 1600px) {
-  header { height: 160px; padding: 0 10%; }
-  .logos-container { gap: 60px; }
-  .logos-container img { height: 130px; } 
+  header { height: 170px; padding: 0 10%; }
+  .logos-container { gap: 65px; }
+  .logos-container img { height: 145px; } 
 
   .glow-orb { width: 60vw; height: 60vw; }
 
   h1 { font-size: 6.5rem; } 
-  .title-badge { font-size: 1rem; padding: 10px 24px; margin-bottom: 13px; }
+  .title-badge { font-size: 1rem; padding: 12px 26px; margin-bottom: 15px; }
 
   .left-content { margin-top: -15vh; } 
   .right-content { height: 75vh; transform: translateY(-8vh); }
@@ -360,9 +354,6 @@ footer .dev-link:hover {
   }
 }
 
-/* =========================================================
-   MODO MÓVIL Y TABLET
-   ========================================================= */
 @media (max-width: 900px) {
   header { height: 100px; justify-content: center; padding: 0 20px; margin-top: 10px; }
   .logos-container { gap: 30px; }
@@ -380,10 +371,10 @@ footer .dev-link:hover {
   .hint-icon { width: 44px; height: 44px; font-size: 1.2rem; }
   .hint-message { font-size: 0.75rem; }
   
-  footer { padding: 12px 10px; position: absolute; gap: 4px; }
-  footer .copyright { font-size: 0.75rem; }
-  footer .devs-credits { font-size: 0.7rem; gap: 4px; flex-direction: column; }
-  .dev-separator { display: none; } 
+  footer { padding: 10px; position: absolute; gap: 4px; }
+  footer .copyright { font-size: 0.7rem; }
+  footer .devs-credits { font-size: 0.75rem; gap: 6px; flex-direction: row; flex-wrap: wrap; }
+  .dev-separator { display: inline; font-size: 0.7rem; color: #ccc; } 
 }
 
 @media (max-height: 700px) and (max-width: 900px) {
@@ -503,9 +494,9 @@ if (window.innerWidth <= 900) {
 } else if (window.innerWidth >= 2560) {
   camera.position.set(8.5, 8.5, 8.5); 
 } else if (window.innerWidth >= 1600) {
-  camera.position.set(5, 5, 5); 
+  camera.position.set(4.8, 4.8, 4.8); 
 } else {
-  camera.position.set(6.5, 6.5, 6.5);
+  camera.position.set(5.8, 5.8, 5.8);
 }
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setClearColor(0x000000, 0); 
