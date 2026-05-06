@@ -168,12 +168,12 @@
     .ar-btn:active{ transform:translateY(0); }
 
     .page-indicator { 
-      position: fixed; 
-      bottom: 130px; 
-      font-size: 42px; 
-      color: rgba(255,255,255,0.08); 
-      font-weight: 700;
-    }
+  position: fixed; 
+  bottom: 130px; 
+  font-size: 42px; 
+  color: rgba(255,255,255,0.08); 
+  font-weight: 700;
+}
 
     .back-home-btn {
       position: absolute; top: 20px; right: 20px; 
@@ -226,7 +226,6 @@
       }
       .mobile-overlay.active { opacity: 1; pointer-events: auto; }
     }
-
     /* =========================================================
        MODO PANTALLA GIGANTE (PROYECTOR / SMART TV)
        Configuración importada de Minería + Tema Dinos
@@ -234,10 +233,6 @@
     @media (min-width: 1600px) {
       header { padding: 30px 100px; } 
       .header-logo { max-height: 90px; } 
-
-      /* 1. EMPUJAMOS LAS TARJETAS: 
-         Reducimos el padding lateral de 140px a 60px, y aumentamos el gap
-         de 60px a 100px. Esto abre el centro de par en par. */
       .layout {
         grid-template-columns: 420px 1fr 420px; 
         gap: 100px; 
@@ -248,9 +243,6 @@
         align-self: center !important; 
         margin-top: 0 !important;
       }
-
-      /* 2. ARREGLO DE TÍTULOS ("Clasificación" y "Especies")
-         Le sumamos !important para anular el 13px que venía del HTML */
       .sidebar-left h3, .sidebar-right h3 { 
         font-size: 28px !important; 
         font-weight: 800 !important; 
@@ -259,18 +251,14 @@
       
       .machinery-list li { font-size: 24px; font-weight: 600; padding: 18px 12px; }
       .machinery-list li.active { font-weight: 800; border-left-width: 5px; } 
-      .small-model { font-size: 16px; font-weight: 600; }
-      
+      .small-model { font-size: 16px; font-weight: 600; }     
       .cat-btn { padding: 14px 22px; font-size: 20px; font-weight: 700; }
-
       .specs { padding: 35px; }
       .specs h4 { font-size: 24px; font-weight: 800; margin-bottom: 25px; }
       .spec-row { margin-bottom: 20px; }
       .spec-label { font-size: 18px; font-weight: 700; }
       .spec-val { font-size: 24px; font-weight: 800; }
-
       .ar-btn { padding: 20px 35px; font-size: 20px; font-weight: 800; margin-top: 25px; }
-
       .machine-category { 
         font-size: 22px; 
         font-weight: 800; 
@@ -279,18 +267,15 @@
         z-index: 50; 
         box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
       }
-      
       .machine-wrap {
         animation: floatHologram 6s ease-in-out infinite !important;
         height: 46vh !important; 
       }
-
       @keyframes floatHologram {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-15px); }
         100% { transform: translateY(0px); }
       }
-
       .machine-img { 
         width: auto; 
         max-width: 100%; 
@@ -299,7 +284,6 @@
         object-fit: contain; 
         filter: drop-shadow(0 30px 50px rgba(var(--dino-r), 0.25)) !important; 
       } 
-      
       .machine-name { font-size: 50px; font-weight: 800; margin-top: 15px; }
       .machine-description { 
         font-size: 24px; 
@@ -309,13 +293,9 @@
         height: auto !important; 
         overflow: visible !important; 
       }
-
       .machine-nav { margin-top: 15px; }
       .nav-btn { width: 70px; height: 70px; font-size: 30px; font-weight: 800; }
-
-
       .page-indicator { font-size: 50px; bottom: 40px; left: 60px; z-index: 100; }
-      
       .back-home-btn { width: 60px; height: 60px; font-size: 30px; top: 40px; right: 60px; }
     }
   </style>
@@ -383,8 +363,6 @@
   </div>
 
   <div class="page-indicator" id="pageIndicator">01 <span>/ 07</span></div>
-
-
 
  <script>
     const isProduction = window.location.hostname.includes('github.io');
@@ -514,7 +492,7 @@
     function openARCore() {
       if (filteredDinos.length === 0) return;
       const dino = filteredDinos[currentIndex];
-      window.location.href = `${BASE_PATH}/visor-espacial.html?modelo=${dino.arMarker}&nombre=${encodeURIComponent(dino.name)}`;
+      window.location.href = `${BASE_PATH}/dino-scanner.html?modelo=${dino.arMarker}`;
     }
 
 
