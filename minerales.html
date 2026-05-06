@@ -345,6 +345,55 @@
             .hero-title { font-size: 36px; }
             .hero-description { font-size: 16px; }
         }
+        /* =========================================================
+           FONDO PARA EL LOGO (TODAS LAS PANTALLAS)
+           ========================================================= */
+        .header-logo {
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            padding: 10px 20px !important;
+            border-radius: 15px !important;
+            backdrop-filter: blur(5px) !important;
+        }
+
+        /* =========================================================
+           MODO PANTALLA GIGANTE - INDEX MINERALES
+           ========================================================= */
+        @media (min-width: 1600px) {
+            .header-logo {
+                max-height: 110px !important;
+                position: absolute !important;
+                top: 110px !important;
+                left: 140px !important;
+                transform: translateY(-50%) !important;
+                padding: 15px 30px !important; /* Un poco más de fondo para pantalla grande */
+            }
+
+            .hero-content { max-width: 600px !important; }
+
+            .hero-subtitle {
+                font-size: 24px !important;
+                font-weight: 800 !important;
+                padding-left: 35px !important;
+            }
+
+            .hero-subtitle::before { width: 22px !important; height: 3px !important; }
+
+            .hero-title { font-size: 85px !important; margin-bottom: 40px !important; }
+
+            .hero-description {
+                font-size: 26px !important;
+                border-left: 4px solid var(--theme-primary) !important;
+                padding-left: 30px !important;
+                margin-bottom: 50px !important;
+            }
+
+            .learn-more-btn { font-size: 26px !important; }
+            .learn-more-btn .arrow-circle {
+                width: 45px !important; height: 45px !important;
+                border: 2px solid rgba(255, 255, 255, 0.4) !important;
+            }
+            .learn-more-btn .arrow { font-size: 28px !important; }
+        }
     </style>
 </head>
 <body>

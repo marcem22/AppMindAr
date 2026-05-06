@@ -29,14 +29,14 @@
     .header {
       padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center;
       background: transparent; z-index: 20; position: absolute; width: 100%; top: 0; left: 0;
-      pointer-events: none; /* Deja que los toques pasen a través del div vacío */
+      pointer-events: none;
     }
 
     .close-btn {
       background: rgba(26, 18, 11, 0.6); border: 2px solid var(--dino-primary); border-radius: 50%;
       width: 48px; height: 48px; color: white; font-size: 22px; cursor: pointer;
       display: flex; align-items: center; justify-content: center; text-decoration: none;
-      pointer-events: auto; /* Reactiva los toques solo para el botón */
+      pointer-events: auto;
       transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(var(--dino-r), 0.3);
       backdrop-filter: blur(5px);
     }
@@ -102,6 +102,39 @@
       .btn-captura { bottom: 130px; right: 15px; transform: scale(0.9); }
       .controls-panel { bottom: 130px; left: 15px; transform: scale(0.9); }
     }
+
+    /* =========================================================
+       MODO PANTALLA GIGANTE (PROYECTOR / SMART TV)
+       ========================================================= */
+    @media (min-width: 1600px) {
+      .header { padding: 40px 60px; }
+      .close-btn { width: 80px; height: 80px; font-size: 36px; border-width: 3px; }
+
+      /* El Nombre pasa arriba a la izquierda, más imponente */
+      .model-info {
+        top: 40px; left: 60px !important; right: auto;
+        transform: none !important; padding: 15px 35px;
+        border-width: 2px;
+      }
+      .model-name { font-size: 35px; }
+
+      /* Controles de zoom y giro más grandes y despegados del borde */
+      .controls-panel {
+        left: 60px; bottom: 60px; gap: 20px;
+      }
+      .control-btn {
+        width: 80px; height: 80px; font-size: 36px; border-width: 3px; border-radius: 20px;
+      }
+
+      /* Botones de acción inferiores a la medida del proyector */
+      .btn-captura {
+        width: 100px; height: 100px; font-size: 45px; bottom: 60px; right: 60px; border-width: 3px;
+      }
+
+      .btn-proyectar {
+        padding: 24px 48px; font-size: 24px; bottom: 60px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -142,7 +175,7 @@
 
  <script>
   const dinos = [
-    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/giganotosaurus.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.12, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
+    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/giganotosaurus.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.12, orientacion: '0deg 90deg 0deg', tieneUsdz: true },
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
@@ -164,6 +197,8 @@
   const reproductorAudio = new Audio();
 
   const dinoData = dinos.find(d => d.slug === modUrl) || dinos[1];
+  
+
   let escalaActual = dinoData.escalaWeb;
 
   function cargarDino() {
@@ -172,22 +207,32 @@
     visor.src = pathGlb;
     
     if (dinoData.tieneUsdz) {
-
       visor.setAttribute('ios-src', pathGlb.replace('.glb', '.usdz'));
     } else {
       visor.removeAttribute('ios-src');
     }
     
     nombreUI.textContent = dinoData.nombre;
+    
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
     visor.orientation = dinoData.orientacion || '0deg 0deg 0deg';
     
     const soundPath = isProd ? `/${repoName}/${dinoData.sonido}` : dinoData.sonido;
     reproductorAudio.src = soundPath;
+
+
+    visor.addEventListener('load', () => {
+      // Acá podés dejar el 5, o ir probando 3, 4, 6...
+      const factorEscala = window.innerWidth >= 1600 ? 5 : 1; 
+      
+      escalaActual = dinoData.escalaWeb * factorEscala;
+      visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+    }, { once: true });
   }
 
   cargarDino();
 
+  
   document.body.addEventListener('click', () => {
     if (reproductorAudio.paused) reproductorAudio.play().catch(() => {});
   }, { once: true });

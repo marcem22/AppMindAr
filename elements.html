@@ -677,6 +677,82 @@
   color: black; 
   transform: scale(1.1);
 }
+/* =========================================================
+   MODO PANTALLA GIGANTE (PROYECTOR / SMART TV)
+   Imagen imponente con efecto Holograma/Flotante
+   ========================================================= */
+@media (min-width: 1600px) {
+  header { padding: 30px 100px; } 
+  .header-logo { max-height: 90px; } 
+
+  /* Achicamos un poco el padding superior e inferior para ganar altura real */
+  .layout {
+    grid-template-columns: 420px 1fr 420px; 
+    gap: 60px;
+    padding: 120px 140px 40px 140px; /* Ganamos 40px arriba y 20px abajo */
+  }
+
+  .sidebar-left, .sidebar-right {
+    align-self: center !important; 
+    margin-top: 0 !important;
+  }
+
+  .sidebar-left h3, .sidebar-right h3 { font-size: 24px; font-weight: 800; margin-bottom: 25px; }
+  .machinery-list li { font-size: 24px; font-weight: 600; padding: 18px 12px; }
+  .machinery-list li.active { font-weight: 800; } 
+  .small-model { font-size: 16px; font-weight: 600; }
+  
+  .cat-btn { padding: 14px 22px; font-size: 20px; font-weight: 700; }
+
+  .specs { padding: 35px; }
+  .specs h4 { font-size: 24px; font-weight: 800; margin-bottom: 25px; }
+  .spec-row { margin-bottom: 20px; }
+  .spec-label { font-size: 18px; font-weight: 700; }
+  .spec-val { font-size: 24px; font-weight: 800; }
+
+  .ar-btn { padding: 20px 35px; font-size: 20px; font-weight: 800; margin-top: 25px; }
+
+  .machine-category { 
+    background: #ffffff; 
+    color: #153B82; 
+    border: none;
+    font-size: 22px; 
+    font-weight: 800; 
+    padding: 14px 32px; 
+    top: -20px; 
+    z-index: 50; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+  }
+  
+
+  .machine-wrap {
+    animation: floatHologram 6s ease-in-out infinite !important;
+  }
+
+  @keyframes floatHologram {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); } 
+    100% { transform: translateY(0px); }
+  }
+
+
+  .machine-img { 
+    width: auto; 
+    max-width: 100%; 
+    height: 46vh; 
+    margin-top: 10px; 
+    object-fit: contain; 
+    filter: drop-shadow(0 30px 50px rgba(168, 181, 221, 0.25)) !important; 
+  } 
+ 
+  .machine-name { font-size: 50px; font-weight: 800; margin-top: 15px; }
+  .machine-description { font-size: 24px; font-weight: 500; max-width: 800px; margin: 15px auto; }
+
+  .machine-nav { margin-top: 15px; }
+  .nav-btn { width: 70px; height: 70px; font-size: 30px; font-weight: 800; }
+
+  .page-indicator { font-size: 50px; bottom: 40px; left: 100px; z-index: 100; }
+}
   </style>
 </head>
 <body>
