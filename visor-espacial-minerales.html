@@ -83,28 +83,26 @@
         .controls-panel { bottom: 130px !important; left: 15px !important; transform: scale(0.9) !important; }
     }
 
-    /* =========================================================
-       MODO PANTALLA GIGANTE - VISOR MINERALES
-       ========================================================= */
     @media (min-width: 1600px) {
       .header { padding: 40px 60px; }
       .close-btn { width: 80px; height: 80px; font-size: 36px; border-width: 3px; }
-
-      /* Título a la izquierda y más grande */
-      .model-info {
-        top: 40px !important; left: 80px !important; right: auto;
-        transform: none !important; padding: 15px 35px; border-width: 2px;
-      }
+      .model-info {  top: 40px !important; left: 80px !important; right: auto; transform: none !important; padding: 15px 35px; border-width: 2px;}
       .model-name { font-size: 35px; }
-
-      /* Controles empujados hacia adentro */
       .controls-panel { left: 80px; bottom: 80px; gap: 20px; }
       .control-btn { width: 80px; height: 80px; font-size: 36px; border-width: 3px; border-radius: 20px; }
-
-      /* Botones de acción inferiores */
       .btn-captura { width: 100px; height: 100px; font-size: 45px; bottom: 80px; right: 80px; border-width: 3px; }
       .btn-proyectar { padding: 24px 48px; font-size: 24px; bottom: 80px; }
     }
+     @media (min-width: 2560px) {
+  .header { padding: 100px 120px; }
+  .close-btn { width: 130px; height: 130px; font-size: 55px; border-width: 4px; }
+  .model-info { top: 120px !important; left: 120px !important; right: auto !important; transform: none !important; padding: 45px 90px; border-width: 4px; border-radius: 30px; }
+  .model-name { font-size: 60px; }
+  .controls-panel { left: 120px; bottom: 120px; gap: 30px; }
+  .control-btn { width: 130px; height: 130px; font-size: 55px; border-width: 4px; border-radius: 30px; }
+  .btn-captura { width: 150px; height: 150px; font-size: 70px; bottom: 120px; right: 120px; border-width: 4px; }
+  .btn-proyectar { padding: 45px 90px; font-size: 50px; bottom: 120px; border-radius: 90px; }
+}
   </style>
 </head>
 <body>
@@ -136,7 +134,7 @@
 
     </model-viewer>
 
-    <!-- LOS BOTONES DE MANIPULACIÓN -->
+
     <div class="controls-panel">
       <button class="control-btn" id="plus">+</button>
       <button class="control-btn" id="minus">-</button>
@@ -152,15 +150,11 @@
 
     const modeloSolicitado = parametrosUrl.get('modelo') || 'cuarzo';
     const nombreSolicitado = parametrosUrl.get('nombre') || 'Cuarzo';
-    
-    // Capturamos la escala que viene de la URL. Ej: "0.005 0.005 0.005"
+
     const escalaSolicitadaStr = parametrosUrl.get('escala') || '1 1 1';
-    
-    // Extraemos el primer numerito para poder sumar/restar con los botones
+
     let escalaActual = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
 
-    // Ajustamos el "paso" de crecimiento basado en qué tan chica es la escala original
-    // Si la escala es 0.005, que suba de a 0.001. Si es 1, que suba de a 0.02.
     const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 
     const visor = document.getElementById('visorModelo');

@@ -369,7 +369,6 @@
       transform: rotate(-45deg) translate(7px, -7px);
     }
 
-    /* Mobile sidebar */
     .mobile-sidebar {
       display: none;
       position: fixed;
@@ -677,11 +676,8 @@
   color: black; 
   transform: scale(1.1);
 }
-/* =========================================================
-   MODO PANTALLA GIGANTE (PROYECTOR / SMART TV)
-   ========================================================= */
-@media (min-width: 1600px) {
 
+@media (min-width: 1600px) {
   header { padding: 30px clamp(60px, 6vw, 120px); } 
   .header-logo { max-height: clamp(70px, 6vh, 110px); } 
 
@@ -767,18 +763,120 @@
     left: clamp(40px, 5vw, 120px); 
   }
 }
+
+@media (min-width: 2560px) {
+  header { padding: 160px 120px 0; }
+  .header-logo { max-height: 220px; }
+ 
+  .back-home-btn { 
+    width: 130px; 
+    height: 130px; 
+    font-size: 60px; 
+    top: 140px; 
+    right: 120px; 
+    border-width: 5px; 
+  }
+
+  .layout { 
+    max-width: none; 
+    padding: 100px 120px 100px; 
+    gap: 100px; 
+    grid-template-columns: 25% 1fr 25%; 
+    align-items: flex-start; 
+  }
+
+  .sidebar-left, .sidebar-right { 
+    margin-top: 450px; 
+  }
+  
+  .sidebar-left h3, .sidebar-right h3 { 
+    font-size: 55px !important; 
+    margin-bottom: 50px !important; 
+  }
+
+  .machinery-list li { font-size: 48px; padding: 35px 30px; }
+  .machinery-list li.active { border-left-width: 10px; }
+  .small-model { font-size: 30px; }
+
+  .cat-btn { padding: 28px 50px; font-size: 36px; border-width: 3px; border-radius: 50px; }
+
+  /* 4. Especificaciones */
+  .specs { padding: 70px; border-radius: 25px; }
+  .specs h4 { font-size: 48px; margin-bottom: 45px; }
+  .spec-row { margin-bottom: 35px; }
+  .spec-label { font-size: 32px; }
+  .spec-val { font-size: 42px; }
+
+  /* --- BOTÓN RA AGRANDADO --- */
+  .ar-btn { 
+    padding: 45px 80px; 
+    font-size: 42px; 
+    margin-top: 80px; 
+    border-radius: 25px; 
+    border-width: 4px;
+  }
+
+  /* 5. Centro: Imagen prominente */
+  .machine-view { 
+    margin-top: 40px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .machine-category { 
+    font-size: 45px; 
+    padding: 25px 60px; 
+    margin-bottom: 30px; 
+    position: relative; 
+  }
+
+  .machine-wrap { 
+    height: 50vh; 
+    width: 120%; 
+    margin-left: -10%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .machine-img { 
+    height: 100%; 
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 60px 100px rgba(21, 59, 130, 0.4));
+  }
+
+  /* 6. Textos */
+  .machine-name { font-size: 130px; margin-top: 10px; }
+  .machine-description { font-size: 48px; max-width: 1600px; margin: 30px auto; line-height: 1.6; }
+
+  .machine-nav { gap: 60px; margin-top: 40px; }
+  .nav-btn { width: 180px; height: 180px; font-size: 100px; border-width: 5px; }
+
+  /* 7. Indicador de página */
+  .page-indicator { 
+    font-size: 110px; 
+    left: 120px; 
+    bottom: 140px; 
+  }
+}
+
+@keyframes floatHologram4K {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+}
   </style>
 </head>
 <body>
 
-  <!-- Mobile Menu Toggle -->
   <button class="menu-toggle" id="menuToggle" aria-label="Menú">
     <span></span>
     <span></span>
     <span></span>
   </button>
 
-  <!-- Mobile Overlay -->
   <div class="mobile-overlay" id="mobileOverlay"></div>
 
   <div class="mobile-sidebar" id="mobileSidebar">
@@ -1023,16 +1121,12 @@
       if (e.key === 'ArrowRight') changeMachine(1);
     });
 
-    
-
-    // ========== MOBILE MENU FUNCTIONALITY ==========
     const menuToggle = document.getElementById('menuToggle');
     const mobileSidebar = document.getElementById('mobileSidebar');
     const mobileOverlay = document.getElementById('mobileOverlay');
     const mobileMachineryList = document.getElementById('mobileMachineryList');
     const arBtnMobile = document.getElementById('arBtnMobile');
 
-    // Toggle mobile menu
     function toggleMobileMenu() {
       menuToggle.classList.toggle('active');
       mobileSidebar.classList.toggle('active');
@@ -1043,7 +1137,6 @@
     menuToggle.addEventListener('click', toggleMobileMenu);
     mobileOverlay.addEventListener('click', toggleMobileMenu);
 
-    // Sync AR mode radios between desktop and mobile
     document.querySelectorAll('input[name="arMode"]').forEach(radio => {
       radio.addEventListener('change', (e) => {
         const mobileRadio = document.querySelector(`input[name="arModeMobile"][value="${e.target.value}"]`);
@@ -1058,8 +1151,6 @@
       });
     });
 
-   
-    // ========== NUEVA EXPERIENCIA ARCORE ==========
 const arCoreBtn = document.getElementById('arCoreBtn');
 const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
 
@@ -1076,7 +1167,6 @@ const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
     if (arCoreBtn) arCoreBtn.addEventListener('click', irAExperienciaEspacial);
     if (arCoreBtnMobile) arCoreBtnMobile.addEventListener('click', irAExperienciaEspacial);
 
-    // Render mobile machinery list
     function renderMobileList() {
       mobileMachineryList.innerHTML = "";
       filteredIndexes.forEach((machineIdx, pos) => {
@@ -1094,7 +1184,6 @@ const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
       });
     }
 
-    // Sync mobile specs with current machine
     function syncMobileSpecs() {
       if (filteredIndexes.length === 0) return;
       const m = machines[filteredIndexes[currentFilteredIndex]];
@@ -1104,11 +1193,9 @@ const arCoreBtnMobile = document.getElementById('arCoreBtnMobile');
       document.getElementById('mobileSpecApplication').textContent = m.application;
     }
 
-    // Initialize mobile menu content
     renderMobileList();
     syncMobileSpecs();
 
-    // Update mobile content when machine changes
     const originalUpdateFunction = updateToCurrentFiltered;
     updateToCurrentFiltered = function() {
       originalUpdateFunction();

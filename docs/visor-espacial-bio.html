@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>SIED - AR Espacial Biología</title>
-   <link rel="icon" type="image/png" href="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png">
+  <title>MiningTech - AR Espacial</title>
+  
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
   <style>
@@ -16,7 +16,7 @@
     
     body {
       font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-      background: radial-gradient(circle at center, #1a2010 0%, #0a1005 100%);
+      background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
       color: white;
       width: 100vw;
       height: 100dvh;
@@ -25,13 +25,10 @@
       overflow: hidden;
     }
 
+    .header { padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; background: transparent; z-index: 20; position: absolute; width: 100%; top: 0; left: 0; pointer-events: none; }
+    .close-btn { background: rgba(0, 0, 0, 0.4); border: 2px solid rgba(50, 100, 194, 0.9); border-radius: 50%; width: 48px; height: 48px; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; pointer-events: auto; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 255, 153, 0.3); backdrop-filter: blur(5px); }
+    .close-btn:hover { background: rgba(50, 100, 194, 0.9); color: white; transform: scale(1.05); }
 
-    button, a {
-      touch-action: manipulation;
-    }
-.header { padding: 20px 25px; display: flex; justify-content: flex-end; align-items: center; background: transparent; z-index: 20; position: absolute; width: 100%; top: 0; left: 0; pointer-events: none; }
-    .close-btn { background: rgba(0, 0, 0, 0.4); border: 2px solid #779B2C; border-radius: 50%; width: 48px; height: 48px; color: white; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; text-decoration: none; pointer-events: auto; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(119, 155, 44, 0.3); backdrop-filter: blur(5px); }
-    .close-btn:hover { background: #779B2C; color: white; transform: scale(1.05); }
     .visor-container {
       flex-grow: 1;
       width: 100%;
@@ -48,13 +45,13 @@
 
     .model-info {
       position: absolute;
-      top: 110px;
-      left: 200px !important;
-      transform: none !important;
-      background: rgba(119, 155, 44, 0.15);
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(21, 59, 130, 0.15);
       padding: 12px 24px;
       border-radius: 12px;
-      border: 1px solid rgba(119, 155, 44, 0.5);
+      border: 1px solid rgba(21, 59, 130, 0.5);
       text-align: center;
       pointer-events: none;
       backdrop-filter: blur(8px);
@@ -69,52 +66,19 @@
       letter-spacing: 1px;
     }
 
-    /* Panel de controles añadido para Bio */
-    .controls-panel {
-      position: absolute; 
-      left: 20px; 
-      bottom: 30px;
-      display: flex; 
-      flex-direction: column; 
-      gap: 12px; 
-      z-index: 150;
-    }
-
-    .control-btn {
-      width: 55px; 
-      height: 55px; 
-      background: rgba(119, 155, 44, 0.2); 
-      border: 2px solid #779B2C;
-      border-radius: 12px; 
-      color: #a0cc44; 
-      font-size: 24px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      user-select: none;
-      transition: all 0.2s;
-    }
-
-    .control-btn:active { 
-      background: #779B2C; 
-      color: #fff; 
-    }
-
     .btn-proyectar {
       position: absolute;
       bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, #a0cc44, #779B2C);
-      color: #000;
+      background: linear-gradient(135deg, #2e3be4, #301c77);
+      color: #ffff;
       border: none;
       border-radius: 30px;
       padding: 16px 32px;
       font-size: 16px;
       font-weight: bold;
-      box-shadow: 0 4px 15px rgba(119, 155, 44, 0.3);
+      box-shadow: 0 4px 15px rgba(0,255,153,0.3);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -132,7 +96,7 @@
       bottom: 40px;
       width: 60px;
       height: 60px;
-      background: rgba(119, 155, 44, 0.9);
+      background: rgba(21, 59, 130, 0.9);
       border: 2px solid rgba(255,255,255,0.3);
       border-radius: 50%;
       color: white;
@@ -142,7 +106,7 @@
       justify-content: center;
       cursor: pointer;
       z-index: 40;
-      box-shadow: 0 4px 15px rgba(119, 155, 44, 0.4);
+      box-shadow: 0 4px 15px rgba(21, 59, 130, 0.4);
       transition: transform 0.2s, background 0.2s;
     }
 
@@ -152,7 +116,7 @@
 
     @media (max-width: 768px) {
         .model-info {
-            top: 65px !important; 
+            top: 65px ; 
             left: 50% !important;
             transform: translateX(-50%) !important;
         }
@@ -167,34 +131,43 @@
             right: 15px !important;
             transform: scale(0.9) !important;
         }
-
-        .controls-panel {
-            bottom: 130px !important; 
-            left: 15px !important;
-            transform: scale(0.9) !important;
-        }
     }
-    /* =========================================================
-       MODO PANTALLA GIGANTE - VISOR BIO
-       ========================================================= */
+
     @media (min-width: 1600px) {
-      .header { padding: 40px 60px; }
-      
-      /* Botón Home más grande */
-      .close-btn { width: 80px; height: 80px; font-size: 36px; border-width: 3px; }
-
-      /* Título a la izquierda, más grande */
+      .header { padding: 30px 40px; }
+      .close-btn { width: 60px; height: 60px; font-size: 28px; border-width: 2px; }
       .model-info {
-        top: 40px !important; left: 60px !important; right: auto;
-        transform: none !important; padding: 15px 35px;
-        border-width: 2px;
+        top: 30px;
+        left: 40px !important;
+        right: auto;
+        transform: none !important;
+        padding: 15px 30px;
       }
-      .model-name { font-size: 35px; }
-
+      .model-name {
+        font-size: 30px; 
+      }
       .btn-captura {
-        width: 100px; height: 100px; font-size: 45px; bottom: 60px; right: 60px; border-width: 3px;
+        width: 75px;
+        height: 75px;
+        font-size: 32px;
+        bottom: 50px;
+        right: 50px;
+      }
+      .btn-proyectar {
+        padding: 18px 36px;
+        font-size: 20px;
+        bottom: 50px;
       }
     }
+
+    @media (min-width: 2560px) {
+  .header { padding: 80px 100px; }
+  .close-btn { width: 150px; height: 150px; font-size: 50px; border-width: 4px; }
+  .model-info { top: 100px; left: 100px !important; padding: 40px 80px; border-width: 4px; border-radius: 25px; }
+  .model-name { font-size: 75px; }
+  .btn-captura { width: 140px; height: 140px; font-size: 65px; bottom: 100px; right: 100px; border-width: 4px; }
+  .btn-proyectar { padding: 40px 80px; font-size: 45px; bottom: 100px; border-radius: 80px; }
+}
   </style>
   <script type="module" crossorigin src="/AppMindAr/assets/modulepreload-polyfill-B5Qt9EMX.js"></script>
 </head>
@@ -203,6 +176,7 @@
   <div class="header">
     <button class="close-btn" onclick="window.history.back()">🏠</button>
   </div>
+
   <div class="visor-container">
     <div class="model-info">
       <div class="model-name" id="nombreModelo">Cargando...</div>
@@ -215,32 +189,23 @@
       ar 
       ar-modes="webxr scene-viewer quick-look" 
       camera-controls 
-      touch-action="pan-y"
       auto-rotate
       autoplay
-      shadow-intensity="1">      
+      shadow-intensity="1">
+      
       <button slot="ar-button" class="btn-proyectar">
-        <span></span> Proyectar en el ambiente
+        <span></span> Proyectar en el espacio
       </button>
-    </model-viewer>
 
-    <div class="controls-panel">
-      <button class="control-btn" id="plus">+</button>
-      <button class="control-btn" id="minus">-</button>
-      <button class="control-btn" id="left">↺</button>
-      <button class="control-btn" id="right">↻</button>
-    </div>
+    </model-viewer>
     
     <button class="btn-captura" id="btnCaptura">📷</button>
   </div>
 
   <script>
     const parametrosUrl = new URLSearchParams(window.location.search);
-    const modeloSolicitado = parametrosUrl.get('modelo') || 'mariposa';
-    const nombreSolicitado = parametrosUrl.get('nombre') || 'Especie';
-    
-    // Capturamos el número exacto de escala (dejamos 0.5 por defecto como tenías antes)
-    let escalaActual = parseFloat(parametrosUrl.get('escala')) || 0.5;
+    const modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
+    const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
 
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
@@ -252,37 +217,13 @@
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
-
-    visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
-
-
-    let timer;
-    function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
-    function detenerAccion() { clearInterval(timer); }
-
-    const acciones = {
-      plus: () => { escalaActual += 0.005; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
-      minus: () => { if (escalaActual > 0.005) escalaActual -= 0.005; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
-      left: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta - 0.05}rad ${o.phi}rad ${o.radius}m`; },
-      right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.05}rad ${o.phi}rad ${o.radius}m`; }
-    };
-
-    ['plus', 'minus', 'left', 'right'].forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener('mousedown', () => iniciarAccion(acciones[id]));
-      el.addEventListener('touchstart', (e) => { e.preventDefault(); iniciarAccion(acciones[id]); }, { passive: false });
-      el.addEventListener('mouseup', detenerAccion);
-      el.addEventListener('mouseleave', detenerAccion);
-      el.addEventListener('touchend', detenerAccion);
-    });
-
     btnCaptura.addEventListener('click', async () => {
       btnCaptura.style.background = "orange";
       try {
         const blob = await visor.toBlob({ idealAspect: true });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.download = `BioAR-${Date.now()}.png`;
+        link.download = `MiningAR-${Date.now()}.png`;
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
@@ -290,7 +231,7 @@
         console.error(error);
       }
       setTimeout(() => {
-        btnCaptura.style.background = "rgba(119, 155, 44, 0.9)";
+        btnCaptura.style.background = "rgba(21, 59, 130, 0.9)";
       }, 500);
     });
   </script>

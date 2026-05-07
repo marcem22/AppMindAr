@@ -183,9 +183,6 @@
 
     .back-home-btn:hover { background: white; color: black; transform: scale(1.1); }
     @media (max-width: 768px) { .back-home-btn { display: none !important; } }
-    /* =========================================================
-       MODO PANTALLA GIGANTE - ELEMENTS BIO
-       ========================================================= */
     @media (min-width: 1600px) {
       header { padding: 30px 100px; } 
       .header-logo { max-height: 90px; } 
@@ -245,6 +242,32 @@
 
       .page-indicator { font-size: 50px; bottom: 40px; left: 60px; z-index: 100; }
     }
+    @media (min-width: 2560px) {
+  header { padding: 100px 140px 0; }
+  .header-logo { max-height: 200px; }
+  .layout { max-width: none; padding: 280px 150px 120px; gap: 120px; grid-template-columns: 26% 1fr 26%;align-items: center;}
+  .sidebar-left, .sidebar-right { align-self: center; margin-top: 0; }
+  .sidebar-left h3, .sidebar-right h3 { font-size: 55px; margin-bottom: 45px; }
+  .machinery-list li { font-size: 55px; padding: 40px 30px; }
+  .machinery-list li.active { border-left-width: 12px; border-left-style: solid; border-color: var(--violet-primary); }
+  .small-model { font-size: 32px; margin-left: 15px; } 
+  .cat-btn { padding: 30px 55px; font-size: 40px; border-width: 3px; border-radius: 50px; }
+  .specs { padding: 80px; border-radius: 25px; max-height: none; }
+  .specs h4 { font-size: 50px; margin-bottom: 45px; }
+  .spec-row { margin-bottom: 40px; }
+  .spec-label { font-size: 35px; width: auto; }
+  .spec-val { font-size: 45px; max-width: 100%; }
+  .ar-btn { padding: 45px 90px; font-size: 45px; margin-top: 80px; border-radius: 20px; }
+  .machine-category { font-size: 48px; padding: 30px 65px; top: -75px; border-radius: 80px; border-width: 4px; }
+  .machine-wrap { height: 75vh; display: flex; align-items: center; justify-content: center; }
+  .machine-img { width: 100%; max-width: 2200px; max-height: 1600px; object-fit: contain; filter: drop-shadow(0 50px 100px rgba(var(--violet-r), 0.4)); transform: scale(1.4); margin-top: 0; }
+  .machine-name { font-size: 140px; margin-top: 80px; }
+  .machine-description { font-size: 52px; max-width: 1500px; margin: 40px auto; line-height: 1.6; } 
+  .machine-nav { gap: 60px; margin-top: 70px; }
+  .nav-btn { width: 150px; height: 150px; font-size: 65px; border-width: 4px; }
+  .page-indicator { font-size: 110px; left: 140px; bottom: 180px; }
+  .back-home-btn { width: 140px; height: 140px; font-size: 65px; top: 120px; right: 140px; border-width: 5px; }
+}
   </style>
 </head>
 <body>
