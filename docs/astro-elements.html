@@ -24,15 +24,13 @@
       overflow-x: hidden; 
       overflow-y: auto; 
     }
-
-    /* Solución para evitar el zoom con doble toque en los botones */
     button, a, .nav-btn, .cat-btn, .machinery-list li {
       touch-action: manipulation;
     }
 
     header {
       position: fixed; top: 0; left: 0; width: 100%;
-      padding: 15px 56px;
+      padding: 30px 56px 0;
       display: flex; align-items: center;
       z-index: 50; background: linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
       opacity: 0;
@@ -57,7 +55,7 @@
       gap: 36px;
       height: 100vh;
       align-items: center;
-      padding: 76px 60px 30px;
+      padding: 120px 60px 30px;
     }
 
     .sidebar-left {
@@ -131,11 +129,12 @@
       justify-content: center;
       transition: transform .45s ease, filter .45s ease;
       height: 280px; 
+      margin-top: 45px;
     }
     .machine-img {
-      width: 480px;
-      max-width: 70vw;
-      max-height: 100%;
+      width: 100%;
+      max-width: 520px;
+      max-height: 42vh;
       object-fit: contain; 
       transition: opacity .35s ease, transform .45s ease;
       display: block; 
