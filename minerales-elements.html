@@ -27,7 +27,7 @@
 
     header{
       position:fixed; top:0; left:0; width:100%;
-      padding:22px 56px; display:flex; align-items:center;
+      padding:35px 56px 0; display:flex; align-items:center;
       z-index:50; background:linear-gradient(to bottom, rgba(0,0,0,0.85), transparent);
       opacity: 0;
       animation: fadeInDown 0.8s ease-out 0.1s forwards;
@@ -52,7 +52,7 @@
       gap: 36px;
       height: 100vh;
       align-items: center;
-      padding: 100px 60px 60px;
+      padding: 120px 60px 30px;
     }
 
     .sidebar-left{
@@ -118,7 +118,7 @@
     }
 
     .mineral-wrap{
-      display:inline-block; transition:transform .45s ease, filter .45s ease;
+      display:flex; transition:transform .45s ease, filter .45s ease;margin-top: 45px;
     }
 
     .mineral-img {
@@ -191,7 +191,6 @@
     .cat-btn:nth-child(3) { animation-delay: 0.6s; }
     
     .cat-btn.active{ border-color:var(--theme-accent); color:var(--theme-light); background:rgba(184, 115, 51, 0.15) }
-
     .specs{
       background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
       padding:18px; border-radius:8px; border:1px solid rgba(184, 115, 51, 0.15);
@@ -246,7 +245,7 @@
 
     .page-indicator{ 
       position:fixed; 
-      bottom:36px; 
+      bottom: 60px;
       left:60px; 
       font-size:42px; 
       color:rgba(255,255,255,0.08); 
@@ -514,35 +513,25 @@
     grid-template-columns: 26% 1fr 26%; 
     align-items: center; 
   }
-  
   .sidebar-left, .sidebar-right { align-self: center; margin-top: 0; }
   .sidebar-left h3, .sidebar-right h3 { font-size: 48px; margin-bottom: 45px; }
-  
   .mineral-list li { font-size: 50px; padding: 40px 30px; }
   .mineral-list li.active { border-left-width: 10px; border-left-style: solid; border-color: var(--theme-primary); }
   .small-model { font-size: 34px; }
-  
   .cat-btn { padding: 26px 45px; font-size: 34px; border-width: 3px; }
-  
   .specs { padding: 70px; border-radius: 20px; max-height: none; }
   .specs h4 { font-size: 44px; margin-bottom: 45px; }
   .spec-row { margin-bottom: 35px; }
   .spec-label { font-size: 32px; width: auto; }
   .spec-val { font-size: 40px; max-width: 100%; }
-  
   .ar-btn { padding: 35px 70px; font-size: 38px; margin-top: 60px; border-radius: 16px; }
-  
   .mineral-category { font-size: 38px; padding: 25px 55px; top: -50px; border-radius: 60px; }
-  
   .mineral-wrap { height: 80vh; display: flex; align-items: center; justify-content: center; }
   .mineral-img { width: 100%; max-width: 2400px; max-height: 1800px; object-fit: contain; filter: drop-shadow(0 40px 80px rgba(184, 115, 51, 0.4)); margin-top: 0; transform: scale(1.2); }
-  
   .mineral-name { font-size: 100px; margin-top: 50px; }
   .mineral-description { font-size: 44px; max-width: 1400px; margin: 35px auto; line-height: 1.6; }
-  
   .mineral-nav { gap: 40px; margin-top: 50px; }
   .nav-btn { width: 130px; height: 130px; font-size: 55px; border-width: 3px; }
-  
   .page-indicator { font-size: 90px; left: 140px; bottom: 160px; }
   .back-home-btn { width: 120px; height: 120px; font-size: 55px; top: 120px; right: 120px; border-width: 4px; }
 }
