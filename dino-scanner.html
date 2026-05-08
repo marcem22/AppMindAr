@@ -4,6 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>SIED - Dino AR</title>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-40KN126F8R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-40KN126F8R');
+</script>
    <link rel="icon" type="image/png" href="assets/LOGO SIED SOLO-01.png">
   
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
@@ -174,7 +183,7 @@
 
  <script>
   const dinos = [
-    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/giganotosaurus.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.12, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
+    { slug: 'giganotosaurus', archivo: 'giganotosaurus.glb', sonido: 'sounds/giganotosaurus.mp3', nombre: 'Giganotosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg', tieneUsdz: true },
     { slug: 'brachiosaurus', archivo: 'brachiosaurus.glb', sonido: 'sounds/brachiosaurus.mp3', nombre: 'Brachiosaurus', escalaWeb: 0.05, orientacion: '0deg 0deg 0deg' },
     { slug: 'trex', archivo: 'trex.glb', sonido: 'sounds/trex.mp3', nombre: 'T-Rex', escalaWeb: 0.15, orientacion: '0deg 0deg 0deg' },
     { slug: 'triceratops', archivo: 'triceratops.glb', sonido: 'sounds/triceratops.mp3', nombre: 'Triceratops', escalaWeb: 1, orientacion: '0deg 0deg 0deg' },
