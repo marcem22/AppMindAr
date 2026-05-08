@@ -681,13 +681,14 @@
 }
 
 @media (min-width: 1600px) {
-  header { padding: 30px clamp(60px, 6vw, 120px); } 
+
+  header { padding: 60px clamp(60px, 6vw, 120px) 0; } 
   .header-logo { max-height: clamp(70px, 6vh, 110px); } 
 
   .layout {
     grid-template-columns: 22% 1fr 22%;
     gap: clamp(30px, 3vw, 80px);
-    padding: 120px clamp(60px, 8vw, 160px) 60px;
+    padding: 160px clamp(60px, 8vw, 160px) 60px;
     max-width: 2000px;
     margin: 0 auto;
   }
@@ -732,6 +733,9 @@
     font-size: clamp(14px, 1.1vw, 22px); 
     margin-top: 20px;
   }
+  .machine-view {
+    margin-top: 40px; 
+  }
 
   .machine-category { 
     font-size: clamp(14px, 1.1vw, 24px); 
@@ -760,10 +764,10 @@
     height: clamp(50px, 4vw, 80px); 
     font-size: clamp(20px, 2vw, 32px); 
   }
-
   .page-indicator { 
     font-size: clamp(28px, 3vw, 60px); 
     left: clamp(40px, 5vw, 120px); 
+    bottom: 90px; 
   }
 }
 

@@ -469,39 +469,32 @@
       transform: scale(1.1);
     }
 
-    @media (min-width: 1600px) {
-      header { padding: 30px 100px; } 
-      .header-logo { max-height: 90px; } 
-      .layout {
-        grid-template-columns: 420px 1fr 420px; 
-        gap: 100px; 
-        padding: 120px 60px 40px 60px; }
-      .sidebar-left, .sidebar-right { align-self: center !important; margin-top: 0 !important; }
-      .sidebar-left h3, .sidebar-right h3 { 
-        font-size: 28px !important; font-weight: 800 !important; margin-bottom: 25px !important; }    
-      .mineral-list li { font-size: 24px; font-weight: 600; padding: 18px 12px; }
-      .mineral-list li.active { font-weight: 800; border-left-width: 5px; border-left: 3px solid var(--theme-primary); } 
-      .small-model { font-size: 16px; font-weight: 600; }     
-      .cat-btn { padding: 14px 22px; font-size: 20px; font-weight: 700; }
-      .specs { padding: 35px; max-height: none; }
-      .specs h4 { font-size: 24px; font-weight: 800; margin-bottom: 25px; }
-      .spec-row { margin-bottom: 20px; }
-      .spec-label { font-size: 18px; font-weight: 700; }
-      .spec-val { font-size: 24px; font-weight: 800; }
-      .ar-btn { padding: 20px 35px; font-size: 20px; font-weight: 800; margin-top: 25px; }
-      .mineral-category { font-size: 22px; font-weight: 800; padding: 14px 32px; top: -20px; z-index: 50; box-shadow: 0 10px 25px rgba(0,0,0,0.5);  }     
-      .mineral-wrap { animation: floatHologram 6s ease-in-out infinite !important; height: 46vh !important; }
-      @keyframes floatHologram {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-15px); }
-        100% { transform: translateY(0px); } }
-      .mineral-img { width: auto; max-width: 100%; max-height: 100%; margin-top: 10px;  object-fit: contain; filter: drop-shadow(0 30px 50px rgba(184, 115, 51, 0.25)) !important;  } 
-      .mineral-name { font-size: 50px; font-weight: 800; margin-top: 15px; }
-      .mineral-description { font-size: 24px; font-weight: 500; max-width: 800px;  margin: 15px auto; height: auto !important; overflow: visible !important;     }
-      .mineral-nav { margin-top: 15px; }
-      .nav-btn { width: 70px; height: 70px; font-size: 30px; font-weight: 800; }
-      .page-indicator { font-size: 50px; bottom: 40px; left: 60px; z-index: 100; }
-    }
+@media (min-width: 1600px) {
+  header { padding: 70px 100px; } 
+  .header-logo { max-height: 90px; } 
+  .layout { grid-template-columns: 420px 1fr 420px; gap: 100px; padding: 120px 60px 40px 100px; }
+  .sidebar-left, .sidebar-right { align-self: flex-start !important; justify-content: flex-start !important; margin-top: 140px !important; }
+  .sidebar-left h3, .sidebar-right h3 { font-size: 28px !important; font-weight: 800 !important; margin-bottom: 25px !important; }    
+  .mineral-list li { font-size: 24px; font-weight: 600; padding: 18px 12px; }
+  .mineral-list li.active { font-weight: 800; border-left-width: 5px; border-left: 3px solid var(--theme-primary); } 
+  .small-model { font-size: 16px; font-weight: 600; }     
+  .cat-btn { padding: 14px 22px; font-size: 20px; font-weight: 700; }
+  .specs { padding: 35px; max-height: none; }
+  .specs h4 { font-size: 24px; font-weight: 800; margin-bottom: 25px; }
+  .spec-row { margin-bottom: 20px; }
+  .spec-label { font-size: 18px; font-weight: 700; }
+  .spec-val { font-size: 24px; font-weight: 800; }
+  .ar-btn { padding: 20px 35px; font-size: 20px; font-weight: 800; margin-top: 25px; }
+  .mineral-category { font-size: 22px; font-weight: 800; padding: 14px 32px; top: -20px; z-index: 50; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }     
+  .mineral-wrap { animation: floatHologram 6s ease-in-out infinite !important; height: 46vh !important; }
+  @keyframes floatHologram { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
+  .mineral-img { width: auto; max-width: 100%; max-height: 100%; margin-top: 10px; object-fit: contain; filter: drop-shadow(0 30px 50px rgba(184, 115, 51, 0.25)) !important; } 
+  .mineral-name { font-size: 50px; font-weight: 800; margin-top: 15px; }
+  .mineral-description { font-size: 24px; font-weight: 500; max-width: 800px; margin: 15px auto; height: auto !important; overflow: visible !important; }
+  .mineral-nav { margin-top: 15px; }
+  .nav-btn { width: 70px; height: 70px; font-size: 30px; font-weight: 800; }
+  .page-indicator { font-size: 50px; bottom: 90px; left: 100px; z-index: 100; }
+}
 @media (min-width: 2560px) {
   header { padding: 120px 140px 0; }
   .header-logo { max-height: 180px; }
