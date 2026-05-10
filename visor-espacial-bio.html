@@ -225,6 +225,12 @@
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
+    if (modeloSolicitado === 'arania') {
+      visor.setAttribute('scale', '5 5 5'); 
+    } else {
+      
+      visor.setAttribute('scale', '1 1 1');
+    }
     btnCaptura.addEventListener('click', async () => {
       btnCaptura.style.background = "orange";
       try {
