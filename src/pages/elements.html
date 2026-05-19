@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SIED- Mineria</title>
+  <script>
+    // Detección de navegador: agrega clase al <html> antes del primer render
+    (function () {
+      var ua = navigator.userAgent;
+      if (ua.indexOf('Firefox') > -1) {
+        document.documentElement.classList.add('browser-firefox');
+      } else if (ua.indexOf('Chrome') > -1 || ua.indexOf('Edg') > -1) {
+        document.documentElement.classList.add('browser-chromium');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="./css/elements.css">
+</head>
+
+<body>
+
+  <!-- Mobile Menu Toggle -->
+  <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- Mobile Sidebar -->
+  <div class="mobile-sidebar" id="mobileSidebar">
+    <div class="mobile-section">
+      <a href="../../index.html" class="back-home-btn-sidebar" title="Volver al Menú">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle;">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg> Volver al Inicio
+      </a>
+      <h3>Seleccionar Maquinaria</h3>
+      <ul id="mobileMachineryList" class="machinery-list">
+      </ul>
+    </div>
+  </div>
+
+  <header>
+    <a href="../../index.html" style="pointer-events: auto; display: inline-block;">
+      <img src="../../assets/LOGO SIED SOLO-01.png" class="header-logo" alt="SIED Logo">
+    </a>
+    <a href="javascript:history.back()" class="back-nav-btn" title="Volver a la página anterior">
+      <span class="back-nav-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          style="display:inline-block; vertical-align:middle;">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg></span> Volver
+    </a>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar-left">
+      <h3>Maquinarias</h3>
+      <ul id="machineryList" class="machinery-list" aria-label="Lista de maquinarias">
+      </ul>
+    </aside>
+
+    <main class="machine-view" role="main">
+      <div class="machine-category" id="machineCategory">MAQUINARIA</div>
+
+      <div id="machineWrapper" class="machine-wrap fade-in">
+        <img id="machineImage" class="machine-img" src="../../assets/tunel.png" alt="Excavadora" />
+      </div>
+
+      <h2 id="machineName" class="machine-name">Excavadora hidráulica</h2>
+      <p id="machineDesc" class="machine-description">
+        Excavadora de alto rendimiento diseñada para operaciones mineras de gran escala.
+      </p>
+
+      <div class="machine-nav">
+        <button class="nav-btn" id="prevBtn" title="Anterior"><svg width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            style="display:inline-block; vertical-align:middle;">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg></button>
+        <button class="nav-btn" id="nextBtn" title="Siguiente"><svg width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            style="display:inline-block; vertical-align:middle;">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg></button>
+      </div>
+
+      <!-- Mobile Specs and AR (visible only on mobile) -->
+      <div class="mobile-specs-container">
+        <div class="mobile-section">
+          <h3>Especificaciones</h3>
+          <div class="specs">
+            <div class="spec-row">
+              <div class="spec-label spec-label-1">Capacidad</div>
+              <div class="spec-val" id="mobileSpecCapacity">-</div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-label spec-label-2">Potencia</div>
+              <div class="spec-val" id="mobileSpecPower">-</div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-label spec-label-3">Peso</div>
+              <div class="spec-val" id="mobileSpecWeight">-</div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-label spec-label-4">Aplicación</div>
+              <div class="spec-val" id="mobileSpecApplication">-</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="ar-btn" id="arBtnMobile" aria-label="Activar Realidad Aumentada">
+          Ver en AR
+        </button>
+      </div>
+    </main>
+
+    <aside class="sidebar-right">
+      <div>
+        <h3 style="color:var(--theme-color); text-transform:uppercase; font-size:13px; margin-bottom:12px">Categorías
+        </h3>
+        <div class="categories" id="categories">
+        </div>
+      </div>
+
+      <div class="specs" id="specsBox" aria-live="polite">
+        <h4>Especificaciones</h4>
+        <div class="spec-row">
+          <div class="spec-label spec-label-1">Capacidad</div>
+          <div class="spec-val" id="specCapacity">4.5 m³</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label spec-label-2">Potencia</div>
+          <div class="spec-val" id="specPower">525 HP</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label spec-label-3">Peso</div>
+          <div class="spec-val" id="specWeight">85,000 kg</div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-label spec-label-4">Aplicación</div>
+          <div class="spec-val" id="specApplication">Minería a cielo abierto</div>
+        </div>
+
+        <button class="ar-btn" id="arBtn">Ver en Realidad Aumentada</button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="page-indicator" id="pageIndicator">01 <span>/ 10</span></div>
+
+  <script type="module" src="./js/elements.js"></script>
+</body>
+
+</html>

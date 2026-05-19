@@ -1,0 +1,84 @@
+import { siteData } from "../../data.js";
+    const parametrosUrl = new URLSearchParams(window.location.search);
+    const modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
+    const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
+
+    const visor = document.getElementById('visorModelo');
+    const nombreUI = document.getElementById('nombreModelo');
+    const btnCaptura = document.getElementById('btnCaptura');
+
+    
+    const catId = parametrosUrl.get('id') || 'minas';
+    const data = siteData[catId];
+    
+    if (data) {
+        document.documentElement.style.setProperty('--theme-color', data.themeColor);
+        // Assuming hex color for themeColor, let's extract RGB
+        const hex = data.themeColor.replace('#', '');
+        if (hex.length === 6) {
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            document.documentElement.style.setProperty('--theme-color-rgb', `${r}, ${g}, ${b}`);
+            // Set dark color slightly darker
+            document.documentElement.style.setProperty('--theme-color-dark', `rgb(${Math.max(0, r-30)}, ${Math.max(0, g-30)}, ${Math.max(0, b-30)})`);
+        }
+    }
+    
+    // Add ready class to prevent FOUC
+    document.body.classList.add('ready');
+
+    const isProduction = window.location.hostname.includes('github.io');
+    const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
+
+    visor.src = BASE_PATH + modeloSolicitado + '.glb';
+    const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
+    visor.cameraOrbit = orbitSolicitada;
+
+    const escalaSolicitadaStr = parametrosUrl.get('escala') || '1 1 1';
+    let escalaActual = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
+    const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
+    
+    visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+
+    let timer;
+    function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
+    function detenerAccion() { clearInterval(timer); }
+
+    const acciones = {
+      plus: () => { escalaActual += stepEscala; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
+      minus: () => { if (escalaActual > stepEscala) escalaActual -= stepEscala; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
+      left: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta - 0.05}rad ${o.phi}rad ${o.radius}m`; },
+      right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.05}rad ${o.phi}rad ${o.radius}m`; }
+    };
+
+    ['plus', 'minus', 'left', 'right'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) {
+          el.addEventListener('mousedown', () => iniciarAccion(acciones[id]));
+          el.addEventListener('touchstart', (e) => { e.preventDefault(); iniciarAccion(acciones[id]); }, { passive: false });
+          el.addEventListener('mouseup', detenerAccion);
+          el.addEventListener('mouseleave', detenerAccion);
+          el.addEventListener('touchend', detenerAccion);
+      }
+    });
+
+    nombreUI.textContent = nombreSolicitado;
+
+    btnCaptura.addEventListener('click', async () => {
+      btnCaptura.style.background = "orange";
+      try {
+        const blob = await visor.toBlob({ idealAspect: true });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `MiningAR-${Date.now()}.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error(error);
+      }
+      setTimeout(() => {
+        btnCaptura.style.background = "rgba(var(--theme-color-rgb), 0.9)";
+      }, 500);
+    });
