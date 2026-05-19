@@ -1,576 +1,754 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>SIED - UNSJ | Realidad Aumentada</title>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-40KN126F8R"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-40KN126F8R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-40KN126F8R');
-</script>
+    gtag('config', 'G-40KN126F8R');
+  </script>
   <link rel="icon" type="image/png" href="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png">
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.139.2/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.139.2/examples/js/controls/OrbitControls.js"></script>
 
-<style>
-* { box-sizing: border-box; }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  background-color: #ffffff; 
-  background-image: radial-gradient(#d1dce5 1.5px, transparent 1.5px);
-  background-size: 30px 30px;
-  height: 100vh;
-  height: 100dvh; 
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      /* Page locked at exactly 100vh without scrolling */
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background-color: #ffffff;
+      background-image: radial-gradient(#d1dce5 1.5px, transparent 1.5px);
+      background-size: 30px 30px;
+      height: 100vh;
+      height: 100dvh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
 
-header {
-  background: transparent; 
-  height: 140px; 
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 30px 8% 0; 
-  z-index: 10;
-  flex-shrink: 0;
-}
+    header {
+      background: transparent;
+      height: 140px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 30px 8% 0;
+      z-index: 10;
+      flex-shrink: 0;
+    }
 
-.logos-container {
-  display: flex;
-  flex-direction: row; 
-  align-items: center;
-  gap: 45px; 
-}
+    .logos-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 45px;
+    }
 
-.logos-container img {
-  height: 105px; 
-  width: auto;
-  display: block;
-  filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.05));
-}
+    .logos-container img {
+      height: 105px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.05));
+    }
 
-main {
-  flex-grow: 1;
-  position: relative;
-  display: flex;
-  flex-direction: row; 
-  align-items: center;
-  justify-content: center;
-  padding: 0 8%;
-  gap: 5%;
-  overflow: visible; 
-  z-index: 1;
-}
+    main {
+      flex-grow: 1;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 0 8%;
+      gap: 5%;
+      overflow: visible;
+      z-index: 1;
+    }
 
-.glow-orb {
-  position: absolute;
-  width: 45vw;
-  height: 45vw;
-  background: radial-gradient(circle, rgba(3,55,115,0.04) 0%, rgba(255,255,255,0) 70%);
-  border-radius: 50%;
-  top: 45%; 
-  right: -10%;
-  transform: translateY(-50%);
-  z-index: 0;
-  pointer-events: none;
-}
+    .glow-orb {
+      position: absolute;
+      width: 45vw;
+      height: 45vw;
+      background: radial-gradient(circle, rgba(3, 55, 115, 0.04) 0%, rgba(255, 255, 255, 0) 70%);
+      border-radius: 50%;
+      top: 45%;
+      right: -10%;
+      transform: translateY(-50%);
+      z-index: 0;
+      pointer-events: none;
+    }
 
-.left-content {
-  flex: 1;
-  max-width: 45vw; 
-  z-index: 2;
-  margin-top: -120px; 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+    .left-content {
+      flex: 1;
+      max-width: 45vw;
+      z-index: 2;
+      margin-top: -120px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
 
-.title-badge {
-  font-size: 0.85rem; 
-  font-weight: 800;
-  color: #033773;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 12px; 
-  padding: 10px 20px;
-  background: rgba(3, 55, 115, 0.08);
-  border-radius: 50px;
-  border: 1px solid rgba(3, 55, 115, 0.2);
-}
+    .title-badge {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #033773;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding: 10px 20px;
+      background: rgba(3, 55, 115, 0.08);
+      border-radius: 50px;
+      border: 1px solid rgba(3, 55, 115, 0.2);
+    }
 
-h1 {
-  margin: 0;
-  font-size: 5.2rem; 
-  line-height: 1;
-  letter-spacing: -2px;
-  color: #1a1a1a; 
-  text-shadow: 0px 15px 30px rgba(3, 55, 115, 0.08); 
-}
+    h1 {
+      margin: 0;
+      font-size: 5.2rem;
+      line-height: 1;
+      letter-spacing: -2px;
+      color: #1a1a1a;
+      text-shadow: 0px 15px 30px rgba(3, 55, 115, 0.08);
+    }
 
-h1 .text-gradient {
-  background: linear-gradient(135deg, #033773 0%, #0066cc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: block; 
-}
+    h1 .text-gradient {
+      background: linear-gradient(135deg, #033773 0%, #0066cc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: block;
+    }
 
-.right-content {
-  flex: 1.2; 
-  height: 65vh; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  transform: translateY(-10vh);
-}
+    .right-content {
+      flex: 1.2;
+      height: 65vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      transform: translateY(-10vh);
+    }
 
-#cube-wrapper {
-  width: 100%;
-  height: 100%;
-}
+    #cube-wrapper {
+      width: 100%;
+      height: 100%;
+    }
 
-.hint-text {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(3, 55, 115, 0.15);
-  border-radius: 50px;
-  display: inline-flex;
-  align-items: center;
-  overflow: hidden;
-  height: 48px;
-  transition: max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  max-width: 320px; 
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(3, 55, 115, 0.1);
-  z-index: 20;
-}
+    .hint-text {
+      position: absolute;
+      bottom: 35px;
+      /* Raised slightly to float perfectly above the compact footer */
+      left: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(3, 55, 115, 0.15);
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      overflow: hidden;
+      height: 48px;
+      transition: max-width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 320px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(3, 55, 115, 0.1);
+      z-index: 20;
+    }
 
-.hint-text.collapsed { max-width: 48px; }
+    .hint-text.collapsed {
+      max-width: 48px;
+    }
 
-.hint-icon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  color: #033773;
-  flex-shrink: 0;
-  animation: spinIcon 8s linear infinite;
-}
+    .hint-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #033773;
+      flex-shrink: 0;
+      animation: spinIcon 8s linear infinite;
+    }
 
-@keyframes spinIcon {
-  100% { transform: rotate(360deg); }
-}
+    @keyframes spinIcon {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
 
-.hint-message {
-  font-size: 0.85rem;
-  color: #033773;
-  font-weight: 700;
-  text-transform: uppercase;
-  white-space: nowrap;
-  padding-right: 22px;
-  opacity: 1;
-  transition: opacity 0.3s ease;
-  letter-spacing: 0.5px;
-}
+    .hint-message {
+      font-size: 0.85rem;
+      color: #033773;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
+      padding-right: 22px;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+      letter-spacing: 0.5px;
+    }
 
-.hint-text.collapsed .hint-message { opacity: 0; }
+    .hint-text.collapsed .hint-message {
+      opacity: 0;
+    }
 
-footer {
-  background: rgba(255, 255, 255, 0.85); 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid rgba(3, 55, 115, 0.1); 
-  text-align: center;
-  padding: 15px 20px; 
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
-  gap: 6px; 
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
-}
+    footer {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(3, 55, 115, 0.12);
+      /* Clean, subtle separation line */
+      text-align: center;
+      padding: 15px 20px;
+      /* Compact padding to sit perfectly at bottom without scrolling */
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      /* Tight, elegant gap */
+      position: absolute;
+      /* Always visible at the bottom of the viewport */
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+    }
 
-footer .copyright { 
-  font-size: 0.9rem; 
-  font-weight: 600; 
-  color: #1a1a1a; 
-  margin: 0; 
-  letter-spacing: 0.5px;
-}
+    footer .copyright {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
 
-footer .devs-credits { 
-  font-size: 0.85rem; 
-  font-weight: 500; 
-  color: #555; 
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-}
+    footer .disclaimer {
+      font-size: 0.72rem;
+      color: #555e6b;
+      margin: 2px 0;
+      max-width: 800px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
 
-footer .dev-link {
-  color: #033773;
-  text-decoration: none;
-  font-weight: 700;
-  transition: color 0.2s ease;
-}
+    footer .devs-credits {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #555;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
 
-footer .dev-link:hover {
-  color: #0066cc;
-  text-decoration: underline;
-}
+    footer .dev-link {
+      color: #033773;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.2s ease;
+    }
 
-.dev-separator {
-  color: #ccc;
-  font-size: 0.8rem;
-  user-select: none;
-}
+    footer .dev-link:hover {
+      color: #0066cc;
+      text-decoration: underline;
+    }
 
-@media (min-width: 1600px) {
-  header { height: 200px; padding: 60px 12% 0; }
-  .logos-container { gap: 65px; }
-  .logos-container img { height: 165px; } 
-  .glow-orb { width: 60vw; height: 60vw; }
-  h1 { font-size: 7.5rem; } 
-  .title-badge { font-size: 1.3rem; padding: 14px 30px; margin-bottom: 35px; }
-  .left-content { margin-top: -15vh; } 
-  .right-content { height: 75vh; transform: translateY(-8vh); }
-  footer { padding: 25px 40px; gap: 10px; }
-  footer .copyright { font-size: 1.2rem; }
-  footer .devs-credits { font-size: 1.1rem; gap: 12px; }
-  footer .dev-link { font-size: 1.1rem; }
-  .dev-separator { font-size: 1rem; }
-}
-@media (min-width: 2560px) {
-  header {
-    height: 380px;
-    padding: 40px 10% 0 10%;
-  }
+    .dev-separator {
+      color: #ccc;
+      font-size: 0.8rem;
+      user-select: none;
+    }
 
-  .logos-container {
-    gap: 220px;
-  }
+    @media (min-width: 1600px) {
+      header {
+        height: 200px;
+        padding: 60px 12% 0;
+      }
 
-  .logos-container img {
-    height: 360px;
-  }
+      .logos-container {
+        gap: 65px;
+      }
 
-  .left-content {
-    max-width: 45vw;
-    margin-top: 0;
-    transform: translateY(-12vh);
-  }
+      .logos-container img {
+        height: 165px;
+      }
 
-  .title-badge {
-    font-size: 2.4rem;
-    padding: 20px 45px;
-    margin-bottom: 70px;
-    border-width: 2px;
-  }
+      .glow-orb {
+        width: 60vw;
+        height: 60vw;
+      }
 
-  h1 {
-    font-size: 15.5rem;
-    line-height: 1.25;
-    letter-spacing: -5px;
-  }
+      h1 {
+        font-size: 7.5rem;
+      }
 
-  .right-content {
-    flex: 1.8;
-    height: 85vh;
-    transform: translateY(-12vh);
-  }
+      .title-badge {
+        font-size: 1.3rem;
+        padding: 14px 30px;
+        margin-bottom: 35px;
+      }
 
-  .glow-orb {
-    width: 75vw;
-    height: 75vw;
-  }
+      .left-content {
+        margin-top: -15vh;
+      }
 
-  .hint-text {
-    bottom: 80px;
-    height: 90px;
-    border-radius: 90px;
-    max-width: 600px;
-  }
+      .right-content {
+        height: 75vh;
+        transform: translateY(-8vh);
+      }
 
-  .hint-text.collapsed {
-    max-width: 90px;
-  }
+      footer {
+        padding: 20px 40px;
+        gap: 8px;
+      }
 
-  .hint-icon {
-    width: 90px;
-    height: 90px;
-    font-size: 2.8rem;
-  }
+      footer .copyright {
+        font-size: 1.2rem;
+      }
 
-  .hint-message {
-    font-size: 1.8rem;
-    padding-right: 40px;
-  }
+      footer .disclaimer {
+        font-size: 0.9rem;
+        max-width: 1100px;
+      }
 
-  footer {
-    height: 220px;
-    padding: 40px 80px;
-    gap: 25px;
-  }
+      footer .devs-credits {
+        font-size: 1.1rem;
+        gap: 12px;
+      }
 
-  footer .copyright {
-    font-size: 2.4rem;
-  }
+      footer .dev-link {
+        font-size: 1.1rem;
+      }
 
-  footer .devs-credits {
-    font-size: 2rem;
-    gap: 25px;
-  }
+      .dev-separator {
+        font-size: 1rem;
+      }
+    }
 
-  footer .dev-link {
-    font-size: 2.5rem;
-  }
+    @media (min-width: 2560px) {
+      header {
+        height: 380px;
+        padding: 40px 10% 0 10%;
+      }
 
-  .dev-separator {
-    font-size: 1.8rem;
-  }
-}
+      .logos-container {
+        gap: 220px;
+      }
 
-@media (max-width: 900px) {
-  header { height: 100px; justify-content: center; padding: 0 20px; margin-top: 10px; }
-  .logos-container { gap: 30px; }
-  .logos-container img { height: 80px; }
-  
-  main { flex-direction: column; padding-top: 15px; gap: 0; }
-  .left-content { margin-top: 0; width: 100%; align-items: center; text-align: center; flex: 0 0 auto; }
-  .title-badge { font-size: 0.6rem; margin-bottom: 9px; }
-  h1 { font-size: 2.8rem; letter-spacing: -1px; text-shadow: none; }
-  
-  .right-content { width: 100%; flex: 1; transform: translateY(-40px); height: 40vh; }
-  
-  .hint-text { bottom: 20px; left: 20px; height: 44px; display: inline-flex; }
-  .hint-text.collapsed { max-width: 44px; }
-  .hint-icon { width: 44px; height: 44px; font-size: 1.2rem; }
-  .hint-message { font-size: 0.75rem; }
-  
-  footer { padding: 10px; position: absolute; gap: 4px; }
-  footer .copyright { font-size: 0.7rem; }
-  footer .devs-credits { font-size: 0.75rem; gap: 6px; flex-direction: row; flex-wrap: wrap; }
-  .dev-separator { display: inline; font-size: 0.7rem; color: #ccc; } 
-}
+      .logos-container img {
+        height: 360px;
+      }
 
-@media (max-height: 700px) and (max-width: 900px) {
-    h1 { font-size: 2.2rem; }
-    .title-badge { margin-bottom: 8px; }
-    .right-content { transform: translateY(-20px); }
-    .hint-text { bottom: 10px; left: 15px; }
-}
-</style>
+      .left-content {
+        max-width: 45vw;
+        margin-top: 0;
+        transform: translateY(-12vh);
+      }
+
+      .title-badge {
+        font-size: 2.4rem;
+        padding: 20px 45px;
+        margin-bottom: 70px;
+        border-width: 2px;
+      }
+
+      h1 {
+        font-size: 15.5rem;
+        line-height: 1.25;
+        letter-spacing: -5px;
+      }
+
+      .right-content {
+        flex: 1.8;
+        height: 85vh;
+        transform: translateY(-12vh);
+      }
+
+      .glow-orb {
+        width: 75vw;
+        height: 75vw;
+      }
+
+      .hint-text {
+        bottom: 90px;
+        /* Raised to clear the absolute footer at 2560px */
+        height: 90px;
+        border-radius: 90px;
+        max-width: 600px;
+      }
+
+      .hint-text.collapsed {
+        max-width: 90px;
+      }
+
+      .hint-icon {
+        width: 90px;
+        height: 90px;
+        font-size: 2.8rem;
+      }
+
+      .hint-message {
+        font-size: 1.8rem;
+        padding-right: 40px;
+      }
+
+      footer {
+        padding: 30px 80px;
+        gap: 12px;
+      }
+
+      footer .copyright {
+        font-size: 2.4rem;
+      }
+
+      footer .disclaimer {
+        font-size: 1.8rem;
+        max-width: 1800px;
+      }
+
+      footer .devs-credits {
+        font-size: 2rem;
+        gap: 25px;
+      }
+
+      footer .dev-link {
+        font-size: 2.5rem;
+      }
+
+      .dev-separator {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 900px) {
+      header {
+        height: 100px;
+        justify-content: center;
+        padding: 0 20px;
+        margin-top: 10px;
+      }
+
+      .logos-container {
+        gap: 30px;
+      }
+
+      .logos-container img {
+        height: 80px;
+      }
+
+      main {
+        flex-direction: column;
+        padding-top: 15px;
+        gap: 0;
+      }
+
+      .left-content {
+        margin-top: 0;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        flex: 0 0 auto;
+      }
+
+      .title-badge {
+        font-size: 0.6rem;
+        margin-bottom: 9px;
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        letter-spacing: -1px;
+        text-shadow: none;
+      }
+
+      .right-content {
+        width: 100%;
+        flex: 1;
+        transform: translateY(-40px);
+        height: 40vh;
+      }
+
+      .hint-text {
+        bottom: 30px;
+        /* Raised to clear absolute footer on mobile */
+        left: 20px;
+        height: 44px;
+        display: inline-flex;
+      }
+
+      .hint-text.collapsed {
+        max-width: 44px;
+      }
+
+      .hint-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+      }
+
+      .hint-message {
+        font-size: 0.75rem;
+      }
+
+      footer {
+        padding: 10px;
+        position: absolute;
+        gap: 4px;
+      }
+
+      footer .copyright {
+        font-size: 0.75rem;
+      }
+
+      footer .disclaimer {
+        font-size: 0.68rem;
+        max-width: 92%;
+      }
+
+      footer .devs-credits {
+        font-size: 0.75rem;
+        gap: 6px;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .dev-separator {
+        display: inline;
+        font-size: 0.7rem;
+        color: #ccc;
+      }
+    }
+
+    @media (max-height: 700px) and (max-width: 900px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .title-badge {
+        margin-bottom: 8px;
+      }
+
+      .right-content {
+        transform: translateY(-20px);
+      }
+
+      .hint-text {
+        bottom: 20px;
+        /* Raised to clear mobile footer on shorter screens */
+        left: 15px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logos-container">
-    <img src="/AppMindAr/assets/logo%20UNSJ%20horizontal-02-CIFSIxLX.png" alt="UNSJ" />
-    <img src="/AppMindAr/assets/logo%20sied%20horizontal-02-BF-xqR4y.png" alt="SIED" />
-  </div>
-</header>
-
-<main>
-  <div class="glow-orb"></div>
-  
-  <div class="left-content">
-    <div class="title-badge">Innovación Educativa</div>
-    <h1>EXPLORÁ EN <span class="text-gradient">REALIDAD AUMENTADA</span></h1>
-  </div>
-
-  <div class="right-content">
-    <div id="cube-wrapper"></div>
-    
-    <div class="hint-text" id="smartHint">
-      <div class="hint-icon">↻</div>
-      <div class="hint-message">Girá el cubo para comenzar</div>
+  <header>
+    <div class="logos-container">
+      <img src="/AppMindAr/assets/logo%20UNSJ%20horizontal-02-CIFSIxLX.png" alt="UNSJ" />
+      <img src="/AppMindAr/assets/logo%20sied%20horizontal-02-BF-xqR4y.png" alt="SIED" />
     </div>
-  </div>
-</main>
+  </header>
 
-<footer>
-  <div class="copyright">© 2025 - 2026 SIED - Universidad Nacional de San Juan</div>
-  <div class="devs-credits">
-    Desarrolladores: 
-    <a href="https://mara-brizuela.vercel.app/" target="_blank" class="dev-link">Mara Brizuela</a> <span class="dev-separator">|</span> 
-    <a href="https://marcelam-portfolio.vercel.app" target="_blank" class="dev-link">Marcela Mancini</a> <span class="dev-separator">|</span> 
-    <a href="https://mi-portfolio-463a4.web.app" target="_blank" class="dev-link">Emanuel Pintor</a>
-  </div>
-</footer>
+  <main>
+    <div class="glow-orb"></div>
 
-<script>
-const smartHint = document.getElementById('smartHint');
+    <div class="left-content">
+      <div class="title-badge">Innovación Educativa</div>
+      <h1>EXPLORÁ EN <span class="text-gradient">REALIDAD AUMENTADA</span></h1>
+    </div>
 
-let collapseTimer = setTimeout(() => {
-  smartHint.classList.add('collapsed');
-}, 4500);
+    <div class="right-content">
+      <div id="cube-wrapper"></div>
 
-smartHint.addEventListener('click', () => {
-  clearTimeout(collapseTimer); 
-  smartHint.classList.toggle('collapsed');
-  
-  if (!smartHint.classList.contains('collapsed')) {
-    collapseTimer = setTimeout(() => {
+      <div class="hint-text" id="smartHint">
+        <div class="hint-icon">↻</div>
+        <div class="hint-message">Girá el cubo para comenzar</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="copyright">© 2025 - 2026 SIED - Universidad Nacional de San Juan. Todos los derechos reservados.</div>
+    <div class="disclaimer">
+      Los modelos 3D y recursos provienen de páginas web bajo licencias no comerciales y pertenecen a sus respectivos
+      autores.
+    </div>
+    <div class="devs-credits">
+      Desarrolladores:
+      <a href="https://mara-brizuela.vercel.app/" target="_blank" class="dev-link">Mara Brizuela</a> <span
+        class="dev-separator">|</span>
+      <a href="https://marcelam-portfolio.vercel.app" target="_blank" class="dev-link">Marcela Mancini</a> <span
+        class="dev-separator">|</span>
+      <a href="https://mi-portfolio-463a4.web.app" target="_blank" class="dev-link">Emanuel Pintor</a>
+    </div>
+  </footer>
+
+  <script>
+    const smartHint = document.getElementById('smartHint');
+
+    let collapseTimer = setTimeout(() => {
       smartHint.classList.add('collapsed');
-    }, 3000);
-  }
-});
+    }, 4500);
 
-function createImageWithCenteredText(imageUrl, text) {
-  const c = document.createElement("canvas");
-  c.width = 1024; c.height = 1024;
-  const ctx = c.getContext("2d");
-  const texture = new THREE.CanvasTexture(c);
-  const img = new Image();
-  img.crossOrigin = "Anonymous"; 
-  img.onload = () => {
-    ctx.drawImage(img, 0, 0, 1024, 1024);
-    const bh = 220; const by = (1024 - bh) / 2;
-    ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
-    ctx.fillRect(0, by, 1024, bh);
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 140px Segoe UI, sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(text, 512, by + bh / 2);
-    texture.needsUpdate = true;
-  };
-  img.src = imageUrl;
-  return texture;
-}
+    smartHint.addEventListener('click', () => {
+      clearTimeout(collapseTimer);
+      smartHint.classList.toggle('collapsed');
 
-function createLogoWithBackground(imagePath, bgColor) {
-  const c = document.createElement('canvas');
-  c.width = 512; c.height = 512;
-  const ctx = c.getContext('2d');
-  const texture = new THREE.CanvasTexture(c);
-  const img = new Image();
-  img.onload = () => {
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, 512, 512);
-    const size = 350;
-    let dw = img.width; let dh = img.height;
-    const ratio = Math.min(size / dw, size / dh);
-    dw *= ratio; dh *= ratio;
-    ctx.drawImage(img, (512 - dw) / 2, (512 - dh) / 2, dw, dh);
-    texture.needsUpdate = true;
-  };
-  img.src = imagePath;
-  return texture;
-}
+      if (!smartHint.classList.contains('collapsed')) {
+        collapseTimer = setTimeout(() => {
+          smartHint.classList.add('collapsed');
+        }, 3000);
+      }
+    });
 
-const container = document.getElementById("cube-wrapper");
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
-
-if (window.innerWidth <= 900) {
-  camera.position.set(8, 8, 8); 
-} else if (window.innerWidth >= 2560) {
-  camera.position.set(8.5, 8.5, 8.5); 
-} else if (window.innerWidth >= 1600) {
-  camera.position.set(6.2, 6.2, 6.2); 
-} else {
-  camera.position.set(7.0, 7.0, 7.0);
-}
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setClearColor(0x000000, 0); 
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-container.appendChild(renderer.domElement);
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableZoom = false; controls.enablePan = false;
-controls.enableDamping = true; controls.autoRotate = true;
-controls.autoRotateSpeed = 1.2;
-
-scene.add(new THREE.AmbientLight(0xffffff, 1));
-const light = new THREE.DirectionalLight(0xffffff, 0.8);
-light.position.set(5, 5, 5);
-scene.add(light);
-
-async function loadMaterials() {
-  return [
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos.jpeg", "Dinos") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas.jpeg", "Minería") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minerales.png", "Minerales") }),
-    new THREE.MeshStandardMaterial({ map: createLogoWithBackground("assets/Logosiedvertical-02.png", "#000000") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro.jpeg", "Astro") }),
-    new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio.jpeg", "Bio") }),
-  ];
-}
-
-async function initCube() {
-  const mats = await loadMaterials();
-  const cube = new THREE.Mesh(new THREE.BoxGeometry(4.5, 4.5, 4.5), mats);
-  scene.add(cube);
-
-  const routes = ["index-dino.html", "minas.html", "minerales.html", "", "astro.html", "bio.html"];
-  const ray = new THREE.Raycaster();
-  const pointer = new THREE.Vector2();
-
-  function detect(x, y) {
-    const rect = renderer.domElement.getBoundingClientRect();
-    pointer.x = ((x - rect.left) / rect.width) * 2 - 1;
-    pointer.y = -((y - rect.top) / rect.height) * 2 + 1;
-    ray.setFromCamera(pointer, camera);
-    const hit = ray.intersectObject(cube);
-    if (hit.length && routes[hit[0].face.materialIndex] !== "") {
-      window.location.href = routes[hit[0].face.materialIndex];
+    function createImageWithCenteredText(imageUrl, text) {
+      const c = document.createElement("canvas");
+      c.width = 1024; c.height = 1024;
+      const ctx = c.getContext("2d");
+      const texture = new THREE.CanvasTexture(c);
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0, 1024, 1024);
+        const bh = 220; const by = (1024 - bh) / 2;
+        ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+        ctx.fillRect(0, by, 1024, bh);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 140px Segoe UI, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(text, 512, by + bh / 2);
+        texture.needsUpdate = true;
+      };
+      img.src = imageUrl;
+      return texture;
     }
-  }
 
-  renderer.domElement.addEventListener("click", (e) => detect(e.clientX, e.clientY));
-  renderer.domElement.addEventListener("touchend", (e) => {
-    if (e.changedTouches[0]) detect(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-  });
+    function createLogoWithBackground(imagePath, bgColor) {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      const texture = new THREE.CanvasTexture(c);
+      const img = new Image();
+      img.onload = () => {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, 512, 512);
+        const size = 350;
+        let dw = img.width; let dh = img.height;
+        const ratio = Math.min(size / dw, size / dh);
+        dw *= ratio; dh *= ratio;
+        ctx.drawImage(img, (512 - dw) / 2, (512 - dh) / 2, dw, dh);
+        texture.needsUpdate = true;
+      };
+      img.src = imagePath;
+      return texture;
+    }
 
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    const t = clock.getElapsedTime();
-    cube.position.y = Math.sin(t * 1.2) * 0.2; 
-    renderer.render(scene, camera);
-  }
-  animate();
-}
+    const container = document.getElementById("cube-wrapper");
+    const scene = new THREE.Scene();
 
-initCube();
+    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
 
-window.addEventListener("resize", () => {
-  camera.aspect = container.clientWidth / container.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
-});
-</script>
+    if (window.innerWidth <= 900) {
+      camera.position.set(8, 8, 8);
+    } else if (window.innerWidth >= 2560) {
+      camera.position.set(8.5, 8.5, 8.5);
+    } else if (window.innerWidth >= 1600) {
+      camera.position.set(6.2, 6.2, 6.2);
+    } else {
+      camera.position.set(7.0, 7.0, 7.0);
+    }
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = false; controls.enablePan = false;
+    controls.enableDamping = true; controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.2;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    const light = new THREE.DirectionalLight(0xffffff, 0.8);
+    light.position.set(5, 5, 5);
+    scene.add(light);
+
+    async function loadMaterials() {
+      return [
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos.jpeg", "Dinos") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas.jpeg", "Minería") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minerales.png", "Minerales") }),
+        new THREE.MeshStandardMaterial({ map: createLogoWithBackground("assets/Logosiedvertical-02.png", "#000000") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro.jpeg", "Astro") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio.jpeg", "Bio") }),
+      ];
+    }
+
+    async function initCube() {
+      const mats = await loadMaterials();
+      const cube = new THREE.Mesh(new THREE.BoxGeometry(4.5, 4.5, 4.5), mats);
+      scene.add(cube);
+
+      const routes = ["src/pages/category.html?id=dino", "src/pages/category.html?id=minas", "src/pages/category.html?id=minerales", "", "src/pages/category.html?id=astro", "src/pages/category.html?id=bio"];
+      const ray = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
+
+      function detect(x, y) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.x = ((x - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((y - rect.top) / rect.height) * 2 + 1;
+        ray.setFromCamera(pointer, camera);
+        const hit = ray.intersectObject(cube);
+        if (hit.length && routes[hit[0].face.materialIndex] !== "") {
+          window.location.href = routes[hit[0].face.materialIndex];
+        }
+      }
+
+      renderer.domElement.addEventListener("click", (e) => detect(e.clientX, e.clientY));
+      renderer.domElement.addEventListener("touchend", (e) => {
+        if (e.changedTouches[0]) detect(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+      });
+
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        const t = clock.getElapsedTime();
+        cube.position.y = Math.sin(t * 1.2) * 0.2;
+        renderer.render(scene, camera);
+      }
+      animate();
+    }
+
+    initCube();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
 </body>
+
 </html>

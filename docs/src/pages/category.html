@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <title id="pageTitle">SIED - Inicio</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-40KN126F8R"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-40KN126F8R');
+    </script>
+    <script>
+        // Detección de navegador: agrega clase al <html> antes del primer render
+        (function() {
+            var ua = navigator.userAgent;
+            if (ua.indexOf('Firefox') > -1) {
+                document.documentElement.classList.add('browser-firefox');
+            } else if (ua.indexOf('Chrome') > -1 || ua.indexOf('Edg') > -1) {
+                document.documentElement.classList.add('browser-chromium');
+            }
+        })();
+    </script>
+    <link rel="icon" type="image/png" href="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png">
+  <script type="module" crossorigin src="/AppMindAr/assets/category-ChjpHx7N.js"></script>
+  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-DFj4GQDc.js">
+  <link rel="stylesheet" crossorigin href="/AppMindAr/assets/category-D8byG9jH.css">
+</head>
+
+<body>
+    <div id="home">
+        <header>
+            <a href="../../index.html" style="pointer-events: auto; display: inline-block;">
+                <img src="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png" class="header-logo" alt="SIED Logo">
+            </a>
+            <a href="javascript:history.back()" class="back-nav-btn" title="Volver a la página anterior">
+                <span class="back-nav-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                        style="display:inline-block; vertical-align:middle;">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg></span> Volver
+            </a>
+        </header>
+
+        <div id="backdrop" class="red-backdrop"></div>
+        <img id="heroImage" src="" alt="" class="machine-image">
+
+        <div class="hero-content">
+            <div id="heroSubtitle" class="hero-subtitle"></div>
+            <h1 id="heroTitle" class="hero-title"></h1>
+            <p id="heroDesc" class="hero-description"></p>
+            <a id="heroBtn" href="#" class="learn-more-btn">
+                <span id="btnText"></span>
+                <span class="arrow-circle">
+                    <span class="arrow">&rarr;</span>
+                </span>
+            </a>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
