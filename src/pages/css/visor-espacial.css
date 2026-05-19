@@ -337,3 +337,23 @@
         border-radius: 30px;
       }
     }
+
+    /* =========================================================
+       🌐 CHROMIUM (EDGE / CHROME) OVERRIDES 
+       ========================================================= */
+    html.browser-chromium .model-info {
+      top: 30px !important;
+      left: 40px !important;
+      right: auto !important;
+      transform: none !important;
+      padding: 15px 30px;
+    }
+
+    /* Preservar centrado en móviles incluso en Chromium */
+    @media (max-width: 768px) {
+      html.browser-chromium .model-info {
+        top: 65px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+      }
+    }
