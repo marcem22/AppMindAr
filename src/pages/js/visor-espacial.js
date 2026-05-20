@@ -97,7 +97,27 @@ import { siteData } from "../../data.js";
         const blob = await visor.toBlob({ idealAspect: true });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
-        link.download = `MiningAR-${Date.now()}.png`;
+        
+        // Limpiamos el nombre para el archivo (quitamos acentos, caracteres especiales y reemplazamos espacios por guiones bajos)
+        const nombreArchivo = nombreSolicitado
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-zA-Z0-9\s-_]/g, "")
+          .trim()
+          .replace(/\s+/g, '_');
+
+        // Formateamos la fecha actual de forma entendible para el usuario (DD-MM-YYYY_HH-mm-ss)
+        const ahora = new Date();
+        const dia = String(ahora.getDate()).padStart(2, '0');
+        const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+        const anio = ahora.getFullYear();
+        const hora = String(ahora.getHours()).padStart(2, '0');
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const segundos = String(ahora.getSeconds()).padStart(2, '0');
+        
+        const fechaFormateada = `${dia}-${mes}-${anio}_${hora}-${minutos}-${segundos}`;
+
+        link.download = `${nombreArchivo}_${fechaFormateada}.png`;
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
