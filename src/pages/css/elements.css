@@ -48,40 +48,41 @@ header {
   transform: scale(1.05);
 }
 
-.back-nav-btn {
-  display: inline-flex;
+.close-btn {
+  background: rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(var(--theme-color-rgb), 0.9);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 8px 14px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 600;
+  justify-content: center;
   text-decoration: none;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
+  backdrop-filter: blur(5px);
   margin-left: auto;
 }
 
-.back-nav-btn:hover {
-  background: var(--theme-color);
-  border-color: var(--theme-color);
-  color: #ffffff;
-  transform: translateX(-4px);
-  box-shadow: 0 4px 20px rgba(var(--theme-color-rgb), 0.4);
+.close-btn:hover {
+  background: rgba(var(--theme-color-rgb), 0.9);
+  color: white;
+  transform: scale(1.05);
 }
 
-.back-nav-arrow {
-  font-size: 18px;
+.back-icon {
+  width: 1em;
+  height: 1em;
   transition: transform 0.3s ease;
+  display: block;
 }
 
-.back-nav-btn:hover .back-nav-arrow {
-  transform: translateX(-3px);
+.close-btn:hover .back-icon {
+  transform: translateX(-2px);
 }
 
 @keyframes fadeInDown {
@@ -441,7 +442,8 @@ header {
   font-size: 12px;
   color: #9a9a9a;
   text-transform: uppercase;
-  letter-spacing: 1px
+  letter-spacing: 1px;
+  text-align: left;
 }
 
 .spec-val {
@@ -782,7 +784,16 @@ header {
   }
 
   header {
-    padding: 18px 24px
+    padding: 18px 24px;
+  }
+
+  .header-logo {
+    max-height: 90px;
+    margin-top: 10px;
+  }
+
+  .close-btn {
+    display: none;
   }
 
   .machine-name {
@@ -792,7 +803,7 @@ header {
 
   .machine-description {
     font-size: 19px;
-    margin: 15px 0 25px;
+    margin: 15px auto 25px;
   }
 
   .machine-nav {
@@ -820,6 +831,10 @@ header {
 @media (max-width: 768px) {
   .layout {
     padding: 100px 20px 15px;
+  }
+
+  .header-logo {
+    max-height: 65px;
   }
 
   .machine-name {
@@ -923,12 +938,14 @@ header {
     max-height: 95px !important;
   }
 
-  .back-nav-btn {
-    padding: 15px 25px !important;
-    font-size: 22px !important;
+  .close-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+    border-width: 2px;
   }
 
-  .back-nav-arrow {
+  .back-icon {
     font-size: 25px !important;
   }
 
@@ -1030,13 +1047,14 @@ header {
     max-height: 140px !important;
   }
 
-  .back-nav-btn {
-    padding: 22px 38px !important;
-    font-size: 32px !important;
-    border-radius: 80px !important;
+  .close-btn {
+    width: 150px;
+    height: 150px;
+    font-size: 50px;
+    border-width: 4px;
   }
 
-  .back-nav-arrow {
+  .back-icon {
     font-size: 36px !important;
   }
 
@@ -1126,7 +1144,6 @@ header {
     padding: 15px 28px !important;
     font-size: 26px !important;
   }
-}
 }
 
 /* ==========================================================================
@@ -1273,10 +1290,10 @@ header {
   }
 
   /* Botón volver: más grande en Firefox */
-  html.browser-firefox .back-nav-btn {
-    gap: 8px !important;
-    padding: 10px 18px !important;
-    font-size: 17px !important;
+  html.browser-firefox .close-btn {
+    width: 55px !important;
+    height: 55px !important;
+    font-size: 25px !important;
   }
 
   /* Layout: grid más amplio, centrado vertical, altura completa */
