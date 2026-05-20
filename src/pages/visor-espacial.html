@@ -15,7 +15,7 @@
   </script>
   <script>
     // Detección de navegador: agrega clase al <html> antes del primer render
-    (function() {
+    (function () {
       var ua = navigator.userAgent;
       if (ua.indexOf('Firefox') > -1) {
         document.documentElement.classList.add('browser-firefox');
@@ -24,7 +24,7 @@
       }
     })();
   </script>
-  <title>MiningTech - AR Espacial</title>
+  <title>SIED- Mineria</title>
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
@@ -50,7 +50,7 @@
     </div>
 
     <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
-      auto-rotate autoplay shadow-intensity="1">
+      auto-rotate autoplay shadow-intensity="1" loading="eager">
 
       <button slot="ar-button" class="btn-proyectar">
         <span></span> Proyectar en el espacio
@@ -58,7 +58,7 @@
 
     </model-viewer>
 
-    
+
     <div class="controls-panel">
       <button class="control-btn" id="plus">+</button>
       <button class="control-btn" id="minus">-</button>
