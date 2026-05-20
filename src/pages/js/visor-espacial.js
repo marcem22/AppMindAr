@@ -30,6 +30,7 @@ import { siteData } from "../../data.js";
 
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
+    const SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
 
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
@@ -40,6 +41,31 @@ import { siteData } from "../../data.js";
     const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
     
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
+
+    // ─── USDZ support (iOS Quick Look animated models) ───
+    // Buscar el elemento actual en la data para saber si tiene USDZ
+    let elementoActual = null;
+    if (data && data.elementsData) {
+      elementoActual = data.elementsData.find(e => e.arMarker === modeloSolicitado);
+    }
+
+    if (elementoActual && elementoActual.tieneUsdz) {
+      visor.setAttribute('ios-src', BASE_PATH + modeloSolicitado + '.usdz');
+    }
+
+    // ─── Sonido (solo para la categoría dino) ───
+    let reproductorAudio = null;
+    if (catId === 'dino' && elementoActual && elementoActual.sonido) {
+      reproductorAudio = new Audio();
+      reproductorAudio.src = SOUND_BASE + elementoActual.sonido;
+
+      // Reproducir al primer toque/click del usuario (requerido por navegadores)
+      document.body.addEventListener('click', () => {
+        if (reproductorAudio && reproductorAudio.paused) {
+          reproductorAudio.play().catch(() => { });
+        }
+      }, { once: true });
+    }
 
     let timer;
     function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }

@@ -453,7 +453,9 @@ export const siteData = {
         "arMarker": "giganotosaurus",
         "capacity": "Carnívoro",
         "power": "Cretácico",
-        "application": "13 metros"
+        "application": "13 metros",
+        "sonido": "sounds/giganotosaurus.mp3",
+        "tieneUsdz": true
       },
       {
         "name": "Tyrannosaurus Rex",
@@ -465,7 +467,8 @@ export const siteData = {
         "arMarker": "trex",
         "capacity": "Carnívoro",
         "power": "Cretácico",
-        "application": "12 metros"
+        "application": "12 metros",
+        "sonido": "sounds/trex.mp3"
       },
       {
         "name": "Triceratops",
@@ -477,7 +480,8 @@ export const siteData = {
         "arMarker": "triceratops",
         "capacity": "Herbívoro",
         "power": "Cretácico",
-        "application": "9 metros"
+        "application": "9 metros",
+        "sonido": "sounds/triceratops.mp3"
       },
       {
         "name": "Velociraptor",
@@ -489,7 +493,9 @@ export const siteData = {
         "arMarker": "velociraptor",
         "capacity": "Carnívoro",
         "power": "Cretácico",
-        "application": "2 metros"
+        "application": "2 metros",
+        "sonido": "sounds/velociraptor.mp3",
+        "tieneUsdz": true
       },
       {
         "name": "Brachiosaurus",
@@ -501,7 +507,8 @@ export const siteData = {
         "arMarker": "brachiosaurus",
         "capacity": "Herbívoro",
         "power": "Jurásico",
-        "application": "26 metros"
+        "application": "26 metros",
+        "sonido": "sounds/brachiosaurus.mp3"
       },
       {
         "name": "Stegosaurus",
@@ -513,7 +520,9 @@ export const siteData = {
         "arMarker": "stegosaurio",
         "capacity": "Herbívoro",
         "power": "Jurásico",
-        "application": "9 metros"
+        "application": "9 metros",
+        "sonido": "sounds/stegosaurio.mp3",
+        "tieneUsdz": true
       },
       {
         "name": "Ankylosaurus",
@@ -525,7 +534,8 @@ export const siteData = {
         "arMarker": "ankylosaurus",
         "capacity": "Herbívoro",
         "power": "Cretácico",
-        "application": "8 metros"
+        "application": "8 metros",
+        "sonido": "sounds/ankylosaurus.mp3"
       }
     ],
     "specLabels": [
