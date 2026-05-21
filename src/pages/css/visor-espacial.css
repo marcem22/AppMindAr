@@ -134,6 +134,7 @@
       text-align: center;
       gap: 10px;
       transition: transform 0.2s, box-shadow 0.2s;
+      z-index: 200;
     }
 
     .btn-proyectar:active {
