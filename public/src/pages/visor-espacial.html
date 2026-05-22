@@ -185,6 +185,7 @@
       transition: all 0.3s ease;
       opacity: 0.5;            /* Starts semi-transparent until model loads */
       pointer-events: none;    /* Starts unclickable until model loads */
+      z-index: 200;            /* Higher z-index to make sure it floats cleanly over visorModelo */
     }
 
     .btn-proyectar:active {
@@ -465,16 +466,16 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <!-- REMOVED WEBXR to guarantee native Google Scene Viewer (Android) and Apple Quick Look (iOS) always open.
-         This eliminates all unstable, buggy browser-level WebXR sensor issues, and uses pure native tracking and native gestures. -->
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="scene-viewer quick-look"
+    <!-- Restoring full ar-modes array 'webxr scene-viewer quick-look' so all devices can attempt AR natively.
+         The button is now placed OUTSIDE so it is ALWAYS visible and never auto-hidden by <model-viewer>! -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look"
       ar-placement="floor" ar-scale="auto" camera-controls auto-rotate autoplay shadow-intensity="1">
-
-      <button slot="ar-button" class="btn-proyectar" id="arButton">
-        <span></span> Proyectar en el espacio
-      </button>
-
     </model-viewer>
+
+    <!-- Custom AR triggering button placed outside model-viewer so it is ALWAYS visible on all devices, old and new -->
+    <button class="btn-proyectar" id="customArButton">
+      <span></span> Proyectar en el espacio
+    </button>
 
     <div class="controls-panel">
       <button class="control-btn" id="plus">+</button>
@@ -514,7 +515,7 @@
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
     const btnCaptura = document.getElementById('btnCaptura');
-    const btnProyectar = document.getElementById('arButton');
+    const customArButton = document.getElementById('customArButton');
 
     // ─── Colores del tema (vienen de la URL, con fallback azul) ───
     const themeColor = parametrosUrl.get('color') || '#153B82';
@@ -581,8 +582,14 @@
     // This fixes the click-twice bug and guarantees the model appears when AR launches.
     visor.addEventListener('load', function() {
       logMsg('¡Modelo cargado al 100%! Habilitando proyeccion.');
-      btnProyectar.style.opacity = '1';
-      btnProyectar.style.pointerEvents = 'auto';
+      customArButton.style.opacity = '1';
+      customArButton.style.pointerEvents = 'auto';
+    });
+
+    // Custom manual trigger for AR when clicking our custom button
+    customArButton.addEventListener('click', function() {
+      logMsg('Iniciando proyección AR nativa...');
+      visor.activateAR();
     });
 
     visor.addEventListener('ar-status', function (evt) {
