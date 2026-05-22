@@ -54,14 +54,48 @@ import { siteData } from "../../data.js";
     const usdzUrl = BASE_PATH + modeloSolicitado + '.usdz';
 
     async function initializeVisorSources() {
-      // Usamos las URLs de red directamente para asegurar la compatibilidad con visores AR externos
-      // (Google Scene Viewer en Android y AR Quick Look en iOS) que no tienen acceso a blob URLs de la pestaña.
-      visor.src = modelUrl;
-      console.log(`[Visor] Cargando GLB: ${modelUrl}`);
+      // 1. Carga del GLB para Web/Android
+      try {
+        if ('caches' in window) {
+          const cache = await caches.open('models-cache');
+          const cachedResponse = await cache.match(modelUrl);
+          if (cachedResponse) {
+            console.log(`[Cache Visor] Cargando GLB ${modeloSolicitado} desde Cache API...`);
+            const blob = await cachedResponse.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            visor.src = blobUrl;
+          } else {
+            console.log(`[Cache Visor] GLB no encontrado en caché, cargando de red: ${modelUrl}`);
+            visor.src = modelUrl;
+          }
+        } else {
+          visor.src = modelUrl;
+        }
+      } catch (e) {
+        console.warn(`[Cache Visor] Error al leer caché GLB, usando red:`, e);
+        visor.src = modelUrl;
+      }
 
+      // 2. Carga del USDZ para iOS
       if (elementoActual && elementoActual.tieneUsdz) {
-        visor.setAttribute('ios-src', usdzUrl);
-        console.log(`[Visor] Asignando USDZ para iOS: ${usdzUrl}`);
+        try {
+          if ('caches' in window) {
+            const cache = await caches.open('models-cache');
+            const cachedUsdz = await cache.match(usdzUrl);
+            if (cachedUsdz) {
+              console.log(`[Cache Visor] Cargando USDZ ${modeloSolicitado} desde Cache API...`);
+              const blob = await cachedUsdz.blob();
+              const blobUrl = URL.createObjectURL(blob);
+              visor.setAttribute('ios-src', blobUrl);
+            } else {
+              visor.setAttribute('ios-src', usdzUrl);
+            }
+          } else {
+            visor.setAttribute('ios-src', usdzUrl);
+          }
+        } catch (e) {
+          visor.setAttribute('ios-src', usdzUrl);
+        }
       }
     }
 
