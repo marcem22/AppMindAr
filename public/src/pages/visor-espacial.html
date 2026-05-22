@@ -443,12 +443,13 @@
     let escalaActual = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
     const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 
-    // ─── Ruta del modelo ───
+    // ─── Fully Qualified Absolute URL resolution for robust ARCore Scene Viewer access ───
     const isProduction = window.location.hostname.includes('github.io');
-    const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
+    const domain = window.location.protocol + '//' + window.location.host;
+    const BASE_PATH = isProduction ? domain + '/AppMindAr/models/' : domain + '/models/';
 
     const finalModelPath = BASE_PATH + modeloSolicitado + '.glb';
-    logMsg('Cargando: ' + finalModelPath);
+    logMsg('Url Completa GLB: ' + finalModelPath);
     visor.src = finalModelPath;
     nombreUI.textContent = nombreSolicitado;
 
@@ -467,7 +468,7 @@
     // ─── Sonido ───
     var sonidoUrl = parametrosUrl.get('sonido');
     if (sonidoUrl) {
-      var SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
+      var SOUND_BASE = isProduction ? domain + '/AppMindAr/' : domain + '/';
       var reproductorAudio = new Audio();
       reproductorAudio.src = SOUND_BASE + sonidoUrl;
       document.body.addEventListener('click', function () {
