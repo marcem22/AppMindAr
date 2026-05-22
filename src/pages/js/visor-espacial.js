@@ -6,6 +6,13 @@ const visor = document.getElementById('visorModelo');
 const nombreUI = document.getElementById('nombreModelo');
 const btnCaptura = document.getElementById('btnCaptura');
 
+import { siteData } from '../../data.js';
+const catId = parametrosUrl.get('id') || 'minas';
+const data = siteData[catId];
+if (data) {
+  document.getElementById('pageTitle').textContent = 'SIED - ' + data.title;
+}
+
 // ─── Colores del tema (vienen de la URL, con fallback azul) ───
 const themeColor = parametrosUrl.get('color') || '#153B82';
 const themeColorRgb = parametrosUrl.get('colorRgb') || '21, 59, 130';
