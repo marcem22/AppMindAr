@@ -430,10 +430,12 @@
 
 <body>
 
-  <!-- Floating debug log panel for live mobile debugging -->
+  <!-- Floating debug log panel commented out for production but ready for future testing -->
+  <!--
   <div id="debugLog" style="position: absolute; top: 10px; left: 10px; width: calc(100vw - 20px); max-height: 80px; background: rgba(0, 0, 0, 0.85); color: #00ff66; font-family: monospace; font-size: 11px; padding: 6px; border-radius: 6px; border: 1px dashed #00ff66; overflow-y: auto; z-index: 99999; pointer-events: none; word-wrap: break-word;">
     [Debug Log Activo]
   </div>
+  -->
 
   <!-- Warning popup shown if the AR core engine reports failed -->
   <div class="ar-error-modal" id="arErrorModal">
@@ -490,6 +492,7 @@
   <script>
     const debugPanel = document.getElementById('debugLog');
     function logMsg(msg, isError = false) {
+      if (!debugPanel) return; // Prevent crashes or errors if debugLog panel is commented out
       const line = document.createElement('div');
       if (isError) line.style.color = '#ff3333';
       line.textContent = '> ' + msg;
