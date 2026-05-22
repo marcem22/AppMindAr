@@ -72,7 +72,7 @@ export const siteData = {
         "power": "LED 5W",
         "weight": "450 g",
         "application": "Protección personal",
-        "arMarker": "casco"
+        "arMarker": "lamp"
       },
       {
         "name": "Pico Minero",
