@@ -19,7 +19,6 @@ export default defineConfig(({ command }) => {
           main: resolve(__dirname, 'index.html'),
           category: resolve(__dirname, 'src/pages/category.html'),
           elements: resolve(__dirname, 'src/pages/elements.html'),
-          'visor-espacial': resolve(__dirname, 'src/pages/visor-espacial.html'),
         },
       },
     },
