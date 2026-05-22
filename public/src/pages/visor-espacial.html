@@ -213,7 +213,7 @@
       transform: scale(0.9);
     }
 
-    /* MODAL DE ADVERTENCIA PARA WEBVIEW */
+    /* MODAL DE ADVERTENCIA PARA WEBVIEW / AR CORE */
     .ar-error-modal {
       display: none;
       position: fixed;
@@ -249,7 +249,14 @@
       font-size: 14px;
       line-height: 1.6;
       color: #ccc;
-      margin-bottom: 25px;
+      margin-bottom: 15px;
+    }
+
+    .ar-error-btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
     }
 
     .ar-error-btn {
@@ -261,11 +268,22 @@
       font-size: 14px;
       font-weight: bold;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
       transition: background 0.2s;
     }
 
     .ar-error-btn:hover {
       background: var(--theme-color-dark);
+    }
+
+    .ar-error-btn.secondary {
+      background: #333;
+      color: #ccc;
+    }
+
+    .ar-error-btn.secondary:hover {
+      background: #444;
     }
 
     @media (max-width: 768px) {
@@ -418,9 +436,15 @@
   <div class="ar-error-modal" id="arErrorModal">
     <div class="ar-error-content">
       <h3>⚠️ Proyección No Disponible</h3>
-      <p>La Realidad Aumentada no pudo iniciarse en este navegador. Si abriste este enlace desde <b>WhatsApp, Instagram, Facebook o el lector de códigos QR</b>, los navegadores internos de esas apps bloquean la cámara 3D.</p>
-      <p style="font-weight: bold; color: #fff;">Por favor, toca los tres puntos arriba a la derecha y elige "Abrir en Chrome" (o Safari en iPhone) para proyectar.</p>
-      <button class="ar-error-btn" onclick="document.getElementById('arErrorModal').style.display='none'">Entendido</button>
+      <p>La Realidad Aumentada requiere tener activados y actualizados los <b>Servicios de Google Play para RA (ARCore)</b>.</p>
+      <p style="font-size: 13px; color: #aaa; text-align: left; margin-bottom: 10px;">
+        1. Si estás en <b>Chrome/Safari</b>, asegúrate de que tiene permiso de Cámara.<br>
+        2. Si abriste la app desde un chat (WhatsApp/Instagram), usa la opción "Abrir en el navegador" para usar Chrome.
+      </p>
+      <div class="ar-error-btn-group">
+        <a class="ar-error-btn" href="https://play.google.com/store/apps/details?id=com.google.ar.core" target="_blank" rel="noopener noreferrer">Instalar/Actualizar ARCore</a>
+        <button class="ar-error-btn secondary" onclick="document.getElementById('arErrorModal').style.display='none'">Ignorar y continuar</button>
+      </div>
     </div>
   </div>
 
@@ -439,8 +463,8 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <!-- Restoring exact legacy ar-modes hierarchy to preserve original working configuration -->
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
+    <!-- Prioritizing scene-viewer over webxr to enable synchronous, direct native launches on older/newer Android devices -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="scene-viewer webxr quick-look" camera-controls
       auto-rotate autoplay shadow-intensity="1">
 
       <button slot="ar-button" class="btn-proyectar">
