@@ -103,7 +103,6 @@
       height: 100%;
       background: transparent;
       --poster-color: transparent;
-      touch-action: none;
     }
 
     .model-info {
@@ -184,7 +183,6 @@
       text-align: center;
       gap: 10px;
       transition: transform 0.2s, box-shadow 0.2s;
-      z-index: 100;
     }
 
     .btn-proyectar:active {
@@ -371,7 +369,8 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
+    <!-- ar-modes prioritizing scene-viewer for robust Android execution -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="scene-viewer webxr quick-look" camera-controls
       auto-rotate autoplay shadow-intensity="1">
 
       <button slot="ar-button" class="btn-proyectar">
@@ -426,7 +425,8 @@
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
-    visor.scale = escalaActual + ' ' + escalaActual + ' ' + escalaActual;
+    // Safe cross-browser way to set element attributes
+    visor.setAttribute('scale', escalaActual + ' ' + escalaActual + ' ' + escalaActual);
 
     // ─── Órbita de cámara ───
     const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
@@ -456,8 +456,8 @@
     function detenerAccion() { clearInterval(timer); }
 
     var acciones = {
-      plus: function () { escalaActual += stepEscala; visor.scale = escalaActual + ' ' + escalaActual + ' ' + escalaActual; },
-      minus: function () { if (escalaActual > stepEscala) escalaActual -= stepEscala; visor.scale = escalaActual + ' ' + escalaActual + ' ' + escalaActual; },
+      plus: function () { escalaActual += stepEscala; visor.setAttribute('scale', escalaActual + ' ' + escalaActual + ' ' + escalaActual); },
+      minus: function () { if (escalaActual > stepEscala) escalaActual -= stepEscala; visor.setAttribute('scale', escalaActual + ' ' + escalaActual + ' ' + escalaActual); },
       left: function () { var o = visor.getCameraOrbit(); visor.cameraOrbit = (o.theta - 0.05) + 'rad ' + o.phi + 'rad ' + o.radius + 'm'; },
       right: function () { var o = visor.getCameraOrbit(); visor.cameraOrbit = (o.theta + 0.05) + 'rad ' + o.phi + 'rad ' + o.radius + 'm'; }
     };
