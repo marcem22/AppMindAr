@@ -182,7 +182,9 @@
       justify-content: center;
       text-align: center;
       gap: 10px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all 0.3s ease;
+      opacity: 0.5;            /* Starts semi-transparent until model loads */
+      pointer-events: none;    /* Starts unclickable until model loads */
     }
 
     .btn-proyectar:active {
@@ -463,11 +465,11 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <!-- Prioritizing scene-viewer over webxr to enable synchronous, direct native launches on older/newer Android devices -->
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="scene-viewer webxr quick-look" camera-controls
+    <!-- Restoring exact legacy ar-modes order webxr scene-viewer quick-look -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
       auto-rotate autoplay shadow-intensity="1">
 
-      <button slot="ar-button" class="btn-proyectar">
+      <button slot="ar-button" class="btn-proyectar" id="arButton">
         <span></span> Proyectar en el espacio
       </button>
 
@@ -511,6 +513,7 @@
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
     const btnCaptura = document.getElementById('btnCaptura');
+    const btnProyectar = document.getElementById('arButton');
 
     // ─── Colores del tema (vienen de la URL, con fallback azul) ───
     const themeColor = parametrosUrl.get('color') || '#153B82';
@@ -532,13 +535,12 @@
     let escalaActual = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
     const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 
-    // ─── Fully Qualified Absolute URL resolution for robust ARCore Scene Viewer access ───
+    // ─── Exact Legacy BASE_PATH URL Resolution (known working format) ───
     const isProduction = window.location.hostname.includes('github.io');
-    const domain = window.location.protocol + '//' + window.location.host;
-    const BASE_PATH = isProduction ? domain + '/AppMindAr/models/' : domain + '/models/';
+    const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
 
     const finalModelPath = BASE_PATH + modeloSolicitado + '.glb';
-    logMsg('Url Completa GLB: ' + finalModelPath);
+    logMsg('Model Path: ' + finalModelPath);
     visor.src = finalModelPath;
     nombreUI.textContent = nombreSolicitado;
 
@@ -557,7 +559,7 @@
     // ─── Sonido ───
     var sonidoUrl = parametrosUrl.get('sonido');
     if (sonidoUrl) {
-      var SOUND_BASE = isProduction ? domain + '/AppMindAr/' : domain + '/';
+      var SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
       var reproductorAudio = new Audio();
       reproductorAudio.src = SOUND_BASE + sonidoUrl;
       document.body.addEventListener('click', function () {
@@ -573,6 +575,15 @@
     visor.addEventListener('error', function (err) {
       logMsg('Model Viewer Error: ' + (err.detail ? err.detail.type : 'unknown'), true);
     });
+    
+    // Enable the AR button ONLY when the model has fully loaded.
+    // This fixes the click-twice bug and guarantees the model appears when AR launches.
+    visor.addEventListener('load', function() {
+      logMsg('¡Modelo cargado al 100%! Habilitando proyeccion.');
+      btnProyectar.style.opacity = '1';
+      btnProyectar.style.pointerEvents = 'auto';
+    });
+
     visor.addEventListener('ar-status', function (evt) {
       logMsg('AR Status: ' + evt.detail.status);
       if (evt.detail.status === 'failed') {
