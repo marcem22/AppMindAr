@@ -157,6 +157,7 @@ import { siteData } from "../../data.js";
       const orbit = m.cameraOrbit || '-90deg 75deg auto';
       const escala = m.escala || '1 1 1';
       let url = `${BASE_PATH}/src/pages/visor-espacial.html?id=${catId}&modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}&orbit=${encodeURIComponent(orbit)}&escala=${encodeURIComponent(escala)}&color=${encodeURIComponent(data.themeColor)}&colorRgb=${encodeURIComponent(data.themeColorRgb)}`;
+      if (m.orientation) url += `&orientation=${encodeURIComponent(m.orientation)}`;
       if (m.tieneUsdz) url += '&usdz=1';
       if (m.sonido) url += `&sonido=${encodeURIComponent(m.sonido)}`;
       window.location.href = url;

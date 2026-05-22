@@ -24,7 +24,8 @@ export const siteData = {
         "power": "450 HP",
         "weight": "45,000 kg",
         "application": "Perforación en túneles",
-        "arMarker": "garras"
+        "arMarker": "garras",
+        "orientation": "0deg 0deg -160deg"
       },
       {
         "name": "Camión Minero",
@@ -36,7 +37,8 @@ export const siteData = {
         "power": "4,000 HP",
         "weight": "687,000 kg",
         "application": "Transporte de mineral",
-        "arMarker": "carga"
+        "arMarker": "carga",
+        "orientation": "0deg 0deg -160deg"
       },
       {
         "name": "Túnel de Acceso",
@@ -60,7 +62,8 @@ export const siteData = {
         "power": "783 HP",
         "weight": "95,000 kg",
         "application": "Perforación y voladura",
-        "arMarker": "perforadora"
+        "arMarker": "perforadora",
+        "orientation": "0deg 0deg 90deg"
       },
       {
         "name": "Casco Minero",
@@ -72,7 +75,8 @@ export const siteData = {
         "power": "LED 5W",
         "weight": "450 g",
         "application": "Protección personal",
-        "arMarker": "lamp"
+        "arMarker": "lamp",
+        "orientation": "0deg 0deg -160deg"
       },
       {
         "name": "Pico Minero",
@@ -197,7 +201,8 @@ export const siteData = {
         "capacity": "Explorador Espacial",
         "power": "N/A",
         "weight": "~80 kg (traje incluido)",
-        "application": "37°C (Controlada)"
+        "application": "37°C (Controlada)",
+        "orientation": "0deg 0deg -90deg"
       },
       {
         "name": "Rover Perseverance",
@@ -212,7 +217,8 @@ export const siteData = {
         "capacity": "Vehículo Robótico",
         "power": "≈ 3 m (longitud)",
         "weight": "≈ 1,025 kg",
-        "application": "-90°C a -5°C (Marte)"
+        "application": "-90°C a -5°C (Marte)",
+        "orientation": "0deg 0deg 220deg"
       },
       {
         "name": "Tierra",
@@ -311,7 +317,8 @@ export const siteData = {
         "capacity": "Coccinellidae",
         "power": "Coccinellidae",
         "weight": "Insecta",
-        "application": "Jardines y cultivos"
+        "application": "Jardines y cultivos",
+        "orientation": "0deg 0deg 200deg"
       },
       {
         "name": "Araña Lobo",
@@ -335,7 +342,8 @@ export const siteData = {
         "capacity": "Gryllidae",
         "power": "Gryllidae",
         "weight": "Insecta",
-        "application": "Praderas y grietas"
+        "application": "Praderas y grietas",
+        "orientation": "0deg 0deg 100deg"
       }
     ],
     "specLabels": [

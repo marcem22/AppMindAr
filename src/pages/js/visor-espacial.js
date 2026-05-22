@@ -51,9 +51,22 @@ visor.addEventListener('error', () => {
 
 visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
 
-// ─── Órbita de cámara ───
-const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
-visor.cameraOrbit = orbitSolicitada;
+// ─── Órbita de cámara y Orientación ───
+let finalOrbit = parametrosUrl.get('orbit') || '-90deg 75deg auto';
+let finalOrientation = parametrosUrl.get('orientation');
+
+if (data && data.elementsData) {
+  const modelInfo = data.elementsData.find(m => m.arMarker === modeloSolicitado);
+  if (modelInfo) {
+    if (modelInfo.cameraOrbit) finalOrbit = modelInfo.cameraOrbit;
+    if (modelInfo.orientation) finalOrientation = modelInfo.orientation;
+  }
+}
+
+visor.cameraOrbit = finalOrbit;
+if (finalOrientation) {
+  visor.orientation = finalOrientation;
+}
 
 // ─── USDZ para iOS (si viene en la URL) ───
 const tieneUsdz = parametrosUrl.get('usdz') === '1';
