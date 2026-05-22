@@ -213,6 +213,61 @@
       transform: scale(0.9);
     }
 
+    /* MODAL DE ADVERTENCIA PARA WEBVIEW */
+    .ar-error-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 999999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .ar-error-content {
+      background: #111;
+      border: 2px solid var(--theme-color);
+      border-radius: 16px;
+      padding: 30px 24px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .ar-error-content h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #ff3333;
+    }
+
+    .ar-error-content p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #ccc;
+      margin-bottom: 25px;
+    }
+
+    .ar-error-btn {
+      background: var(--theme-color);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .ar-error-btn:hover {
+      background: var(--theme-color-dark);
+    }
+
     @media (max-width: 768px) {
       .model-info {
         top: 65px;
@@ -359,6 +414,16 @@
     [Debug Log Activo]
   </div>
 
+  <!-- Warning popup shown if the AR core engine reports failed -->
+  <div class="ar-error-modal" id="arErrorModal">
+    <div class="ar-error-content">
+      <h3>⚠️ Proyección No Disponible</h3>
+      <p>La Realidad Aumentada no pudo iniciarse en este navegador. Si abriste este enlace desde <b>WhatsApp, Instagram, Facebook o el lector de códigos QR</b>, los navegadores internos de esas apps bloquean la cámara 3D.</p>
+      <p style="font-weight: bold; color: #fff;">Por favor, toca los tres puntos arriba a la derecha y elige "Abrir en Chrome" (o Safari en iPhone) para proyectar.</p>
+      <button class="ar-error-btn" onclick="document.getElementById('arErrorModal').style.display='none'">Entendido</button>
+    </div>
+  </div>
+
   <div class="header">
     <button class="close-btn" onclick="window.history.back()" aria-label="Volver">
       <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -486,6 +551,9 @@
     });
     visor.addEventListener('ar-status', function (evt) {
       logMsg('AR Status: ' + evt.detail.status);
+      if (evt.detail.status === 'failed') {
+        document.getElementById('arErrorModal').style.display = 'flex';
+      }
     });
 
     // ─── Lógica de botones de control ───
