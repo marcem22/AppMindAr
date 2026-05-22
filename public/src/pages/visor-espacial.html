@@ -354,6 +354,11 @@
 
 <body>
 
+  <!-- Floating debug log panel for live mobile debugging -->
+  <div id="debugLog" style="position: absolute; top: 10px; left: 10px; width: calc(100vw - 20px); max-height: 80px; background: rgba(0, 0, 0, 0.85); color: #00ff66; font-family: monospace; font-size: 11px; padding: 6px; border-radius: 6px; border: 1px dashed #00ff66; overflow-y: auto; z-index: 99999; pointer-events: none; word-wrap: break-word;">
+    [Debug Log Activo]
+  </div>
+
   <div class="header">
     <button class="close-btn" onclick="window.history.back()" aria-label="Volver">
       <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -369,8 +374,8 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <!-- ar-modes prioritizing scene-viewer for robust Android execution -->
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="scene-viewer webxr quick-look" camera-controls
+    <!-- Restoring exact legacy ar-modes hierarchy to preserve original working configuration -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
       auto-rotate autoplay shadow-intensity="1">
 
       <button slot="ar-button" class="btn-proyectar">
@@ -390,9 +395,29 @@
   </div>
 
   <script>
+    const debugPanel = document.getElementById('debugLog');
+    function logMsg(msg, isError = false) {
+      const line = document.createElement('div');
+      if (isError) line.style.color = '#ff3333';
+      line.textContent = '> ' + msg;
+      debugPanel.appendChild(line);
+      debugPanel.scrollTop = debugPanel.scrollHeight;
+    }
+
+    // Capture all runtime errors
+    window.onerror = function (msg, url, line) {
+      logMsg('Error: ' + msg + ' (L' + line + ')', true);
+      return false;
+    };
+    window.addEventListener('unhandledrejection', function (e) {
+      logMsg('Rejection: ' + e.reason, true);
+    });
+
     const parametrosUrl = new URLSearchParams(window.location.search);
     const modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
     const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
+
+    logMsg('Parametros: ' + modeloSolicitado + ' | ' + nombreSolicitado);
 
     const visor = document.getElementById('visorModelo');
     const nombreUI = document.getElementById('nombreModelo');
@@ -422,7 +447,9 @@
     const isProduction = window.location.hostname.includes('github.io');
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
 
-    visor.src = BASE_PATH + modeloSolicitado + '.glb';
+    const finalModelPath = BASE_PATH + modeloSolicitado + '.glb';
+    logMsg('Cargando: ' + finalModelPath);
+    visor.src = finalModelPath;
     nombreUI.textContent = nombreSolicitado;
 
     // Safe cross-browser way to set element attributes
@@ -445,10 +472,20 @@
       reproductorAudio.src = SOUND_BASE + sonidoUrl;
       document.body.addEventListener('click', function () {
         if (reproductorAudio && reproductorAudio.paused) {
-          reproductorAudio.play().catch(function () { });
+          reproductorAudio.play().catch(function (err) {
+            logMsg('Sound play error: ' + err.message, true);
+          });
         }
       }, { once: true });
     }
+
+    // model-viewer status reporting
+    visor.addEventListener('error', function (err) {
+      logMsg('Model Viewer Error: ' + (err.detail ? err.detail.type : 'unknown'), true);
+    });
+    visor.addEventListener('ar-status', function (evt) {
+      logMsg('AR Status: ' + evt.detail.status);
+    });
 
     // ─── Lógica de botones de control ───
     var timer;
@@ -503,7 +540,7 @@
         link.click();
         URL.revokeObjectURL(url);
       } catch (error) {
-        console.error(error);
+        logMsg('Capture error: ' + error.message, true);
       }
       setTimeout(function () {
         btnCaptura.style.background = 'rgba(' + themeColorRgb + ', 0.9)';
