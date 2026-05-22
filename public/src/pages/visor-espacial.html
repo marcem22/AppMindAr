@@ -465,9 +465,9 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <!-- Restoring exact legacy ar-modes order webxr scene-viewer quick-look -->
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
-      auto-rotate autoplay shadow-intensity="1">
+    <!-- Added ar-placement="floor" and ar-scale="auto" explicitly for precise surface tracking, pinch-to-scale and two-finger rotations -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look"
+      ar-placement="floor" ar-scale="auto" camera-controls auto-rotate autoplay shadow-intensity="1">
 
       <button slot="ar-button" class="btn-proyectar" id="arButton">
         <span></span> Proyectar en el espacio
