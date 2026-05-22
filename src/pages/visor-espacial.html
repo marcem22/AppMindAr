@@ -69,7 +69,149 @@
     <button class="btn-captura" id="btnCaptura">📷</button>
   </div>
 
-  <script type="module" src="./js/visor-espacial.js"></script>
+  <script>
+    const parametrosUrl = new URLSearchParams(window.location.search);
+    const modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
+    const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
+    const catId = parametrosUrl.get('id') || 'minas';
+
+    const visor = document.getElementById('visorModelo');
+    const nombreUI = document.getElementById('nombreModelo');
+    const btnCaptura = document.getElementById('btnCaptura');
+
+    // Mapeo simple de temas y configuraciones para evitar importar data.js y resolver problemas de caché
+    const siteConfig = {
+      minas: { themeColor: "#153B82", rgb: "21, 59, 130", title: "Minería" },
+      astro: { themeColor: "#6b21a8", rgb: "107, 33, 168", title: "Astronomía" },
+      bio: { themeColor: "#779B2C", rgb: "119, 155, 44", title: "Biología" },
+      minerales: { themeColor: "#b87333", rgb: "184, 115, 51", title: "Minerales" },
+      dino: { themeColor: "#d35400", rgb: "211, 84, 0", title: "Dinosaurios" }
+    };
+
+    const currentConfig = siteConfig[catId] || siteConfig.minas;
+
+    // Aplicar títulos y colores dinámicos
+    document.title = 'SIED - ' + currentConfig.title;
+    document.documentElement.style.setProperty('--theme-color', currentConfig.themeColor);
+    document.documentElement.style.setProperty('--theme-color-rgb', currentConfig.rgb);
+    
+    const hex = currentConfig.themeColor.replace('#', '');
+    if (hex.length === 6) {
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+      document.documentElement.style.setProperty('--theme-color-dark', `rgb(${Math.max(0, r-30)}, ${Math.max(0, g-30)}, ${Math.max(0, b-30)})`);
+    }
+
+    document.body.classList.add('ready');
+
+    const isProduction = window.location.hostname.includes('github.io');
+    const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
+    const SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
+
+    const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
+    visor.cameraOrbit = orbitSolicitada;
+
+    // Capturamos el número exacto de escala
+    let escalaActual = parseFloat(parametrosUrl.get('escala')) || 1;
+    const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
+
+    // Asignación directa y síncrona de recursos (como en visor-espacial-bio.html)
+    const modelUrl = BASE_PATH + modeloSolicitado + '.glb';
+    visor.src = modelUrl;
+
+    // Si tiene USDZ (dinosaurios velociraptor, stegosaurio, giganotosaurus)
+    const tieneUsdz = ['velociraptor', 'stegosaurio', 'giganotosaurus'].includes(modeloSolicitado);
+    if (tieneUsdz) {
+      const usdzUrl = BASE_PATH + modeloSolicitado + '.usdz';
+      visor.setAttribute('ios-src', usdzUrl);
+    }
+
+    visor.setAttribute('scale', `${escalaActual} ${escalaActual} ${escalaActual}`);
+    nombreUI.textContent = nombreSolicitado;
+
+    // Lógica para botones de control de zoom y rotación
+    let timer;
+    function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
+    function detenerAccion() { clearInterval(timer); }
+
+    const acciones = {
+      plus: () => { escalaActual += stepEscala; visor.setAttribute('scale', `${escalaActual} ${escalaActual} ${escalaActual}`); },
+      minus: () => { if (escalaActual > stepEscala) escalaActual -= stepEscala; visor.setAttribute('scale', `${escalaActual} ${escalaActual} ${escalaActual}`); },
+      left: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta - 0.05}rad ${o.phi}rad ${o.radius}m`; },
+      right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.05}rad ${o.phi}rad ${o.radius}m`; }
+    };
+
+    ['plus', 'minus', 'left', 'right'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('mousedown', () => iniciarAccion(acciones[id]));
+        el.addEventListener('touchstart', (e) => { e.preventDefault(); iniciarAccion(acciones[id]); }, { passive: false });
+        el.addEventListener('mouseup', detenerAccion);
+        el.addEventListener('mouseleave', detenerAccion);
+        el.addEventListener('touchend', detenerAccion);
+      }
+    });
+
+    // Sonido para categoría de dinosaurios
+    const dinoSounds = {
+      giganotosaurus: "sounds/giganotosaurus.mp3",
+      trex: "sounds/trex.mp3",
+      triceratops: "sounds/triceratops.mp3",
+      velociraptor: "sounds/velociraptor.mp3",
+      brachiosaurus: "sounds/brachiosaurus.mp3",
+      stegosaurio: "sounds/stegosaurio.mp3",
+      ankylosaurus: "sounds/ankylosaurus.mp3"
+    };
+
+    if (catId === 'dino' && dinoSounds[modeloSolicitado]) {
+      const reproductorAudio = new Audio();
+      reproductorAudio.src = SOUND_BASE + dinoSounds[modeloSolicitado];
+
+      document.body.addEventListener('click', () => {
+        if (reproductorAudio.paused) {
+          reproductorAudio.play().catch(function() {});
+        }
+      }, { once: true });
+    }
+
+    // Función de foto / captura
+    btnCaptura.addEventListener('click', async () => {
+      btnCaptura.style.background = "orange";
+      try {
+        const blob = await visor.toBlob({ idealAspect: true });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+
+        const nombreArchivo = nombreSolicitado
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-zA-Z0-9\s-_]/g, "")
+          .trim()
+          .replace(/\s+/g, '_');
+
+        const ahora = new Date();
+        const dia = String(ahora.getDate()).padStart(2, '0');
+        const mes = String(ahora.getMonth() + 1).padStart(2, '0');
+        const anio = ahora.getFullYear();
+        const hora = String(ahora.getHours()).padStart(2, '0');
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const segundos = String(ahora.getSeconds()).padStart(2, '0');
+        
+        const fechaFormateada = `${dia}-${mes}-${anio}_${hora}-${minutos}-${segundos}`;
+
+        link.download = `${nombreArchivo}_${fechaFormateada}.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+      } catch (error) {
+        console.error(error);
+      }
+      setTimeout(() => {
+        btnCaptura.style.background = "rgba(" + currentConfig.rgb + ", 0.9)";
+      }, 500);
+    });
+  </script>
 </body>
 
 </html>
