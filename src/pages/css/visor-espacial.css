@@ -1,347 +1,376 @@
 :root {
-            --theme-color: #153B82;
-            --theme-color-dark: #0f2a5f;
-            --theme-color-rgb: 21, 59, 130;
-        }
+    --theme-color: #153B82;
+    --theme-color-dark: #0f2a5f;
+    --theme-color-rgb: 21, 59, 130;
+}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
-      background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
-      color: white;
-      width: 100vw;
-      height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: radial-gradient(circle at center, #0f0f10 0%, #000 100%);
+    color: white;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 
-    .header {
-      padding: 20px 25px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      background: transparent;
-      z-index: 20;
-      position: absolute;
-      width: 100%;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-    }
+.header {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: transparent;
+    z-index: 20;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
 
-    .close-btn {
-      background: rgba(0, 0, 0, 0.4);
-      border: 2px solid rgba(var(--theme-color-rgb), 0.9);
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      color: white;
-      font-size: 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      pointer-events: auto;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
-      backdrop-filter: blur(5px);
-    }
+.close-btn {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(var(--theme-color-rgb), 0.9);
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
+    backdrop-filter: blur(5px);
+}
 
-    .close-btn:hover {
-      background: rgba(var(--theme-color-rgb), 0.9);
-      color: white;
-      transform: scale(1.05);
-    }
+.close-btn:hover {
+    background: rgba(var(--theme-color-rgb), 0.9);
+    color: white;
+    transform: scale(1.05);
+}
 
-    .back-icon {
-      width: 1em;
-      height: 1em;
-      transition: transform 0.3s ease;
-      display: block;
-    }
+.back-icon {
+    width: 1em;
+    height: 1em;
+    transition: transform 0.3s ease;
+    display: block;
+}
 
-    .close-btn:hover .back-icon {
-      transform: translateX(-2px);
-    }
+.close-btn:hover .back-icon {
+    transform: translateX(-2px);
+}
 
-    .visor-container {
-      flex-grow: 1;
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
+.visor-container {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
 
-    model-viewer {
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      --poster-color: transparent;
-    }
+model-viewer {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    --poster-color: transparent;
+    /* Fluidez táctil mejorada */
+    touch-action: pan-y;
+}
 
+.model-info {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    right: auto;
+    transform: none;
+    background: rgba(var(--theme-color-rgb), 0.15);
+    padding: 10px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(var(--theme-color-rgb), 0.5);
+    text-align: left;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    max-width: 70%;
+}
+
+.model-name {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-proyectar {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--theme-color), var(--theme-color-dark));
+    color: #ffff;
+    border: none;
+    border-radius: 30px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-proyectar:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+.btn-captura {
+    position: absolute;
+    right: 20px;
+    bottom: 40px;
+    width: 60px;
+    height: 60px;
+    background: rgba(var(--theme-color-rgb), 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 40;
+    box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.4);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-captura:active {
+    transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
     .model-info {
-      position: absolute;
-      top: 100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(var(--theme-color-rgb), 0.15);
-      padding: 12px 24px;
-      border-radius: 12px;
-      border: 1px solid rgba(var(--theme-color-rgb), 0.5);
-      text-align: center;
-      pointer-events: none;
-      backdrop-filter: blur(8px);
-      z-index: 10;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        top: 65px;
+        left: 15px !important;
+        right: auto !important;
+        transform: none !important;
+        padding: 8px 16px;
     }
 
     .model-name {
-      font-size: 20px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+        font-size: 14px;
     }
 
     .btn-proyectar {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--theme-color), var(--theme-color-dark));
-      color: #ffff;
-      border: none;
-      border-radius: 30px;
-      padding: 16px 32px;
-      font-size: 16px;
-      font-weight: bold;
-      box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 10px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-proyectar:active {
-      transform: translateX(-50%) scale(0.95);
+        bottom: 30px !important;
+        width: 85% !important;
     }
 
     .btn-captura {
-      position: absolute;
-      right: 20px;
-      bottom: 40px;
-      width: 60px;
-      height: 60px;
-      background: rgba(var(--theme-color-rgb), 0.9);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      color: white;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 40;
-      box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.4);
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    .btn-captura:active {
-      transform: scale(0.9);
-    }
-
-    @media (max-width: 768px) {
-      .model-info {
-        top: 65px;
-        left: 20px !important;
-        right: auto !important;
-        transform: none !important;
-      }
-
-      .btn-proyectar {
-        bottom: 30px !important;
-        width: 85% !important;
-      }
-
-      .btn-captura {
         bottom: 130px !important;
         right: 15px !important;
         transform: scale(0.9) !important;
-      }
     }
+}
 
-    /* =========================================================
+/* =========================================================
        MODO PANTALLA GIGANTE (PROYECTOR / SMART TV)
        ========================================================= */
-    @media (min-width: 1600px) {
-      .header {
+@media (min-width: 1600px) {
+    .header {
         padding: 30px 40px;
-      }
+    }
 
-      /* Botón Home con un tamaño equilibrado */
-      .close-btn {
+    /* Botón Home con un tamaño equilibrado */
+    .close-btn {
         width: 60px;
         height: 60px;
         font-size: 28px;
         border-width: 2px;
-      }
+    }
 
-      /* El Nombre pasa arriba a la izquierda */
-      .model-info {
+    /* El Nombre pasa arriba a la izquierda */
+    .model-info {
         top: 30px;
         left: 40px !important;
         right: auto;
         transform: none !important;
         padding: 15px 30px;
-      }
+    }
 
-      /* Tamaño del título más sutil */
-      .model-name {
+    /* Tamaño del título más sutil */
+    .model-name {
         font-size: 30px;
-      }
+    }
 
-      /* Botones inferiores más controlados */
-      .btn-captura {
+    /* Botones inferiores más controlados */
+    .btn-captura {
         width: 75px;
         height: 75px;
         font-size: 32px;
         bottom: 50px;
         right: 50px;
-      }
+    }
 
-      .btn-proyectar {
+    .btn-proyectar {
         padding: 18px 36px;
         font-size: 20px;
         bottom: 50px;
-      }
+    }
+}
+
+@media (min-width: 2560px) {
+    .header {
+        padding: 80px 100px;
     }
 
-    @media (min-width: 2560px) {
-      .header {
-        padding: 80px 100px;
-      }
-
-      .close-btn {
+    .close-btn {
         width: 150px;
         height: 150px;
         font-size: 50px;
         border-width: 4px;
-      }
+    }
 
-      .model-info {
+    .model-info {
         top: 100px;
         left: 100px !important;
         padding: 40px 80px;
         border-width: 4px;
         border-radius: 25px;
-      }
+    }
 
-      .model-name {
+    .model-name {
         font-size: 75px;
-      }
+    }
 
-      .btn-captura {
+    .btn-captura {
         width: 140px;
         height: 140px;
         font-size: 65px;
         bottom: 100px;
         right: 100px;
         border-width: 4px;
-      }
+    }
 
-      .btn-proyectar {
+    .btn-proyectar {
         padding: 40px 80px;
         font-size: 45px;
         bottom: 100px;
         border-radius: 80px;
-      }
     }
-  
+}
+
+.controls-panel {
+    position: absolute;
+    left: 20px;
+    bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 150;
+}
+
+.control-btn {
+    width: 55px;
+    height: 55px;
+    background: rgba(var(--theme-color-rgb), 0.2);
+    border: 2px solid var(--theme-color);
+    border-radius: 12px;
+    color: var(--theme-color);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.control-btn:active {
+    background: var(--theme-color);
+    color: #fff;
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
     .controls-panel {
-      position: absolute;
-      left: 20px;
-      bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 150;
-    }
-
-    .control-btn {
-      width: 55px;
-      height: 55px;
-      background: rgba(var(--theme-color-rgb), 0.2);
-      border: 2px solid var(--theme-color);
-      border-radius: 12px;
-      color: var(--theme-color);
-      font-size: 24px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      user-select: none;
-      transition: all 0.2s;
-      backdrop-filter: blur(4px);
-    }
-
-    .control-btn:active {
-      background: var(--theme-color);
-      color: #fff;
-      transform: scale(0.95);
-    }
-    
-    @media (max-width: 768px) {
-      .controls-panel {
         bottom: 130px !important;
         left: 15px !important;
         transform: scale(0.9) !important;
-      }
     }
-    @media (min-width: 1600px) {
-      .controls-panel {
+}
+
+@media (min-width: 1600px) {
+    .controls-panel {
         left: 80px;
         bottom: 80px;
         gap: 20px;
-      }
-      .control-btn {
+    }
+
+    .control-btn {
         width: 80px;
         height: 80px;
         font-size: 36px;
         border-width: 3px;
         border-radius: 20px;
-      }
     }
-    @media (min-width: 2560px) {
-      .controls-panel {
+}
+
+@media (min-width: 2560px) {
+    .controls-panel {
         left: 120px;
         bottom: 120px;
         gap: 30px;
-      }
-      .control-btn {
+    }
+
+    .control-btn {
         width: 130px;
         height: 130px;
         font-size: 55px;
         border-width: 4px;
         border-radius: 30px;
-      }
     }
+}
 
-    /* =========================================================
-       🌐 CHROMIUM (EDGE / CHROME) OVERRIDES 
+/* =========================================================
+       🌐 CHROMIUM (EDGE / CHROME) OVERRIDES
+       Solo en pantallas de escritorio (>768px)
        ========================================================= */
+@media (min-width: 769px) {
     html.browser-chromium .model-info {
-      top: 30px !important;
-      left: 40px !important;
-      right: auto !important;
-      transform: none !important;
-      padding: 15px 30px;
+        top: 30px !important;
+        left: 40px !important;
+        right: auto !important;
+        transform: none !important;
+        padding: 15px 30px;
     }
+}
+
+/* =========================================================
+   🖥 ESCRITORIO: ocultar botón "Proyectar" en dispositivos
+   sin pantalla táctil (hover:hover = mouse/trackpad)
+   ========================================================= */
+@media (hover: hover) and (pointer: fine) {
+    .btn-proyectar {
+        display: none !important;
+    }
+}
