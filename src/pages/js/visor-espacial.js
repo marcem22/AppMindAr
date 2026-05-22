@@ -49,9 +49,9 @@ import { siteData } from "../../data.js";
       elementoActual = data.elementsData.find(e => e.arMarker === modeloSolicitado);
     }
 
-    // Aseguramos que las URLs sean absolutas para Scene Viewer
-    const modelUrl = new URL(BASE_PATH + modeloSolicitado + '.glb', window.location.origin).href;
-    const usdzUrl = new URL(BASE_PATH + modeloSolicitado + '.usdz', window.location.origin).href;
+    // Carga de modelos GLB y USDZ optimizada usando Cache API
+    const modelUrl = BASE_PATH + modeloSolicitado + '.glb';
+    const usdzUrl = BASE_PATH + modeloSolicitado + '.usdz';
 
     async function initializeVisorSources() {
       // Usamos las URLs de red directamente para asegurar la compatibilidad con visores AR externos
