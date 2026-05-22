@@ -8,11 +8,6 @@ import { siteData } from "../../data.js";
     const urlParams = new URLSearchParams(window.location.search);
     const catId = urlParams.get('id') || 'minas';
     const data = siteData[catId];
-    
-    if (data) {
-      document.title = 'SIED - ' + (data.shortTitle || data.title);
-    }
-
     document.documentElement.style.setProperty('--theme-color', data.themeColor);
     if (data.themeColorRgb) {
       document.documentElement.style.setProperty('--theme-color-rgb', data.themeColorRgb);
@@ -101,82 +96,6 @@ import { siteData } from "../../data.js";
       updateToCurrentFiltered();
     }
 
-    // === PRELOAD SYSTEM FOR 3D MODELS USING CACHE API ===
-    async function preloadModel(arMarker, tieneUsdz) {
-      if (!arMarker) return;
-      const modelUrl = `${BASE_PATH}/models/${arMarker}.glb`;
-      
-      if (!window.preloadedModels) {
-        window.preloadedModels = new Set();
-      }
-      if (window.preloadedModels.has(modelUrl)) return;
-      window.preloadedModels.add(modelUrl);
-      
-      try {
-        if ('caches' in window) {
-          const cache = await caches.open('models-cache');
-          const cachedResponse = await cache.match(modelUrl);
-          
-          if (cachedResponse) {
-            console.log(`[Cache Preload] El modelo ya está en caché: ${arMarker}`);
-            return;
-          }
-          
-          console.log(`[Cache Preload] Descargando modelo: ${arMarker}...`);
-          const response = await fetch(modelUrl, { priority: 'low' });
-          if (response.ok) {
-            await cache.put(modelUrl, response.clone());
-            console.log(`[Cache Preload] Guardado con éxito en caché: ${arMarker}`);
-          }
-        } else {
-          // Fallback simple si no hay soporte de Cache API
-          fetch(modelUrl, { priority: 'low' });
-        }
-      } catch (err) {
-        console.warn(`[Cache Preload] Error al precargar GLB ${arMarker}:`, err);
-        window.preloadedModels.delete(modelUrl);
-      }
-        
-      // Precarga del USDZ para iOS
-      if (tieneUsdz) {
-        const usdzUrl = `${BASE_PATH}/models/${arMarker}.usdz`;
-        try {
-          if ('caches' in window) {
-            const cache = await caches.open('models-cache');
-            const cachedUsdz = await cache.match(usdzUrl);
-            if (!cachedUsdz) {
-              const res = await fetch(usdzUrl, { priority: 'low' });
-              if (res.ok) await cache.put(usdzUrl, res);
-            }
-          } else {
-            fetch(usdzUrl, { priority: 'low' });
-          }
-        } catch(e) {
-          console.warn(`[Cache Preload] Error al precargar USDZ ${arMarker}:`, e);
-        }
-      }
-    }
-
-    let preloadTimeout = null;
-    function preloadAdjacentModels() {
-      if (preloadTimeout) clearTimeout(preloadTimeout);
-      preloadTimeout = setTimeout(() => {
-        if (filteredIndexes.length <= 1) return;
-        
-        // Siguiente modelo en la lista
-        const nextIdx = (currentFilteredIndex + 1) % filteredIndexes.length;
-        const nextModel = machines[filteredIndexes[nextIdx]];
-        if (nextModel) preloadModel(nextModel.arMarker, nextModel.tieneUsdz);
-        
-        // Modelo anterior en la lista
-        if (filteredIndexes.length > 2) {
-          const prevIdx = (currentFilteredIndex - 1 + filteredIndexes.length) % filteredIndexes.length;
-          const prevModel = machines[filteredIndexes[prevIdx]];
-          if (prevModel) preloadModel(prevModel.arMarker, prevModel.tieneUsdz);
-        }
-      }, 1200); // 1.2 segundos de espera antes de pre-cargar adyacentes para no saturar la red
-    }
-
     function updateToCurrentFiltered() {
       if (filteredIndexes.length === 0) {
         machineImage.src = "";
@@ -206,10 +125,6 @@ import { siteData } from "../../data.js";
         specPower.textContent = m.power;
         specWeight.textContent = m.weight;
         specApplication.textContent = m.application;
-
-        // Iniciamos la precarga del modelo actual y sus adyacentes
-        preloadModel(m.arMarker, m.tieneUsdz);
-        preloadAdjacentModels();
 
         document.querySelectorAll('.machinery-list li').forEach((li) => li.classList.remove('active'));
         const listItems = document.querySelectorAll('.machinery-list li');

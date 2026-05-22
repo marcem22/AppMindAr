@@ -7,11 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (data) {
         // Update text
-        const pageTitleText = 'SIED - ' + (data.shortTitle || data.title);
-        document.title = pageTitleText;
-        if (document.getElementById('pageTitle')) {
-            document.getElementById('pageTitle').textContent = pageTitleText;
-        }
+        document.getElementById('pageTitle').textContent = 'SIED - ' + data.title;
         document.getElementById('heroSubtitle').textContent = data.subtitle;
         document.getElementById('heroTitle').innerHTML = data.title;
         document.getElementById('heroDesc').innerHTML = data.description;
@@ -19,52 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Update links
         document.getElementById('heroBtn').href = data.buttonLink ? data.buttonLink : 'elements.html?id=' + catId;
-
-        // Precarga proactiva en segundo plano de los 2 primeros modelos de la categoría usando Cache API
-        if (data.elementsData && data.elementsData.length > 0) {
-            const isProd = window.location.hostname.includes('github.io');
-            const BASE = isProd ? '/AppMindAr/models/' : '/models/';
-            
-            data.elementsData.slice(0, 2).forEach(async (item) => {
-                const modelUrl = BASE + item.arMarker + '.glb';
-                try {
-                    if ('caches' in window) {
-                        const cache = await caches.open('models-cache');
-                        const cachedResponse = await cache.match(modelUrl);
-                        if (!cachedResponse) {
-                            console.log(`[Category Cache Preload] Descargando proactivamente: ${item.arMarker}`);
-                            const response = await fetch(modelUrl, { priority: 'low' });
-                            if (response.ok) {
-                                await cache.put(modelUrl, response);
-                                console.log(`[Category Cache Preload] Guardado en caché: ${item.arMarker}`);
-                            }
-                        } else {
-                            console.log(`[Category Cache Preload] Ya existe en caché: ${item.arMarker}`);
-                        }
-                    } else {
-                        fetch(modelUrl, { priority: 'low' });
-                    }
-                } catch(e) {
-                    console.warn(`[Category Cache Preload] Error:`, e);
-                }
-                
-                if (item.tieneUsdz) {
-                    const usdzUrl = BASE + item.arMarker + '.usdz';
-                    try {
-                        if ('caches' in window) {
-                            const cache = await caches.open('models-cache');
-                            const cachedUsdz = await cache.match(usdzUrl);
-                            if (!cachedUsdz) {
-                                const response = await fetch(usdzUrl, { priority: 'low' });
-                                if (response.ok) await cache.put(usdzUrl, response);
-                            }
-                        } else {
-                            fetch(usdzUrl, { priority: 'low' });
-                        }
-                    } catch(e) {}
-                }
-            });
-        }
 
         // Update CSS variables and styles
         document.documentElement.style.setProperty('--theme-color', data.themeColor);

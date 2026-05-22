@@ -12,7 +12,6 @@ import { siteData } from "../../data.js";
     const data = siteData[catId];
     
     if (data) {
-        document.title = 'SIED - ' + (data.shortTitle || data.title);
         document.documentElement.style.setProperty('--theme-color', data.themeColor);
         // Assuming hex color for themeColor, let's extract RGB
         const hex = data.themeColor.replace('#', '');
@@ -33,6 +32,7 @@ import { siteData } from "../../data.js";
     const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
     const SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
 
+    visor.src = BASE_PATH + modeloSolicitado + '.glb';
     const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
     visor.cameraOrbit = orbitSolicitada;
 
@@ -49,57 +49,9 @@ import { siteData } from "../../data.js";
       elementoActual = data.elementsData.find(e => e.arMarker === modeloSolicitado);
     }
 
-    // Carga de modelos GLB y USDZ optimizada usando Cache API
-    const modelUrl = BASE_PATH + modeloSolicitado + '.glb';
-    const usdzUrl = BASE_PATH + modeloSolicitado + '.usdz';
-
-    async function initializeVisorSources() {
-      // 1. Carga del GLB para Web/Android
-      try {
-        if ('caches' in window) {
-          const cache = await caches.open('models-cache');
-          const cachedResponse = await cache.match(modelUrl);
-          if (cachedResponse) {
-            console.log(`[Cache Visor] Cargando GLB ${modeloSolicitado} desde Cache API...`);
-            const blob = await cachedResponse.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            visor.src = blobUrl;
-          } else {
-            console.log(`[Cache Visor] GLB no encontrado en caché, cargando de red: ${modelUrl}`);
-            visor.src = modelUrl;
-          }
-        } else {
-          visor.src = modelUrl;
-        }
-      } catch (e) {
-        console.warn(`[Cache Visor] Error al leer caché GLB, usando red:`, e);
-        visor.src = modelUrl;
-      }
-
-      // 2. Carga del USDZ para iOS
-      if (elementoActual && elementoActual.tieneUsdz) {
-        try {
-          if ('caches' in window) {
-            const cache = await caches.open('models-cache');
-            const cachedUsdz = await cache.match(usdzUrl);
-            if (cachedUsdz) {
-              console.log(`[Cache Visor] Cargando USDZ ${modeloSolicitado} desde Cache API...`);
-              const blob = await cachedUsdz.blob();
-              const blobUrl = URL.createObjectURL(blob);
-              visor.setAttribute('ios-src', blobUrl);
-            } else {
-              visor.setAttribute('ios-src', usdzUrl);
-            }
-          } else {
-            visor.setAttribute('ios-src', usdzUrl);
-          }
-        } catch (e) {
-          visor.setAttribute('ios-src', usdzUrl);
-        }
-      }
+    if (elementoActual && elementoActual.tieneUsdz) {
+      visor.setAttribute('ios-src', BASE_PATH + modeloSolicitado + '.usdz');
     }
-
-    initializeVisorSources();
 
     // ─── Sonido (solo para la categoría dino) ───
     let reproductorAudio = null;
