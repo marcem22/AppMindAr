@@ -465,8 +465,9 @@
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
 
-    <!-- Added ar-placement="floor" and ar-scale="auto" explicitly for precise surface tracking, pinch-to-scale and two-finger rotations -->
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look"
+    <!-- REMOVED WEBXR to guarantee native Google Scene Viewer (Android) and Apple Quick Look (iOS) always open.
+         This eliminates all unstable, buggy browser-level WebXR sensor issues, and uses pure native tracking and native gestures. -->
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="scene-viewer quick-look"
       ar-placement="floor" ar-scale="auto" camera-controls auto-rotate autoplay shadow-intensity="1">
 
       <button slot="ar-button" class="btn-proyectar" id="arButton">
