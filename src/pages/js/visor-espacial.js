@@ -6,19 +6,61 @@
     const nombreUI = document.getElementById('nombreModelo');
     const btnCaptura = document.getElementById('btnCaptura');
 
+    // ─── Colores del tema (vienen de la URL, con fallback azul) ───
+    const themeColor = parametrosUrl.get('color') || '#153B82';
+    const themeColorRgb = parametrosUrl.get('colorRgb') || '21, 59, 130';
+    // Calcular color oscuro
+    const hex = themeColor.replace('#', '');
+    let themeColorDark = themeColor;
+    if (hex.length === 6) {
+        const r = Math.max(0, parseInt(hex.substring(0, 2), 16) - 30);
+        const g = Math.max(0, parseInt(hex.substring(2, 4), 16) - 30);
+        const b = Math.max(0, parseInt(hex.substring(4, 6), 16) - 30);
+        themeColorDark = `rgb(${r}, ${g}, ${b})`;
+    }
+    document.documentElement.style.setProperty('--theme-color', themeColor);
+    document.documentElement.style.setProperty('--theme-color-rgb', themeColorRgb);
+    document.documentElement.style.setProperty('--theme-color-dark', themeColorDark);
+
+    // ─── Escala ───
     const escalaSolicitadaStr = parametrosUrl.get('escala') || '1 1 1';
     let escalaActual = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
     const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 
+    // ─── Ruta del modelo ───
     const isProduction = window.location.hostname.includes('github.io');
-    const BASE_PATH = isProduction ? '/AppMindAr/models/' : 'models/';
+    const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
 
     visor.src = BASE_PATH + modeloSolicitado + '.glb';
     nombreUI.textContent = nombreSolicitado;
 
     visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
 
-    // LÓGICA DE LOS BOTONES
+    // ─── Órbita de cámara ───
+    const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
+    visor.cameraOrbit = orbitSolicitada;
+
+    // ─── USDZ para iOS (si viene en la URL) ───
+    const tieneUsdz = parametrosUrl.get('usdz') === '1';
+    if (tieneUsdz) {
+      visor.setAttribute('ios-src', BASE_PATH + modeloSolicitado + '.usdz');
+    }
+
+    // ─── Sonido (si viene en la URL) ───
+    const sonidoUrl = parametrosUrl.get('sonido');
+    if (sonidoUrl) {
+      const SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
+      const reproductorAudio = new Audio();
+      reproductorAudio.src = SOUND_BASE + sonidoUrl;
+
+      document.body.addEventListener('click', () => {
+        if (reproductorAudio && reproductorAudio.paused) {
+          reproductorAudio.play().catch(() => { });
+        }
+      }, { once: true });
+    }
+
+    // ─── Lógica de botones de control ───
     let timer;
     function iniciarAccion(accion) { accion(); timer = setInterval(accion, 40); }
     function detenerAccion() { clearInterval(timer); }
@@ -41,7 +83,7 @@
       }
     });
 
-    // FOTO
+    // ─── Captura de foto ───
     btnCaptura.addEventListener('click', async () => {
       btnCaptura.style.background = "orange";
       try {
@@ -76,6 +118,6 @@
         console.error(error);
       }
       setTimeout(() => {
-        btnCaptura.style.background = "";
+        btnCaptura.style.background = `rgba(${themeColorRgb}, 0.9)`;
       }, 500);
     });

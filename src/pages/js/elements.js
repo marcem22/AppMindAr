@@ -155,7 +155,10 @@ import { siteData } from "../../data.js";
       if (filteredIndexes.length === 0) return;
       const m = machines[filteredIndexes[currentFilteredIndex]];
       const orbit = m.cameraOrbit || '-90deg 75deg auto';
-      const url = `${BASE_PATH}/src/pages/visor-espacial.html?id=` + catId + `&modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}&orbit=${encodeURIComponent(orbit)}`;
+      const escala = m.escala || '1 1 1';
+      let url = `${BASE_PATH}/src/pages/visor-espacial.html?id=${catId}&modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}&orbit=${encodeURIComponent(orbit)}&escala=${encodeURIComponent(escala)}&color=${encodeURIComponent(data.themeColor)}&colorRgb=${encodeURIComponent(data.themeColorRgb)}`;
+      if (m.tieneUsdz) url += '&usdz=1';
+      if (m.sonido) url += `&sonido=${encodeURIComponent(m.sonido)}`;
       window.location.href = url;
     }
 
