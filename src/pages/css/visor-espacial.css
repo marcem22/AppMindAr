@@ -24,7 +24,7 @@ body {
 .header {
     padding: 20px 25px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     background: transparent;
     z-index: 20;
@@ -83,16 +83,10 @@ model-viewer {
     height: 100%;
     background: transparent;
     --poster-color: transparent;
-    /* Fluidez táctil mejorada */
-    touch-action: pan-y;
 }
 
+/* ─── Nombre del modelo: dentro del header, a la izquierda ─── */
 .model-info {
-    position: absolute;
-    top: 70px;
-    left: 20px;
-    right: auto;
-    transform: none;
     background: rgba(var(--theme-color-rgb), 0.15);
     padding: 10px 20px;
     border-radius: 12px;
@@ -100,9 +94,8 @@ model-viewer {
     text-align: left;
     pointer-events: none;
     backdrop-filter: blur(8px);
-    z-index: 10;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    max-width: 70%;
+    max-width: 60%;
 }
 
 .model-name {
@@ -167,15 +160,11 @@ model-viewer {
 
 @media (max-width: 768px) {
     .model-info {
-        top: 65px;
-        left: 15px !important;
-        right: auto !important;
-        transform: none !important;
-        padding: 8px 16px;
+        padding: 10px 16px;
     }
 
     .model-name {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .btn-proyectar {
@@ -206,12 +195,8 @@ model-viewer {
         border-width: 2px;
     }
 
-    /* El Nombre pasa arriba a la izquierda */
+    /* El Nombre en pantalla grande */
     .model-info {
-        top: 30px;
-        left: 40px !important;
-        right: auto;
-        transform: none !important;
         padding: 15px 30px;
     }
 
@@ -249,8 +234,6 @@ model-viewer {
     }
 
     .model-info {
-        top: 100px;
-        left: 100px !important;
         padding: 40px 80px;
         border-width: 4px;
         border-radius: 25px;
@@ -357,20 +340,10 @@ model-viewer {
        ========================================================= */
 @media (min-width: 769px) {
     html.browser-chromium .model-info {
-        top: 30px !important;
-        left: 40px !important;
-        right: auto !important;
-        transform: none !important;
         padding: 15px 30px;
     }
-}
 
-/* =========================================================
-   🖥 ESCRITORIO: ocultar botón "Proyectar" en dispositivos
-   sin pantalla táctil (hover:hover = mouse/trackpad)
-   ========================================================= */
-@media (hover: hover) and (pointer: fine) {
-    .btn-proyectar {
-        display: none !important;
+    html.browser-chromium .model-name {
+        font-size: 22px;
     }
 }

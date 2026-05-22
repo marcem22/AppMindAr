@@ -34,6 +34,9 @@
 <body>
 
   <div class="header">
+    <div class="model-info">
+      <div class="model-name" id="nombreModelo">Cargando...</div>
+    </div>
     <button class="close-btn" onclick="window.history.back()" aria-label="Volver">
       <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
         stroke-linecap="round" stroke-linejoin="round">
@@ -44,10 +47,6 @@
   </div>
 
   <div class="visor-container">
-    <!-- NOMBRE DEL MODELO (ARRIBA A LA IZQ EN PANTALLA GIGANTE) -->
-    <div class="model-info">
-      <div class="model-name" id="nombreModelo">Cargando...</div>
-    </div>
 
     <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
       auto-rotate autoplay shadow-intensity="1">

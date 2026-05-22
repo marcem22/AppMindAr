@@ -48,11 +48,6 @@ visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
 const orbitSolicitada = parametrosUrl.get('orbit') || '-90deg 75deg auto';
 visor.cameraOrbit = orbitSolicitada;
 
-// ─── Mejorar fluidez de rotación y movimiento ───
-visor.setAttribute('interaction-prompt', 'none');
-visor.setAttribute('interpolation-decay', '100');
-visor.setAttribute('rotation-per-second', '20deg');
-
 // ─── USDZ para iOS (si viene en la URL) ───
 const tieneUsdz = parametrosUrl.get('usdz') === '1';
 if (tieneUsdz) {
@@ -73,28 +68,6 @@ if (sonidoUrl) {
   }, { once: true });
 }
 
-// ─── Detección de plataforma: ocultar botón AR en escritorio ───
-(function() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-  const isIOS = /iPad|iPhone|iPod/.test(ua) ||
-                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  const isAndroid = /android/i.test(ua);
-  const isMobile = isIOS || isAndroid;
-
-  if (!isMobile) {
-    // Escritorio: ocultar botón AR y desactivar AR
-    const btnAr = visor.querySelector('[slot="ar-button"]');
-    if (btnAr) btnAr.style.display = 'none';
-    visor.removeAttribute('ar');
-  } else {
-    // Configurar modos AR según plataforma
-    if (isIOS) {
-      visor.setAttribute('ar-modes', tieneUsdz ? 'quick-look scene-viewer' : 'scene-viewer webxr');
-    } else if (isAndroid) {
-      visor.setAttribute('ar-modes', 'scene-viewer webxr');
-    }
-  }
-})();
 
 // ─── Lógica de botones de control (requestAnimationFrame para fluidez) ───
 let animFrameId = null;
