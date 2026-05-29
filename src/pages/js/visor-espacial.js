@@ -5,6 +5,10 @@ const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
 const visor = document.getElementById('visorModelo');
 const nombreUI = document.getElementById('nombreModelo');
 const btnCaptura = document.getElementById('btnCaptura');
+const loaderOverlay = document.getElementById('loaderModelo');
+const loaderSubtitle = document.getElementById('loaderSubtitle');
+const loaderBarra = document.getElementById('loaderBarra');
+const loaderPorcentaje = document.getElementById('loaderPorcentaje');
 
 import { siteData } from '../../data.js';
 const catId = parametrosUrl.get('id') || 'minas';
@@ -56,8 +60,39 @@ visor.addEventListener('error', () => {
   const fallback = 'models/' + modeloSolicitado + '.glb';
   if (visor.src !== fallback && !visor.src.endsWith(fallback)) {
     visor.src = fallback;
+  } else {
+    setTimeout(() => {
+      if (loaderOverlay) loaderOverlay.classList.add('fade-out');
+    }, 1000);
   }
 }, { once: true });
+
+// Lógica de actualización y ocultación del cargador premium
+if (visor) {
+  visor.addEventListener('progress', (event) => {
+    const progress = Math.round(event.detail.totalProgress * 100);
+    if (loaderBarra) loaderBarra.style.width = `${progress}%`;
+    if (loaderPorcentaje) loaderPorcentaje.textContent = `${progress}%`;
+    
+    if (progress === 100) {
+      if (loaderSubtitle) loaderSubtitle.textContent = 'Procesando gráficos 3D...';
+    } else if (progress > 50) {
+      if (loaderSubtitle) loaderSubtitle.textContent = 'Cargando texturas y geometría...';
+    } else if (progress > 10) {
+      if (loaderSubtitle) loaderSubtitle.textContent = 'Recibiendo datos del modelo...';
+    }
+  });
+
+  visor.addEventListener('load', () => {
+    if (loaderBarra) loaderBarra.style.width = '100%';
+    if (loaderPorcentaje) loaderPorcentaje.textContent = '100%';
+    if (loaderSubtitle) loaderSubtitle.textContent = '¡Listo!';
+    
+    setTimeout(() => {
+      if (loaderOverlay) loaderOverlay.classList.add('fade-out');
+    }, 450);
+  });
+}
 
 visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
 

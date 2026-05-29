@@ -4,6 +4,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script>
+    // Pre-carga anticipada y en paralelo del modelo 3D antes de parsear todo el DOM
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var modelo = params.get('modelo');
+        if (modelo) {
+          var isProd = window.location.hostname.includes('github.io');
+          var basePath = isProd ? '/AppMindAr/models/' : '/models/';
+          var modelUrl = basePath + modelo + '.glb';
+          
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'fetch';
+          link.href = modelUrl;
+          link.crossOrigin = 'anonymous';
+          document.head.appendChild(link);
+        }
+      } catch (e) {
+        console.error("Error en precarga dinámica:", e);
+      }
+    })();
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-40KN126F8R"></script>
   <script>
@@ -29,6 +52,22 @@
 </head>
 
 <body>
+
+  <!-- Cargador Glassmorphic Premium -->
+  <div id="loaderModelo" class="loader-overlay">
+    <div class="loader-card">
+      <div class="loader-spinner-container">
+        <div class="loader-spinner"></div>
+        <div class="loader-glow"></div>
+      </div>
+      <h3 class="loader-title">Cargando Experiencia 3D</h3>
+      <p class="loader-subtitle" id="loaderSubtitle">Iniciando descarga...</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="loaderBarra"></div>
+      </div>
+      <div class="progress-percentage" id="loaderPorcentaje">0%</div>
+    </div>
+  </div>
 
   <div class="header">
     <div class="model-info">

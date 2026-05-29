@@ -96,6 +96,23 @@ import { siteData } from "../../data.js";
       updateToCurrentFiltered();
     }
 
+    function precargarModelo(arMarker, isLowPriority = false) {
+      if (!arMarker) return;
+      const idPrecarga = isLowPriority ? 'precarga-modelo-3d-sig' : 'precarga-modelo-3d';
+      let link = document.getElementById(idPrecarga);
+      if (link) {
+        link.remove();
+      }
+      link = document.createElement('link');
+      link.id = idPrecarga;
+      link.rel = 'prefetch';
+      link.as = 'fetch';
+      link.crossOrigin = 'anonymous';
+      const pathModelos = isProduction ? '/AppMindAr/models/' : '/models/';
+      link.href = `${pathModelos}${arMarker}.glb`;
+      document.head.appendChild(link);
+    }
+
     function updateToCurrentFiltered() {
       if (filteredIndexes.length === 0) {
         machineImage.src = "";
@@ -112,6 +129,21 @@ import { siteData } from "../../data.js";
 
       const globalIndex = filteredIndexes[currentFilteredIndex];
       const m = machines[globalIndex];
+      
+      // Precargar modelo actual de forma prioritaria
+      precargarModelo(m.arMarker);
+      
+      // Precargar el siguiente modelo en segundo plano (baja prioridad)
+      if (filteredIndexes.length > 1) {
+        const nextFilteredIndex = (currentFilteredIndex + 1) % filteredIndexes.length;
+        const nextGlobalIndex = filteredIndexes[nextFilteredIndex];
+        const nextMachine = machines[nextGlobalIndex];
+        if (nextMachine && nextMachine.arMarker) {
+          setTimeout(() => {
+            precargarModelo(nextMachine.arMarker, true);
+          }, 800);
+        }
+      }
 
       wrapper.classList.remove('fade-in');
       wrapper.classList.add('fade-out');
