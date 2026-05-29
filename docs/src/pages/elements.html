@@ -9,16 +9,12 @@
     // Detección de navegador: agrega clase al <html> antes del primer render
     (function () {
       var ua = navigator.userAgent;
-      if (ua.indexOf('Firefox') > -1) {
-        document.documentElement.classList.add('browser-firefox');
-      } else if (ua.indexOf('Chrome') > -1 || ua.indexOf('Edg') > -1) {
-        document.documentElement.classList.add('browser-chromium');
-      }
+      // Siempre usar el diseño grande (Firefox) para todos los navegadores
+      document.documentElement.classList.add('browser-firefox');
     })();
   </script>
-  <script type="module" crossorigin src="/AppMindAr/assets/elements-DTl0KDHZ.js"></script>
-  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-clBsNuwL.js">
+  <script type="module" crossorigin src="/AppMindAr/assets/elements-CjZXjWVl.js"></script>
+  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-xxQ6W8uj.js">
   <link rel="stylesheet" crossorigin href="/AppMindAr/assets/elements-BFJaoJKd.css">
 </head>
 
