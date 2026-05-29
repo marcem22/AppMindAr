@@ -9,8 +9,18 @@ const btnCaptura = document.getElementById('btnCaptura');
 import { siteData } from '../../data.js';
 const catId = parametrosUrl.get('id') || 'minas';
 const data = siteData[catId];
+
+const categoryTitles = {
+  'minas': 'Minería',
+  'astro': 'Astro',
+  'bio': 'Bio',
+  'minerales': 'Minerales',
+  'dino': 'Dinosaurios'
+};
+
 if (data) {
-  document.getElementById('pageTitle').textContent = 'SIED - ' + data.title;
+  const shortTitle = categoryTitles[catId] || catId;
+  document.title = 'SIED ' + shortTitle + ' - AR Espacial';
 }
 
 // ─── Colores del tema (vienen de la URL, con fallback azul) ───

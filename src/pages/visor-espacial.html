@@ -17,11 +17,8 @@
     // Detección de navegador: agrega clase al <html> antes del primer render
     (function () {
       var ua = navigator.userAgent;
-      if (ua.indexOf('Firefox') > -1) {
-        document.documentElement.classList.add('browser-firefox');
-      } else if (ua.indexOf('Chrome') > -1 || ua.indexOf('Edg') > -1) {
-        document.documentElement.classList.add('browser-chromium');
-      }
+      // Siempre usar el diseño grande (Firefox) para todos los navegadores
+      document.documentElement.classList.add('browser-firefox');
     })();
   </script>
   <title id="pageTitle">SIED - AR Espacial</title>
