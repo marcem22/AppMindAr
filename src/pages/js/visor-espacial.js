@@ -216,7 +216,6 @@ btnCaptura.addEventListener('click', async () => {
 });
 
 
-// Lógica de Hotspots Interactivos
 console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
 
 const params = new URLSearchParams(window.location.search);
@@ -226,9 +225,16 @@ console.log("1. El modelo en la URL es:", modeloActual);
 
 if (modeloActual) {
 
-  fetch('/assets/data.json')
+  const isProd = window.location.hostname.includes('github.io');
+  const rutaJson = isProd ? '/AppMindAr/assets/data.json' : '/assets/data.json';
+
+  console.log("2. Buscando JSON en:", rutaJson);
+
+  fetch(rutaJson)
     .then(response => {
-        console.log("2. Respuesta HTTP:", response.status);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         return response.json();
     })
     .then(data => {
@@ -236,12 +242,10 @@ if (modeloActual) {
       
       if (data[modeloActual]) {
         console.log("4. Modelo encontrado en el JSON. Armando botones...");
-        
         const visor = document.getElementById('visorModelo');
         
         if (visor) {
             data[modeloActual].forEach(punto => {
-
               const btnContenedor = document.createElement('button');
               btnContenedor.className = 'punto-contenedor';
               btnContenedor.slot = punto.slot;
@@ -259,9 +263,7 @@ if (modeloActual) {
               btnContenedor.appendChild(divTexto);
               visor.appendChild(btnContenedor);
             });
-            console.log("5. ¡Botones reestructurados inyectados!");
-        } else {
-            console.error("ERROR: No se encontró la etiqueta <model-viewer> en el HTML.");
+            console.log("5. ¡Misión cumplida! Botones inyectados.");
         }
       } else {
         console.error("4. ERROR: El modelo '" + modeloActual + "' no existe en el archivo data.json");
