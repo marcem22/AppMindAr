@@ -18,9 +18,65 @@
       "normal": "-1 0 0",
       "texto": "Adaptación extrema: Su piel gruesa y escamosa le proporcionaba protección térmica y un excelente camuflaje en los bosques del sur."
     }
+    ],
+    "velociraptor": [
+    {
+      "slot": "hotspot-garra",
+      "position": "0.0 0.5 1.0",
+      "normal": "0 0 1",
+      "texto": "Garra en hoz: En su segundo dedo del pie poseía una garra retráctil letal, diseñada para apuñalar y sujetar a sus presas."
+    },
+    {
+      "slot": "hotspot-plumas",
+      "position": "0.0 1.0 -1.0",
+      "normal": "0 1 0",
+      "texto": "Cuerpo emplumado: La ciencia moderna confirma que estaba cubierto de plumas, haciéndolo lucir más como un ave rapaz gigante que como un lagarto."
+    },
+    {
+      "slot": "hotspot-cola",
+      "position": "0.0 0.8 -2.0",
+      "normal": "0 0 -1",
+      "texto": "Equilibrio perfecto: Su cola rígida actuaba como un contrapeso clave, permitiéndole hacer giros cerrados mientras corría a toda velocidad."
+    }
   ],
-
-  "triceratops": [
-    { "slot": "hotspot-1", "position": "0.0 1.2 2.5", "normal": "0 1 0", "texto": "Cuernos defensivos" }
+  "stegosaurio": [
+    {
+      "slot": "hotspot-placas",
+      "position": "0.0 2.5 0.0",
+      "normal": "0 1 0",
+      "texto": "Lomo acorazado: Sus enormes placas óseas estaban llenas de vasos sanguíneos. Las usaba para calentarse al sol y para intimidar a otros dinosaurios."
+    },
+    {
+      "slot": "hotspot-cola",
+      "position": "0.0 1.0 -3.0",
+      "normal": "0 0 -1",
+      "texto": "Thagomizer: Su cola terminaba en cuatro púas afiladas de hasta un metro de largo, funcionando como un mazo letal contra depredadores."
+    },
+    {
+      "slot": "hotspot-cabeza",
+      "position": "0.0 1.0 2.5",
+      "normal": "1 0 0",
+      "texto": "Cerebro diminuto: A pesar de pesar más de 5 toneladas, su cerebro era del tamaño de una nuez o una mandarina pequeña."
+    }
+  ],
+  "trex": [
+    {
+      "slot": "hotspot-craneo",
+      "position": "0.0 4.5 3.5",
+      "normal": "0 0 1",
+      "texto": "Fuerza trituradora: Su mandíbula tenía la mordida más poderosa de cualquier animal terrestre, capaz de triturar huesos con facilidad."
+    },
+    {
+      "slot": "hotspot-brazos",
+      "position": "1.0 2.5 1.5",
+      "normal": "1 0 0",
+      "texto": "Extremidades diminutas: Aunque medían solo 1 metro, sus brazos eran muy musculosos y podían levantar hasta 200 kilos cada uno."
+    },
+    {
+      "slot": "hotspot-patas",
+      "position": "1.5 1.0 -1.0",
+      "normal": "1 0 0",
+      "texto": "Velocidad y equilibrio: Sus poderosas patas traseras y su pesada cola le permitían mantener el equilibrio mientras corría."
+    }
   ]
 }
