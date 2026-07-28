@@ -1,0 +1,26 @@
+{
+  "giganotosaurus": [
+    {
+      "slot": "hotspot-mandibula",
+      "position": "0.5 5.8 5.5",
+      "normal": "0 0 1",
+      "texto": "Mordedura letal: Sus dientes aserrados de 20cm estaban diseñados para desgarrar la carne de sus presas, provocando heridas mortales."
+    },
+    {
+      "slot": "hotspot-garra",
+      "position": "1.2 1.5 1.0",
+      "normal": "1 0 0",
+      "texto": "Brazos cortos pero efectivos: Poseía tres dedos equipados con garras afiladas, ideales para sujetar a sus víctimas durante el ataque."
+    },
+    {
+      "slot": "hotspot-piel",
+      "position": "0.5 4.0 -2.5",
+      "normal": "-1 0 0",
+      "texto": "Adaptación extrema: Su piel gruesa y escamosa le proporcionaba protección térmica y un excelente camuflaje en los bosques del sur."
+    }
+  ],
+
+  "triceratops": [
+    { "slot": "hotspot-1", "position": "0.0 1.2 2.5", "normal": "0 1 0", "texto": "Cuernos defensivos" }
+  ]
+}

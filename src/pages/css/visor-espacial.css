@@ -494,3 +494,108 @@ model-viewer {
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+.info-texto {
+
+  background: rgba(20, 20, 20, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  
+
+  color: white;
+  padding: 12px 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+
+  border-radius: 12px;
+  min-width: 200px;
+  white-space: normal; 
+  
+
+  position: absolute;
+  bottom: 35px; 
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+}
+
+
+.info-texto::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0;
+  border-style: solid;
+  border-color: rgba(20, 20, 20, 0.65) transparent transparent transparent;
+}
+
+.punto-contenedor {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; 
+}
+
+
+.punto-visual {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none; 
+}
+
+
+.punto-visual::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background: #779B2C;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #779B2C;
+  animation: latido 2s ease-in-out infinite;
+}
+
+.punto-contenedor:hover .punto-visual,
+.punto-contenedor:focus .punto-visual {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.punto-contenedor:hover .info-texto,
+.punto-contenedor:focus .info-texto {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+.punto-contenedor[data-visible="false"] {
+  opacity: 0;
+  pointer-events: none;
+}
+.punto-contenedor[data-visible="false"] .punto-visual {
+  transform: scale(0.5);
+}

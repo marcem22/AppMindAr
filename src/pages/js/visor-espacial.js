@@ -214,3 +214,60 @@ btnCaptura.addEventListener('click', async () => {
     btnCaptura.style.background = `rgba(${themeColorRgb}, 0.9)`;
   }, 500);
 });
+
+
+// Lógica de Hotspots Interactivos
+console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
+
+const params = new URLSearchParams(window.location.search);
+const modeloActual = params.get('modelo');
+
+console.log("1. El modelo en la URL es:", modeloActual);
+
+if (modeloActual) {
+
+  fetch('/assets/data.json')
+    .then(response => {
+        console.log("2. Respuesta HTTP:", response.status);
+        return response.json();
+    })
+    .then(data => {
+      console.log("3. Datos del JSON leídos correctamente.");
+      
+      if (data[modeloActual]) {
+        console.log("4. Modelo encontrado en el JSON. Armando botones...");
+        
+        const visor = document.getElementById('visorModelo');
+        
+        if (visor) {
+            data[modeloActual].forEach(punto => {
+
+              const btnContenedor = document.createElement('button');
+              btnContenedor.className = 'punto-contenedor';
+              btnContenedor.slot = punto.slot;
+              btnContenedor.dataset.position = punto.position;
+              btnContenedor.dataset.normal = punto.normal;
+
+              const divVisual = document.createElement('div');
+              divVisual.className = 'punto-visual';
+
+              const divTexto = document.createElement('div');
+              divTexto.className = 'info-texto';
+              divTexto.textContent = punto.texto;
+
+              btnContenedor.appendChild(divVisual);
+              btnContenedor.appendChild(divTexto);
+              visor.appendChild(btnContenedor);
+            });
+            console.log("5. ¡Botones reestructurados inyectados!");
+        } else {
+            console.error("ERROR: No se encontró la etiqueta <model-viewer> en el HTML.");
+        }
+      } else {
+        console.error("4. ERROR: El modelo '" + modeloActual + "' no existe en el archivo data.json");
+      }
+    })
+    .catch(error => console.error("Error leyendo el archivo JSON:", error));
+} else {
+    console.error("ERROR: No hay ningún parámetro '?modelo=' en la barra de direcciones.");
+}
