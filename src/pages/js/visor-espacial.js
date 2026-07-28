@@ -221,31 +221,27 @@ console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
 const params = new URLSearchParams(window.location.search);
 const modeloActual = params.get('modelo');
 
-console.log("1. El modelo en la URL es:", modeloActual);
-
 if (modeloActual) {
+  const visor = document.getElementById('visorModelo');
+  
+  if (visor) {
+    const isProd = window.location.hostname.includes('github.io');
+    
+    const rutaModelo = isProd ? `/AppMindAr/models/${modeloActual}.glb` : `/models/${modeloActual}.glb`;
+    visor.src = rutaModelo;
 
-  const isProd = window.location.hostname.includes('github.io');
-  const rutaJson = isProd ? '/AppMindAr/assets/data.json' : '/assets/data.json';
-
-  console.log("2. Buscando JSON en:", rutaJson);
-
-  fetch(rutaJson)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-      console.log("3. Datos del JSON leídos correctamente.");
-      
-      if (data[modeloActual]) {
-        console.log("4. Modelo encontrado en el JSON. Armando botones...");
-        const visor = document.getElementById('visorModelo');
-        
-        if (visor) {
-            data[modeloActual].forEach(punto => {
+    const rutaJson = isProd ? '/AppMindAr/assets/data.json' : '/assets/data.json';
+    
+    fetch(rutaJson)
+      .then(response => {
+          if (!response.ok) {
+              throw new Error(response.status);
+          }
+          return response.json();
+      })
+      .then(data => {
+        if (data[modeloActual]) {
+          data[modeloActual].forEach(punto => {
               const btnContenedor = document.createElement('button');
               btnContenedor.className = 'punto-contenedor';
               btnContenedor.slot = punto.slot;
@@ -262,14 +258,9 @@ if (modeloActual) {
               btnContenedor.appendChild(divVisual);
               btnContenedor.appendChild(divTexto);
               visor.appendChild(btnContenedor);
-            });
-            console.log("5. ¡Misión cumplida! Botones inyectados.");
+          });
         }
-      } else {
-        console.error("4. ERROR: El modelo '" + modeloActual + "' no existe en el archivo data.json");
-      }
-    })
-    .catch(error => console.error("Error leyendo el archivo JSON:", error));
-} else {
-    console.error("ERROR: No hay ningún parámetro '?modelo=' en la barra de direcciones.");
+      })
+      .catch(error => console.error(error));
+  }
 }
