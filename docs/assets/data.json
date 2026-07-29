@@ -78,5 +78,245 @@
       "normal": "1 0 0",
       "texto": "Velocidad y equilibrio: Sus poderosas patas traseras y su pesada cola le permitían mantener el equilibrio mientras corría."
     }
+  ],
+  "lunaNueva": [
+    {
+      "slot": "hotspot-crateres",
+      "position": "0.15811328977094435 -0.1149537543940744 -0.028764193216153894",
+    "normal": "0.7966399302510694 -0.5927969826922715 -0.1181378806332257",
+      "texto": "Cráteres de impacto: La superficie está llena de cicatrices de meteoritos que impactaron hace miles de millones de años, ya que no hay atmósfera que la proteja."
+    },
+    {
+      "slot": "hotspot-mares",
+      "position": "-0.19129245444491066 0.04402986171447601 -0.01968306992356012",
+      "normal": "-0.959957994844895 0.24127674823229192 -0.1423593302029055",
+      "texto": "Mares lunares: Esas enormes manchas oscuras no tienen agua. Son extensas planicies de lava basáltica solidificada de antiguas erupciones volcánicas."
+    },
+    {
+      "slot": "hotspot-polvo",
+      "position": "-0.16360663010102627 0.11020634093031945 -0.013842184932207117",
+        "normal": "-0.85843369509189 0.5111850894813303 -0.0422065803263924",
+      "texto": "Regolito: El suelo está cubierto de un polvo fino y cortante como el vidrio, resultado del constante bombardeo de micrometeoritos."
+    }
+  ],
+  "marte": [
+    {
+      "slot": "hotspot-olimpo",
+        "position": "0.024008079447545353 0.15369493584317803 -0.1956456702332636",
+        "normal": "0.09742959749050942 0.6053966020928867 -0.7899382429704391",
+      "texto": "Monte Olimpo: Es el volcán más grande del sistema solar. Con 21 kilómetros de altura, es casi tres veces más alto que el Monte Everest."
+    },
+    {
+      "slot": "hotspot-valles",
+      "position": "0.12315736960247335 -0.21752466172635485 0.0025204337010732436",
+      "normal": "0.48215243036030175 -0.8760073845704572 0.011836218808455923",
+      "texto": "Valles Marineris: Un sistema de cañones gigantesco que cruza el planeta. Si estuviera en la Tierra, iría de costa a costa de Estados Unidos."
+    },
+    {
+      "slot": "hotspot-oxido",
+      "position": "0.05748349059588975 0.10137689724624385 0.22113181047792527",
+      "normal": "0.24249934650135327 0.41632610173607315 0.8762800031723087",
+      "texto": "El Planeta Rojo: Su color característico se debe a la gran cantidad de óxido de hierro (óxido) presente en la superficie."
+    }
+  ],
+  "earth": [
+    {
+      "slot": "hotspot-oceanos",
+    "position": "0.24699398520461122 0.02575850792258736 -0.054066221135045577",
+    "normal": "0.969760353931245 0.11019274065803444 -0.21776688418907414",
+      "texto": "El Planeta Azul: Aproximadamente el 71% de la superficie terrestre está cubierta de agua, fundamental para sostener toda la vida conocida."
+    },
+    {
+      "slot": "hotspot-atmosfera",
+    "position": "-0.18784425364985982 -0.06372340493288625 0.1588975342632441",
+    "normal": "-0.7322174234786568 -0.2547951449365938 0.6316146601140744",
+      "texto": "Escudo invisible: Nuestra atmósfera nos protege de la radiación solar letal y de la mayoría de los meteoritos, que se desintegran antes de tocar el suelo."
+    },
+    {
+      "slot": "hotspot-nucleo",
+        "position": "-0.051287966023712134 -0.021159535306166745 0.24804495851717945",
+        "normal": "-0.21829394253478693 -0.0857711461445312 0.9721065091550786" ,
+      "texto": "Dínamo interno: El núcleo de hierro fundido genera el campo magnético de la Tierra, que actúa como una brújula global y nos defiende del viento solar."
+    }
+  ],
+  "cuarzo": [
+    {
+      "slot": "hotspot-cristal",
+      "position": "0.0 1.0 0.0",
+      "normal": "0 1 0",
+      "texto": "Estructura perfecta: Cristaliza en el sistema trigonal, formando prismas hexagonales con terminaciones piramidales muy características."
+    },
+    {
+      "slot": "hotspot-dureza",
+      "position": "0.5 0.0 0.5",
+      "normal": "1 0 1",
+      "texto": "Dureza 7: En la escala de Mohs, es lo suficientemente duro como para rayar el vidrio y el acero común sin sufrir daños."
+    },
+    {
+      "slot": "hotspot-piezo",
+      "position": "-0.5 0.0 0.5",
+      "normal": "-1 0 1",
+      "texto": "Efecto piezoeléctrico: Al someterlo a presión, genera electricidad. Por eso se usa como regulador de tiempo en relojes y computadoras."
+    }
+  ],
+  "calcita": [
+    {
+      "slot": "hotspot-birrefringencia",
+      "position": "2.0 0.5 0.5",
+      "normal": "0 1 1",
+      "texto": "Visión doble: Posee una propiedad óptica extrema llamada birrefringencia, que divide los rayos de luz haciendo que veas todo doble a través de un cristal transparente."
+    },
+    {
+      "slot": "hotspot-carbonato",
+      "position": "2.5 -0.5 0.0",
+      "normal": "1 -1 0",
+      "texto": "Reacción ácida: Al estar compuesta de carbonato de calcio, burbujea vigorosamente si le cae una gota de ácido clorhídrico."
+    },
+    {
+      "slot": "hotspot-cuevas",
+      "position": "2.5 0.5 0.0",
+      "normal": "-1 1 0",
+      "texto": "Arquitecta subterránea: Es el mineral principal de las estalactitas y estalagmitas que se forman lentamente a lo largo de los milenios en las cuevas."
+    }
+  ],
+  "cobre": [
+    {
+      "slot": "hotspot-color",
+      "position": "0.0 0.5 0.5",
+      "normal": "0 1 1",
+      "texto": "Brillo rojizo: Es uno de los pocos metales que no son grises o plateados en su estado puro, destacando por su intenso tono rojizo o salmón."
+    },
+    {
+      "slot": "hotspot-conductividad",
+      "position": "0.5 0.0 0.5",
+      "normal": "1 0 1",
+      "texto": "El rey eléctrico: Su altísima conductividad eléctrica y térmica lo convierte en el material indispensable para cables y componentes electrónicos."
+    },
+    {
+      "slot": "hotspot-oxidacion",
+      "position": "-0.5 0.0 0.0",
+      "normal": "-1 0 0",
+      "texto": "Pátina verde: Cuando se expone al aire libre y a la humedad durante años, se oxida formando una capa protectora de color verde agua, como la de la Estatua de la Libertad."
+    }
+  ],
+  "carga": [
+    {
+      "slot": "hotspot-ruedas",
+      "position": "1.0 -1.0 1.0",
+      "normal": "1 0 1",
+      "texto": "Neumáticos titánicos: Cada rueda puede medir más de 4 metros de altura y pesar casi 5 toneladas. Solo cambiarlas requiere de maquinaria especial."
+    },
+    {
+      "slot": "hotspot-tolva",
+      "position": "0.0 2.0 -1.0",
+      "normal": "0 1 -1",
+      "texto": "Tolva de carga: Capaz de transportar hasta 400 toneladas de roca de un solo viaje, el equivalente al peso de dos ballenas azules adultas."
+    },
+    {
+      "slot": "hotspot-motor",
+      "position": "0.0 -0.5 2.0",
+      "normal": "0 0 1",
+      "texto": "Corazón híbrido: Su inmenso motor diésel no mueve las ruedas directamente, sino que funciona como un generador para alimentar motores eléctricos en los ejes."
+    }
+  ],
+  "garras": [
+    {
+      "slot": "hotspot-patas",
+      "position": "1.0 -1.0 0.0",
+      "normal": "1 -1 0",
+      "texto": "Patas articuladas: Reemplaza las ruedas u orugas por sistemas hidráulicos independientes, permitiéndole 'caminar' y adaptarse a desniveles extremos."
+    },
+    {
+      "slot": "hotspot-cabina",
+      "position": "0.0 1.0 0.0",
+      "normal": "0 1 0",
+      "texto": "Cabina autonivelante: Sin importar la inclinación del terreno o lo empinado de la montaña, el asiento del operador se mantiene siempre perfectamente horizontal."
+    },
+    {
+      "slot": "hotspot-brazo",
+      "position": "0.0 0.5 2.0",
+      "normal": "0 0 1",
+      "texto": "Brazo forestal: Equipado con cabezales procesadores que pueden talar, desramar y cortar un árbol completo en medidas exactas en cuestión de segundos."
+    }
+  ],
+  "truck": [
+    {
+      "slot": "hotspot-cilindro",
+      "position": "0.0 -0.5 1.5",
+      "normal": "0 0 1",
+      "texto": "Tambor de acero: Un cilindro macizo de altísimo peso que aplasta y saca el aire de los materiales para crear una base sólida y uniforme."
+    },
+    {
+      "slot": "hotspot-vibracion",
+      "position": "0.0 0.0 1.0",
+      "normal": "0 0 1",
+      "texto": "Sistema vibratorio: Un mecanismo interno hace que el tambor golpee el suelo miles de veces por minuto, logrando compactar capas mucho más profundas de tierra o asfalto."
+    },
+    {
+      "slot": "hotspot-articulacion",
+      "position": "0.0 0.0 0.0",
+      "normal": "0 1 0",
+      "texto": "Chasis articulado: A diferencia de los autos, gira doblando su cuerpo por la mitad. Esto le da un radio de giro mínimo ideal para trabajar en obras estrechas."
+    }
+  ],
+  "mariposa": [
+    {
+      "slot": "hotspot-alas",
+      "position": "0.0 1.0 0.0",
+      "normal": "0 1 0",
+      "texto": "Alas escamosas: Sus colores vibrantes no siempre son pigmentos, sino miles de escamas microscópicas que reflejan la luz como prismas."
+    },
+    {
+      "slot": "hotspot-trompa",
+      "position": "0.0 0.5 1.0",
+      "normal": "0 0 1",
+      "texto": "Espiritrompa: No tiene mandíbulas, sino una especie de 'sorbete' enrollable que despliega para succionar el néctar de las profundidades de las flores."
+    },
+    {
+      "slot": "hotspot-antenas",
+      "position": "0.2 1.5 0.5",
+      "normal": "1 1 1",
+      "texto": "Radares químicos: Usa sus antenas para olfatear feromonas a kilómetros de distancia y encontrar tanto pareja como plantas donde dejar sus huevos."
+    }
+  ],
+  "mariquita": [
+    {
+      "slot": "hotspot-caparazon",
+      "position": "0.0 0.5 0.0",
+      "normal": "0 1 0",
+      "texto": "Élitros protectores: Las famosas alas rojas con puntos negros son en realidad caparazones duros que se abren para revelar las verdaderas alas transparentes de vuelo."
+    },
+    {
+      "slot": "hotspot-coloracion",
+      "position": "0.0 0.5 0.5",
+      "normal": "0 1 1",
+      "texto": "Aposematismo: Su color llamativo es una señal de advertencia para los depredadores. Les dice: 'No me comas, tengo un sabor horrible y soy tóxica'."
+    },
+    {
+      "slot": "hotspot-mandibulas",
+      "position": "0.0 -0.2 0.5",
+      "normal": "0 0 1",
+      "texto": "Control de plagas: A pesar de su apariencia tierna, son depredadores voraces. Una sola mariquita puede devorar miles de pulgones a lo largo de su vida."
+    }
+  ],
+  "arania": [
+    {
+      "slot": "hotspot-ojos",
+      "position": "0.0 0.5 1.0",
+      "normal": "0 0 1",
+      "texto": "Visión nocturna: Tienen 8 ojos. Los dos centrales son enormes y cuentan con una membrana reflectante (tapetum) que brilla en la oscuridad si las iluminás con una linterna."
+    },
+    {
+      "slot": "hotspot-caza",
+      "position": "0.0 0.0 1.0",
+      "normal": "0 0 1",
+      "texto": "Cazadora nómade: No tejen telas para atrapar presas. Son corredoras extremadamente rápidas que persiguen y emboscan a los insectos directamente en el suelo."
+    },
+    {
+      "slot": "hotspot-crias",
+      "position": "0.0 0.5 -1.0",
+      "normal": "0 1 0",
+      "texto": "Instinto maternal: Es de las pocas especies que carga sus propios huevos. Una vez que eclosionan, las crías se suben al lomo de la madre, que las transporta durante semanas."
+    }
   ]
 }

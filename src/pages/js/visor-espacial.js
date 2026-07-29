@@ -264,3 +264,19 @@ if (modeloActual) {
       .catch(error => console.error(error));
   }
 }
+// HERRAMIENTA TEMPORAL PARA SACAR COORDENADAS
+const visorHerramienta = document.getElementById('visorModelo');
+
+if (visorHerramienta) {
+  visorHerramienta.addEventListener('click', (event) => {
+    // Calcula dónde tocó el mouse en el espacio 3D
+    const hit = visorHerramienta.positionAndNormalFromPoint(event.clientX, event.clientY);
+    
+    if (hit) {
+      console.log(`%c📍 PUNTO ENCONTRADO. Copiá esto en tu JSON:`, 'color: #779B2C; font-weight: bold; font-size: 14px;');
+      console.log(`"position": "${hit.position.x} ${hit.position.y} ${hit.position.z}",\n"normal": "${hit.normal.x} ${hit.normal.y} ${hit.normal.z}"`);
+    } else {
+      console.log('Hiciste clic fuera del modelo.');
+    }
+  });
+}
