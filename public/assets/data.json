@@ -102,19 +102,19 @@
   "marte": [
     {
       "slot": "hotspot-olimpo",
-        "position": "0.024008079447545353 0.15369493584317803 -0.1956456702332636",
+        "position": "0.024008079447545353 0.15369493584317803 -0.1756456702332636",
         "normal": "0.09742959749050942 0.6053966020928867 -0.7899382429704391",
       "texto": "Monte Olimpo: Es el volcán más grande del sistema solar. Con 21 kilómetros de altura, es casi tres veces más alto que el Monte Everest."
     },
     {
       "slot": "hotspot-valles",
-      "position": "0.12315736960247335 -0.21752466172635485 0.0025204337010732436",
+      "position": "0.12315736960247335 -0.21752466172635485 0.0027204337010732436",
       "normal": "0.48215243036030175 -0.8760073845704572 0.011836218808455923",
       "texto": "Valles Marineris: Un sistema de cañones gigantesco que cruza el planeta. Si estuviera en la Tierra, iría de costa a costa de Estados Unidos."
     },
     {
       "slot": "hotspot-oxido",
-      "position": "0.05748349059588975 0.10137689724624385 0.22113181047792527",
+      "position": "0.05748349059588975 0.10137689724624385 0.24113181047792527",
       "normal": "0.24249934650135327 0.41632610173607315 0.8762800031723087",
       "texto": "El Planeta Rojo: Su color característico se debe a la gran cantidad de óxido de hierro (óxido) presente en la superficie."
     }
@@ -122,19 +122,19 @@
   "earth": [
     {
       "slot": "hotspot-oceanos",
-    "position": "0.24699398520461122 0.02575850792258736 -0.054066221135045577",
+    "position": "0.24699398520461122 0.02775850792258736 -0.056066221135045577",
     "normal": "0.969760353931245 0.11019274065803444 -0.21776688418907414",
       "texto": "El Planeta Azul: Aproximadamente el 71% de la superficie terrestre está cubierta de agua, fundamental para sostener toda la vida conocida."
     },
     {
       "slot": "hotspot-atmosfera",
-    "position": "-0.18784425364985982 -0.06372340493288625 0.1588975342632441",
+    "position": "-0.18784425364985982 -0.06372340493288625 0.1788975342632441",
     "normal": "-0.7322174234786568 -0.2547951449365938 0.6316146601140744",
       "texto": "Escudo invisible: Nuestra atmósfera nos protege de la radiación solar letal y de la mayoría de los meteoritos, que se desintegran antes de tocar el suelo."
     },
     {
       "slot": "hotspot-nucleo",
-        "position": "-0.051287966023712134 -0.021159535306166745 0.24804495851717945",
+        "position": "-0.051287966023712134 -0.021159535306166745 0.26804495851717945",
         "normal": "-0.21829394253478693 -0.0857711461445312 0.9721065091550786" ,
       "texto": "Dínamo interno: El núcleo de hierro fundido genera el campo magnético de la Tierra, que actúa como una brújula global y nos defiende del viento solar."
     }
@@ -142,120 +142,120 @@
   "cuarzo": [
     {
       "slot": "hotspot-cristal",
-      "position": "0.0 1.0 0.0",
-      "normal": "0 1 0",
+        "position": "0.2062242475345115 -0.09402299822422155 -0.1836538830162213",
+        "normal": "0.999886970198269 0.007119113582033534 0.013242546942803638",
       "texto": "Estructura perfecta: Cristaliza en el sistema trigonal, formando prismas hexagonales con terminaciones piramidales muy características."
     },
     {
       "slot": "hotspot-dureza",
-      "position": "0.5 0.0 0.5",
-      "normal": "1 0 1",
+        "position": "0.010982234204677255 0.20158929497909406 -0.009907470985911548",
+        "normal": "-0.24704296510569196 -0.2808625666407379 -0.9274082121977167",
       "texto": "Dureza 7: En la escala de Mohs, es lo suficientemente duro como para rayar el vidrio y el acero común sin sufrir daños."
     },
     {
       "slot": "hotspot-piezo",
-      "position": "-0.5 0.0 0.5",
-      "normal": "-1 0 1",
+        "position": "0.12613612969292987 0.05035209984883754 0.4796736800509368",
+        "normal": "-0.015367404337689239 0.8310045217218643 0.5560533497441927",
       "texto": "Efecto piezoeléctrico: Al someterlo a presión, genera electricidad. Por eso se usa como regulador de tiempo en relojes y computadoras."
     }
   ],
   "calcita": [
     {
       "slot": "hotspot-birrefringencia",
-      "position": "2.0 0.5 0.5",
-      "normal": "0 1 1",
+        "position": "0.20542859071595831 -0.0294923680072956 -0.3477539485876592",
+        "normal": "0.9998164734035029 -0.017168324847377108 0.008501066575311092",
       "texto": "Visión doble: Posee una propiedad óptica extrema llamada birrefringencia, que divide los rayos de luz haciendo que veas todo doble a través de un cristal transparente."
     },
     {
       "slot": "hotspot-carbonato",
-      "position": "2.5 -0.5 0.0",
-      "normal": "1 -1 0",
+    "position": "-0.06079921609153116 0.2842732704670028 -0.07218374335533598",
+    "normal": "-0.2553670536291322 -0.49718218363760364 0.8292150168648178",
       "texto": "Reacción ácida: Al estar compuesta de carbonato de calcio, burbujea vigorosamente si le cae una gota de ácido clorhídrico."
     },
     {
       "slot": "hotspot-cuevas",
-      "position": "2.5 0.5 0.0",
-      "normal": "-1 1 0",
+        "position": "0.29067612115346275 -0.1682175511240136 0.1297116309113507",
+        "normal": "0.004061637824906714 -0.9999840302634952 0.003929671252978338",
       "texto": "Arquitecta subterránea: Es el mineral principal de las estalactitas y estalagmitas que se forman lentamente a lo largo de los milenios en las cuevas."
     }
   ],
   "cobre": [
     {
       "slot": "hotspot-color",
-      "position": "0.0 0.5 0.5",
-      "normal": "0 1 1",
+        "position": "-0.05968456001355828 0.09300215004578483 0.15484591880044385",
+        "normal": "0.07932444530562303 -0.11725124160171668 0.9899291786384576",
       "texto": "Brillo rojizo: Es uno de los pocos metales que no son grises o plateados en su estado puro, destacando por su intenso tono rojizo o salmón."
     },
     {
       "slot": "hotspot-conductividad",
-      "position": "0.5 0.0 0.5",
-      "normal": "1 0 1",
+        "position": "-0.06943049421125301 0.4659786633038232 -0.05402234214179943",
+        "normal": "-0.9326612748890719 0.09874339862999348 -0.34697649423165433",
       "texto": "El rey eléctrico: Su altísima conductividad eléctrica y térmica lo convierte en el material indispensable para cables y componentes electrónicos."
     },
     {
       "slot": "hotspot-oxidacion",
-      "position": "-0.5 0.0 0.0",
-      "normal": "-1 0 0",
+        "position": "-0.13216049519322345 0.08454183622036687 -0.18979931120369065",
+        "normal": "-0.24067173786752566 0.38474209855342983 -0.8910951869427465",
       "texto": "Pátina verde: Cuando se expone al aire libre y a la humedad durante años, se oxida formando una capa protectora de color verde agua, como la de la Estatua de la Libertad."
     }
   ],
   "carga": [
     {
       "slot": "hotspot-ruedas",
-      "position": "1.0 -1.0 1.0",
-      "normal": "1 0 1",
+        "position": "-0.3601729418996336 0.11525612863611412 -0.19514213067170916",
+        "normal": "-0.9202554360205784 0.023497274763052575 0.3906120972951105",
       "texto": "Neumáticos titánicos: Cada rueda puede medir más de 4 metros de altura y pesar casi 5 toneladas. Solo cambiarlas requiere de maquinaria especial."
     },
     {
       "slot": "hotspot-tolva",
-      "position": "0.0 2.0 -1.0",
-      "normal": "0 1 -1",
+    "position": "-0.12576779004995875 0.499570414608843 -0.120523218080756",
+    "normal": "0.14913957231719271 0.8969085951941798 0.4163080107754927",
       "texto": "Tolva de carga: Capaz de transportar hasta 400 toneladas de roca de un solo viaje, el equivalente al peso de dos ballenas azules adultas."
     },
     {
       "slot": "hotspot-motor",
-      "position": "0.0 -0.5 2.0",
-      "normal": "0 0 1",
+        "position": "-0.20837083374921953 0.2835300713357354 -0.3710633412897169",
+        "normal": "-0.3296928424836719 0.021899516584924363 -0.9438342231495864",
       "texto": "Corazón híbrido: Su inmenso motor diésel no mueve las ruedas directamente, sino que funciona como un generador para alimentar motores eléctricos en los ejes."
     }
   ],
   "garras": [
     {
       "slot": "hotspot-patas",
-      "position": "1.0 -1.0 0.0",
-      "normal": "1 -1 0",
+        "position": "-0.7691994423315887 0.15793655039670143 -0.5202663112109837",
+        "normal": "0.11052927822162331 -0.977669220470268 -0.17873492663960638",
       "texto": "Patas articuladas: Reemplaza las ruedas u orugas por sistemas hidráulicos independientes, permitiéndole 'caminar' y adaptarse a desniveles extremos."
     },
     {
       "slot": "hotspot-cabina",
-      "position": "0.0 1.0 0.0",
-      "normal": "0 1 0",
+        "position": "0.06959642318993953 1.1811764415141335 -0.08477991442110183",
+        "normal": "-0.08013365237153114 0.9934847081426039 -0.08103537773345468",
       "texto": "Cabina autonivelante: Sin importar la inclinación del terreno o lo empinado de la montaña, el asiento del operador se mantiene siempre perfectamente horizontal."
     },
     {
       "slot": "hotspot-brazo",
-      "position": "0.0 0.5 2.0",
-      "normal": "0 0 1",
+        "position": "0.19269333752951429 1.0423443703764959 0.8370993546345129",
+        "normal": "0.33198173661235914 0.31087235853281653 0.8905877291182976",
       "texto": "Brazo forestal: Equipado con cabezales procesadores que pueden talar, desramar y cortar un árbol completo en medidas exactas en cuestión de segundos."
     }
   ],
   "truck": [
     {
       "slot": "hotspot-cilindro",
-      "position": "0.0 -0.5 1.5",
-      "normal": "0 0 1",
+        "position": "0.12280675690118639 0.13430964335179524 -0.5196813393434423",
+        "normal": "-1.1077649075819096e-8 -0.1564253446329978 -0.9876897850825672",
       "texto": "Tambor de acero: Un cilindro macizo de altísimo peso que aplasta y saca el aire de los materiales para crear una base sólida y uniforme."
     },
     {
       "slot": "hotspot-vibracion",
-      "position": "0.0 0.0 1.0",
-      "normal": "0 0 1",
+        "position": "0.22634739203632726 0.32747548111892694 -0.09931466222913532",
+        "normal": "1 5.215612208142421e-23 0",
       "texto": "Sistema vibratorio: Un mecanismo interno hace que el tambor golpee el suelo miles de veces por minuto, logrando compactar capas mucho más profundas de tierra o asfalto."
     },
     {
       "slot": "hotspot-articulacion",
-      "position": "0.0 0.0 0.0",
-      "normal": "0 1 0",
+        "position": "-0.12581622265323397 0.4847172910733141 -0.28608298801594767",
+        "normal": "-0.4160853153715502 0.8285844587428176 -0.37459418717063664",
       "texto": "Chasis articulado: A diferencia de los autos, gira doblando su cuerpo por la mitad. Esto le da un radio de giro mínimo ideal para trabajar en obras estrechas."
     }
   ],
@@ -274,16 +274,16 @@
     },
     {
       "slot": "hotspot-antenas",
-      "position": "0.2 1.5 0.5",
-      "normal": "1 1 1",
+    "position": "0.18350556789165792 0.9726866128246248 -0.28016193978268955",
+    "normal": "0.6456130863968307 0.754425880131395 0.11842860322206261",
       "texto": "Radares químicos: Usa sus antenas para olfatear feromonas a kilómetros de distancia y encontrar tanto pareja como plantas donde dejar sus huevos."
     }
   ],
   "mariquita": [
     {
       "slot": "hotspot-caparazon",
-      "position": "0.0 0.5 0.0",
-      "normal": "0 1 0",
+        "position": "14.096117119173657 19.960429873465177 -11.507434621804009",
+        "normal": "0.7188883497135803 0.5524393078662307 -0.4219127300406626",
       "texto": "Élitros protectores: Las famosas alas rojas con puntos negros son en realidad caparazones duros que se abren para revelar las verdaderas alas transparentes de vuelo."
     },
     {
@@ -302,20 +302,20 @@
   "arania": [
     {
       "slot": "hotspot-ojos",
-      "position": "0.0 0.5 1.0",
-      "normal": "0 0 1",
+        "position": "-0.00040619464784976073 0.005977961485624283 0.004047916271299853",
+        "normal": "-0.14967801910370798 0.7691543814423213 -0.6212873957399024",
       "texto": "Visión nocturna: Tienen 8 ojos. Los dos centrales son enormes y cuentan con una membrana reflectante (tapetum) que brilla en la oscuridad si las iluminás con una linterna."
     },
     {
       "slot": "hotspot-caza",
-      "position": "0.0 0.0 1.0",
-      "normal": "0 0 1",
+    "position": "-0.002890573473102345 0.005092172603855527 0.010155513072577524",
+    "normal": "-0.7823511697705772 0.6138727997140498 0.10529403083671904",
       "texto": "Cazadora nómade: No tejen telas para atrapar presas. Son corredoras extremadamente rápidas que persiguen y emboscan a los insectos directamente en el suelo."
     },
     {
       "slot": "hotspot-crias",
-      "position": "0.0 0.5 -1.0",
-      "normal": "0 1 0",
+        "position": "-0.0001960514428849204 0.009905218387863835 0.017523626317448582",
+        "normal": "-0.3701056835200875 0.9258384287370786 0.07645251401874481",
       "texto": "Instinto maternal: Es de las pocas especies que carga sus propios huevos. Una vez que eclosionan, las crías se suben al lomo de la madre, que las transporta durante semanas."
     }
   ]
