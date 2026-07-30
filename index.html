@@ -558,6 +558,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="./src/css/tutorial.css">
 </head>
 
 <body>
@@ -566,6 +567,9 @@
     <div class="logos-container">
       <img src="assets/logo UNSJ horizontal-02.png" alt="UNSJ" />
       <img src="assets/logo sied horizontal-02.png" alt="SIED" />
+      <button id="btnStartTutorial" class="btn-tutorial-trigger">
+        <span>📖</span> TUTORIAL
+      </button>
     </div>
   </header>
 
@@ -721,6 +725,9 @@
         ray.setFromCamera(pointer, camera);
         const hit = ray.intersectObject(cube);
         if (hit.length && routes[hit[0].face.materialIndex] !== "") {
+          if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+            sessionStorage.setItem('sied_tutorial_step', '3');
+          }
           window.location.href = routes[hit[0].face.materialIndex];
         }
       }
@@ -748,6 +755,16 @@
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
     });
+  </script>
+  <script type="module">
+    import { tutorial } from "./src/js/tutorial.js";
+
+    document.getElementById("btnStartTutorial").addEventListener("click", () => {
+      tutorial.startTutorial();
+    });
+
+    // Verificar si el tutorial está activo al cargar la página
+    tutorial.checkAndInit("index");
   </script>
 </body>
 

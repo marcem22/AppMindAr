@@ -14,7 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btnText').textContent = data.buttonText;
 
         // Update links
-        document.getElementById('heroBtn').href = data.buttonLink ? data.buttonLink : 'elements.html?id=' + catId;
+        const heroBtnEl = document.getElementById('heroBtn');
+        heroBtnEl.href = data.buttonLink ? data.buttonLink : 'elements.html?id=' + catId;
+        heroBtnEl.addEventListener('click', () => {
+            if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+                sessionStorage.setItem('sied_tutorial_step', '6');
+            }
+        });
 
         // Update CSS variables and styles
         document.documentElement.style.setProperty('--theme-color', data.themeColor);
@@ -77,4 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Default fallback
         document.body.classList.add('ready');
     }
+
+    import('../../js/tutorial.js').then(({ tutorial }) => {
+        tutorial.checkAndInit('category');
+    });
 });

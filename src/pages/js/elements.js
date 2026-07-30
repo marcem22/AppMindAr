@@ -185,6 +185,9 @@ import { siteData } from "../../data.js";
 
     function irAExperienciaEspacial() {
       if (filteredIndexes.length === 0) return;
+      if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+        sessionStorage.setItem('sied_tutorial_step', '12');
+      }
       const m = machines[filteredIndexes[currentFilteredIndex]];
       const orbit = m.cameraOrbit || '-90deg 75deg auto';
       const escala = m.escala || '1 1 1';
@@ -259,3 +262,7 @@ import { siteData } from "../../data.js";
 
     renderCategories();
     filterByGroup('Todas');
+
+    import('../../js/tutorial.js').then(({ tutorial }) => {
+      tutorial.checkAndInit('elements');
+    });

@@ -280,3 +280,7 @@ if (visorHerramienta) {
     }
   });
 }
+
+import('../../js/tutorial.js').then(({ tutorial }) => {
+  tutorial.checkAndInit('visor-espacial');
+});

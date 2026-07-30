@@ -558,6 +558,10 @@
       }
     }
   </style>
+  <script type="module" crossorigin src="/AppMindAr/assets/main-DmrswiV9.js"></script>
+  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/tutorial-BALdaNut.js">
+  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/tutorial-LzeCRVcj.js">
+  <link rel="stylesheet" crossorigin href="/AppMindAr/assets/tutorial-Be33YMDQ.css">
 </head>
 
 <body>
@@ -566,6 +570,9 @@
     <div class="logos-container">
       <img src="/AppMindAr/assets/logo%20UNSJ%20horizontal-02-CIFSIxLX.png" alt="UNSJ" />
       <img src="/AppMindAr/assets/logo%20sied%20horizontal-02-BF-xqR4y.png" alt="SIED" />
+      <button id="btnStartTutorial" class="btn-tutorial-trigger">
+        <span>📖</span> TUTORIAL
+      </button>
     </div>
   </header>
 
@@ -721,6 +728,9 @@
         ray.setFromCamera(pointer, camera);
         const hit = ray.intersectObject(cube);
         if (hit.length && routes[hit[0].face.materialIndex] !== "") {
+          if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+            sessionStorage.setItem('sied_tutorial_step', '3');
+          }
           window.location.href = routes[hit[0].face.materialIndex];
         }
       }

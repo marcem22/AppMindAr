@@ -1,0 +1,368 @@
+/* CSS del Tutorial Interactivo Paso a Paso - SIED AppMindAr (Con SVG Cutout Masking) */
+
+.tutorial-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  pointer-events: none;
+  z-index: 99990;
+  transition: opacity 0.3s ease;
+}
+
+.tutorial-svg-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  pointer-events: none;
+  z-index: 99991;
+}
+
+/* El path del fondo oscuro recibe puntero; la ventana transparente NO recibe puntero, permitiendo arrastrar/cliquear el canvas 3D */
+.tutorial-svg-mask path {
+  pointer-events: auto;
+  transition: d 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Borde brillante alrededor del agujero recortado */
+.tutorial-spotlight-border {
+  position: fixed;
+  border: 3px dashed rgba(255, 140, 0, 0.9);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 99992;
+  transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 25px 6px rgba(255, 140, 0, 0.6);
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 15px 3px rgba(255, 140, 0, 0.5);
+    border-color: rgba(255, 140, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 35px 10px rgba(255, 160, 40, 0.9);
+    border-color: rgba(255, 200, 80, 1);
+  }
+  100% {
+    box-shadow: 0 0 15px 3px rgba(255, 140, 0, 0.5);
+    border-color: rgba(255, 140, 0, 0.7);
+  }
+}
+
+/* Card Modal con animación fluida popInFade */
+.tutorial-card {
+  position: fixed;
+  z-index: 99998;
+  background: rgba(18, 24, 38, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px 26px;
+  max-width: 380px;
+  width: calc(100vw - 44px);
+  color: #ffffff;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  pointer-events: auto;
+  transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), left 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  animation: cardPopIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@keyframes cardPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.tutorial-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  padding-right: 20px;
+}
+
+.tutorial-close-x {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.tutorial-close-x:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.tutorial-badge {
+  background: linear-gradient(135deg, #ff8c00 0%, #ff5500 100%);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 5px 12px;
+  border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(255, 85, 0, 0.3);
+}
+
+.tutorial-step-counter {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 700;
+}
+
+.tutorial-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.tutorial-body {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 22px;
+}
+
+.tutorial-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.tutorial-left-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Botón Anterior */
+.tutorial-btn-prev {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e2e8f0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tutorial-btn-prev:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Botón Salir (Rojo discreto e integrado) */
+.tutorial-btn-cancel {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tutorial-btn-cancel:hover {
+  background: rgba(220, 38, 38, 0.85);
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Badge indicador de acción obligatoria requerida */
+.tutorial-notice-action {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ff9800;
+  background: rgba(255, 152, 0, 0.12);
+  border: 1px solid rgba(255, 152, 0, 0.4);
+  padding: 8px 14px;
+  border-radius: 20px;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 0 12px rgba(255, 152, 0, 0.2);
+}
+
+/* Botón Siguiente Azul Premium */
+.tutorial-btn-next {
+  background: linear-gradient(135deg, #0066cc 0%, #033773 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.4);
+  transition: all 0.2s ease;
+}
+
+.tutorial-btn-next:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #0077ee 0%, #044896 100%);
+  box-shadow: 0 6px 18px rgba(0, 102, 204, 0.6);
+}
+
+/* Confirmación Modal */
+.tutorial-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(8, 12, 20, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tutorial-confirm-modal {
+  background: rgba(22, 28, 42, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 28px 26px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.tutorial-confirm-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.tutorial-confirm-modal h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.22rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.2px;
+}
+
+.tutorial-confirm-modal p {
+  margin: 0 0 24px 0;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.45;
+}
+
+.tutorial-confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: stretch;
+}
+
+.tutorial-confirm-actions button {
+  flex: 1;
+}
+
+/* Botón Continuar Tutorial (Principal a la izquierda) */
+.tutorial-confirm-btn-no {
+  background: linear-gradient(135deg, #0066cc 0%, #033773 100%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.4);
+  transition: all 0.2s ease;
+}
+
+.tutorial-confirm-btn-no:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.6);
+}
+
+/* Botón Sí, salir (Peligro/Acción secundaria a la derecha) */
+.tutorial-confirm-btn-yes {
+  background: rgba(220, 38, 38, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tutorial-confirm-btn-yes:hover {
+  background: #dc2626;
+  color: white;
+  border-color: #ef4444;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-tutorial-trigger {
+  background: linear-gradient(135deg, #ff8c00, #e65c00);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(230, 92, 0, 0.35);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 20px;
+  pointer-events: auto;
+}
+
+.btn-tutorial-trigger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230, 92, 0, 0.5);
+}
