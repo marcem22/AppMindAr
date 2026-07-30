@@ -264,12 +264,12 @@ if (modeloActual) {
       .catch(error => console.error(error));
   }
 }
-// HERRAMIENTA TEMPORAL PARA SACAR COORDENADAS
+// funcion temporal para sacar coordenadas de hotspots (consultar como funciona)
 const visorHerramienta = document.getElementById('visorModelo');
 
 if (visorHerramienta) {
   visorHerramienta.addEventListener('click', (event) => {
-    // Calcula dónde tocó el mouse en el espacio 3D
+
     const hit = visorHerramienta.positionAndNormalFromPoint(event.clientX, event.clientY);
     
     if (hit) {
