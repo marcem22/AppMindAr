@@ -100,9 +100,11 @@ body {
     transform: scale(1.08);
 }
 
-.share-btn.is-sharing {
+.share-btn.is-hidden-ar {
+    opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    opacity: 0.7;
+    transform: scale(0.9);
 }
 
 .share-toast {

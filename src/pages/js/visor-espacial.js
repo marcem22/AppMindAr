@@ -461,6 +461,57 @@ if (btnCompartir) {
   });
 }
 
+// Ocultar compartir al proyectar en AR; volver a mostrarlo al salir
+function setShareVisibleEnVisor(visible) {
+  if (!btnCompartir) return;
+  btnCompartir.classList.toggle('is-hidden-ar', !visible);
+  btnCompartir.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  if (visible) btnCompartir.removeAttribute('tabindex');
+  else btnCompartir.tabIndex = -1;
+}
+
+let arHideFallbackTimer = null;
+
+const btnProyectar = document.querySelector('.btn-proyectar');
+if (btnProyectar) {
+  btnProyectar.addEventListener('click', () => {
+    setShareVisibleEnVisor(false);
+    clearTimeout(arHideFallbackTimer);
+    // Si cancela permisos / no entra a AR, reponer el botón
+    arHideFallbackTimer = setTimeout(() => {
+      if (document.visibilityState !== 'visible') return;
+      const status = visor && visor.getAttribute('ar-status');
+      if (status === 'session-started' || status === 'object-placed') return;
+      setShareVisibleEnVisor(true);
+    }, 3000);
+  });
+}
+
+if (visor) {
+  visor.addEventListener('ar-status', (event) => {
+    const status = event.detail && event.detail.status;
+    if (status === 'session-started' || status === 'object-placed') {
+      clearTimeout(arHideFallbackTimer);
+      setShareVisibleEnVisor(false);
+    } else if (status === 'not-presenting' || status === 'failed') {
+      clearTimeout(arHideFallbackTimer);
+      setShareVisibleEnVisor(true);
+    }
+  });
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    clearTimeout(arHideFallbackTimer);
+    setShareVisibleEnVisor(true);
+  }
+});
+
+window.addEventListener('pageshow', () => {
+  clearTimeout(arHideFallbackTimer);
+  setShareVisibleEnVisor(true);
+});
+
 console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
 
 const params = new URLSearchParams(window.location.search);
