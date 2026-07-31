@@ -1,18 +1,62 @@
+import { siteData } from '../../data.js';
+
 const parametrosUrl = new URLSearchParams(window.location.search);
-const modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
-const nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
+const isProduction = window.location.hostname.includes('github.io');
+const HOME_URL = isProduction ? '/AppMindAr/' : '/';
+const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
+
+/** Links compartidos usan un solo param (?ref=cat.modelo) para que iOS Quick Look no trunque la URL. */
+function resolverDesdeRef(ref) {
+  if (!ref || !ref.includes('.')) return null;
+  const dot = ref.indexOf('.');
+  const cat = ref.slice(0, dot);
+  const modelo = ref.slice(dot + 1);
+  const catData = siteData[cat];
+  if (!catData || !catData.elementsData) return null;
+  const item = catData.elementsData.find((m) => m.arMarker === modelo);
+  if (!item) return null;
+  return { catId: cat, catData, item, modelo };
+}
+
+const refParam = parametrosUrl.get('ref');
+const desdeCompartido = Boolean(refParam);
+const resolvedShare = resolverDesdeRef(refParam);
+
+let catId = parametrosUrl.get('id') || 'minas';
+let modeloSolicitado = parametrosUrl.get('modelo') || 'tunel';
+let nombreSolicitado = parametrosUrl.get('nombre') || 'Maquinaria';
+let data = siteData[catId];
+
+if (resolvedShare) {
+  catId = resolvedShare.catId;
+  data = resolvedShare.catData;
+  modeloSolicitado = resolvedShare.modelo;
+  nombreSolicitado = resolvedShare.item.name;
+  parametrosUrl.set('id', catId);
+  parametrosUrl.set('modelo', modeloSolicitado);
+  parametrosUrl.set('nombre', nombreSolicitado);
+  if (data.themeColor) parametrosUrl.set('color', data.themeColor);
+  if (data.themeColorRgb) parametrosUrl.set('colorRgb', data.themeColorRgb);
+  if (resolvedShare.item.tieneUsdz) parametrosUrl.set('usdz', '1');
+  if (resolvedShare.item.sonido) parametrosUrl.set('sonido', resolvedShare.item.sonido);
+  if (resolvedShare.item.orientation) parametrosUrl.set('orientation', resolvedShare.item.orientation);
+  if (resolvedShare.item.cameraOrbit) parametrosUrl.set('orbit', resolvedShare.item.cameraOrbit);
+  if (resolvedShare.item.escala) parametrosUrl.set('escala', resolvedShare.item.escala);
+}
 
 const visor = document.getElementById('visorModelo');
 const nombreUI = document.getElementById('nombreModelo');
 const btnCaptura = document.getElementById('btnCaptura');
+const btnVolver = document.getElementById('btnVolver');
 const loaderOverlay = document.getElementById('loaderModelo');
 const loaderSubtitle = document.getElementById('loaderSubtitle');
 const loaderBarra = document.getElementById('loaderBarra');
 const loaderPorcentaje = document.getElementById('loaderPorcentaje');
 
-import { siteData } from '../../data.js';
-const catId = parametrosUrl.get('id') || 'minas';
-const data = siteData[catId];
+const modelInfo =
+  data && data.elementsData
+    ? data.elementsData.find((m) => m.arMarker === modeloSolicitado)
+    : null;
 
 const categoryTitles = {
   'minas': 'Minería',
@@ -48,12 +92,48 @@ const escalaSolicitadaStr = parametrosUrl.get('escala') || '1 1 1';
 let escalaActual = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
 const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 
-// ─── Ruta del modelo ───
-const isProduction = window.location.hostname.includes('github.io');
-const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
-
 visor.src = BASE_PATH + modeloSolicitado + '.glb';
 nombreUI.textContent = nombreSolicitado;
+
+/** Link corto del objeto: un solo query param (compatible con share de AR Quick Look). */
+function construirLinkObjeto() {
+  const limpio = new URL(window.location.pathname, window.location.origin);
+  limpio.searchParams.set('ref', `${catId}.${modeloSolicitado}`);
+  return limpio.href;
+}
+
+const linkObjeto = construirLinkObjeto();
+
+// ─── Volver: si entró por link compartido (o sin historial), ir al inicio ───
+function irAlInicio() {
+  window.location.href = HOME_URL;
+}
+
+function handleVolver() {
+  if (desdeCompartido) {
+    irAlInicio();
+    return;
+  }
+
+  let mismoSitio = false;
+  try {
+    mismoSitio = Boolean(document.referrer) &&
+      new URL(document.referrer).hostname === window.location.hostname;
+  } catch (_) {
+    mismoSitio = false;
+  }
+
+  if (mismoSitio && window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+
+  irAlInicio();
+}
+
+if (btnVolver) {
+  btnVolver.addEventListener('click', handleVolver);
+}
 
 // Fallback: si no carga con ruta absoluta, probar relativa
 visor.addEventListener('error', () => {
@@ -100,12 +180,9 @@ visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`;
 let finalOrbit = parametrosUrl.get('orbit') || '-90deg 75deg auto';
 let finalOrientation = parametrosUrl.get('orientation');
 
-if (data && data.elementsData) {
-  const modelInfo = data.elementsData.find(m => m.arMarker === modeloSolicitado);
-  if (modelInfo) {
-    if (modelInfo.cameraOrbit) finalOrbit = modelInfo.cameraOrbit;
-    if (modelInfo.orientation) finalOrientation = modelInfo.orientation;
-  }
+if (modelInfo) {
+  if (modelInfo.cameraOrbit) finalOrbit = modelInfo.cameraOrbit;
+  if (modelInfo.orientation) finalOrientation = modelInfo.orientation;
 }
 
 visor.cameraOrbit = finalOrbit;
@@ -113,14 +190,18 @@ if (finalOrientation) {
   visor.orientation = finalOrientation;
 }
 
-// ─── USDZ para iOS (si viene en la URL) ───
-const tieneUsdz = parametrosUrl.get('usdz') === '1';
+// ─── USDZ para iOS + canonicalWebPageURL (share en AR manda el link, no el .usdz) ───
+const tieneUsdz = parametrosUrl.get('usdz') === '1' || Boolean(modelInfo && modelInfo.tieneUsdz);
 if (tieneUsdz) {
-  visor.setAttribute('ios-src', BASE_PATH + modeloSolicitado + '.usdz');
+  const usdzPath = BASE_PATH + modeloSolicitado + '.usdz';
+  visor.setAttribute(
+    'ios-src',
+    `${usdzPath}#canonicalWebPageURL=${encodeURIComponent(linkObjeto)}`
+  );
 }
 
-// ─── Sonido (si viene en la URL) ───
-const sonidoUrl = parametrosUrl.get('sonido');
+// ─── Sonido (si viene en la URL / catálogo) ───
+const sonidoUrl = parametrosUrl.get('sonido') || (modelInfo && modelInfo.sonido) || null;
 if (sonidoUrl) {
   const SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
   const reproductorAudio = new Audio();
@@ -220,11 +301,6 @@ const btnCompartir = document.getElementById('btnCompartir');
 const shareToast = document.getElementById('shareToast');
 let shareToastTimer = null;
 
-const modelInfo =
-  data && data.elementsData
-    ? data.elementsData.find((m) => m.arMarker === modeloSolicitado)
-    : null;
-
 function absolutizarUrl(pathOrUrl) {
   if (!pathOrUrl) return '';
   try {
@@ -234,19 +310,6 @@ function absolutizarUrl(pathOrUrl) {
   }
 }
 
-/** Link limpio del objeto (sin params de cámara/escala; se recuperan del catálogo). */
-function construirLinkObjeto() {
-  const actual = new URL(window.location.href);
-  const limpio = new URL(actual.pathname, actual.origin);
-  const esenciales = ['id', 'modelo', 'nombre', 'color', 'colorRgb', 'usdz', 'sonido'];
-  esenciales.forEach((key) => {
-    const valor = actual.searchParams.get(key);
-    if (valor != null && valor !== '') limpio.searchParams.set(key, valor);
-  });
-  return limpio.href;
-}
-
-const linkObjeto = construirLinkObjeto();
 const imagenObjeto = absolutizarUrl(modelInfo && modelInfo.image);
 const descripcionObjeto =
   (modelInfo && modelInfo.description

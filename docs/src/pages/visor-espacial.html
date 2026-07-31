@@ -5,16 +5,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <script>
-    // Pre-carga anticipada y en paralelo del modelo 3D antes de parsear todo el DOM
+    // Pre-carga anticipada del modelo 3D (soporta ?modelo= y ?ref=cat.modelo)
     (function () {
       try {
         var params = new URLSearchParams(window.location.search);
         var modelo = params.get('modelo');
+        if (!modelo) {
+          var ref = params.get('ref') || '';
+          var dot = ref.indexOf('.');
+          if (dot > 0) modelo = ref.slice(dot + 1);
+        }
         if (modelo) {
           var isProd = window.location.hostname.includes('github.io');
           var basePath = isProd ? '/AppMindAr/models/' : '/models/';
           var modelUrl = basePath + modelo + '.glb';
-          
+
           var link = document.createElement('link');
           link.rel = 'preload';
           link.as = 'fetch';
@@ -59,7 +64,7 @@
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
-  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-CaSoPViv.js"></script>
+  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-BNWleBs0.js"></script>
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/tutorial-BALdaNut.js">
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-fgnSPes0.js">
   <link rel="stylesheet" crossorigin href="/AppMindAr/assets/tutorial-Be33YMDQ.css">
@@ -99,7 +104,7 @@
           <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
         </svg>
       </button>
-      <button class="close-btn" onclick="window.history.back()" aria-label="Volver">
+      <button class="close-btn" id="btnVolver" type="button" aria-label="Volver">
         <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
           stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="12" x2="5" y2="12"></line>
