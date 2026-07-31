@@ -215,6 +215,88 @@ btnCaptura.addEventListener('click', async () => {
   }, 500);
 });
 
+// ─── Compartir nativo (Web Share API + fallback clipboard) ───
+const btnCompartir = document.getElementById('btnCompartir');
+const shareToast = document.getElementById('shareToast');
+let shareToastTimer = null;
+
+function mostrarToastCompartir(mensaje) {
+  if (!shareToast) return;
+  shareToast.hidden = false;
+  shareToast.textContent = mensaje;
+  // Force reflow so the transition plays even if already visible
+  void shareToast.offsetWidth;
+  shareToast.classList.add('visible');
+  clearTimeout(shareToastTimer);
+  shareToastTimer = setTimeout(() => {
+    shareToast.classList.remove('visible');
+    setTimeout(() => {
+      shareToast.hidden = true;
+    }, 250);
+  }, 2200);
+}
+
+async function copiarLinkAlPortapapeles(url) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(url);
+    return;
+  }
+  const input = document.createElement('textarea');
+  input.value = url;
+  input.setAttribute('readonly', '');
+  input.style.position = 'fixed';
+  input.style.opacity = '0';
+  input.style.left = '-9999px';
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand('copy');
+  document.body.removeChild(input);
+}
+
+async function compartirExperiencia() {
+  if (!btnCompartir || btnCompartir.classList.contains('is-sharing')) return;
+
+  const shareUrl = window.location.href;
+  const shareData = {
+    title: `SIED AR — ${nombreSolicitado}`,
+    text: `Mirá esta experiencia 3D de ${nombreSolicitado} en realidad aumentada.`,
+    url: shareUrl
+  };
+
+  btnCompartir.classList.add('is-sharing');
+  try {
+    if (typeof navigator.share === 'function') {
+      // Algunos navegadores requieren canShare; si falla, igual intentamos share
+      const puedeCompartir = typeof navigator.canShare !== 'function' || navigator.canShare(shareData);
+      if (puedeCompartir) {
+        await navigator.share(shareData);
+        return;
+      }
+    }
+    await copiarLinkAlPortapapeles(shareUrl);
+    mostrarToastCompartir('Link copiado. ¡Listo para compartir!');
+  } catch (error) {
+    // Usuario canceló el sheet nativo: no mostrar error
+    if (error && error.name === 'AbortError') {
+      return;
+    }
+    try {
+      await copiarLinkAlPortapapeles(shareUrl);
+      mostrarToastCompartir('Link copiado. ¡Listo para compartir!');
+    } catch (clipboardError) {
+      console.error('No se pudo compartir ni copiar el link:', clipboardError || error);
+      mostrarToastCompartir('No se pudo compartir. Probá de nuevo.');
+    }
+  } finally {
+    btnCompartir.classList.remove('is-sharing');
+  }
+}
+
+if (btnCompartir) {
+  btnCompartir.addEventListener('click', () => {
+    compartirExperiencia();
+  });
+}
 
 console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
 

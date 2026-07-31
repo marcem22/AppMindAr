@@ -35,7 +35,16 @@ body {
     pointer-events: none;
 }
 
-.close-btn {
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    pointer-events: auto;
+}
+
+.close-btn,
+.share-btn {
     background: rgba(0, 0, 0, 0.4);
     border: 2px solid rgba(var(--theme-color-rgb), 0.9);
     border-radius: 50%;
@@ -52,23 +61,80 @@ body {
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(var(--theme-color-rgb), 0.3);
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    padding: 0;
 }
 
-.close-btn:hover {
+.close-btn:hover,
+.share-btn:hover {
     background: rgba(var(--theme-color-rgb), 0.9);
     color: white;
     transform: scale(1.05);
 }
 
-.back-icon {
+.close-btn:active,
+.share-btn:active {
+    transform: scale(0.92);
+}
+
+.back-icon,
+.share-icon {
     width: 1em;
     height: 1em;
     transition: transform 0.3s ease;
     display: block;
 }
 
+.share-icon {
+    width: 0.95em;
+    height: 0.95em;
+}
+
 .close-btn:hover .back-icon {
     transform: translateX(-2px);
+}
+
+.share-btn:hover .share-icon {
+    transform: scale(1.08);
+}
+
+.share-btn.is-sharing {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.share-toast {
+    position: fixed;
+    left: 50%;
+    bottom: max(28px, env(safe-area-inset-bottom, 0px) + 16px);
+    transform: translateX(-50%) translateY(12px);
+    z-index: 10000;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: rgba(12, 12, 14, 0.88);
+    border: 1px solid rgba(var(--theme-color-rgb), 0.55);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    max-width: calc(100vw - 32px);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.share-toast.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
 
 .visor-container {
@@ -159,12 +225,30 @@ model-viewer {
 }
 
 @media (max-width: 768px) {
+    .header {
+        padding: 14px 14px;
+        padding-top: max(14px, env(safe-area-inset-top, 0px));
+    }
+
+    .header-actions {
+        gap: 8px;
+    }
+
+    .close-btn,
+    .share-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+    }
+
     .model-info {
-        padding: 10px 16px;
+        padding: 8px 14px;
+        max-width: calc(100% - 112px);
     }
 
     .model-name {
-        font-size: 16px;
+        font-size: 15px;
+        letter-spacing: 0.6px;
     }
 
     .btn-proyectar {
@@ -177,6 +261,34 @@ model-viewer {
         right: 15px !important;
         transform: scale(0.9) !important;
     }
+
+    .share-toast {
+        font-size: 12px;
+        padding: 11px 16px;
+        bottom: max(24px, env(safe-area-inset-bottom, 0px) + 12px);
+    }
+}
+
+@media (max-width: 380px) {
+    .close-btn,
+    .share-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .header-actions {
+        gap: 6px;
+    }
+
+    .model-info {
+        padding: 7px 12px;
+        max-width: calc(100% - 98px);
+    }
+
+    .model-name {
+        font-size: 13px;
+    }
 }
 
 /* =========================================================
@@ -187,8 +299,13 @@ model-viewer {
         padding: 30px 40px;
     }
 
-    /* Botón Home con un tamaño equilibrado */
-    .close-btn {
+    .header-actions {
+        gap: 14px;
+    }
+
+    /* Botón Home / Compartir con un tamaño equilibrado */
+    .close-btn,
+    .share-btn {
         width: 60px;
         height: 60px;
         font-size: 28px;
@@ -226,7 +343,12 @@ model-viewer {
         padding: 80px 100px;
     }
 
-    .close-btn {
+    .header-actions {
+        gap: 28px;
+    }
+
+    .close-btn,
+    .share-btn {
         width: 150px;
         height: 150px;
         font-size: 50px;
