@@ -186,7 +186,7 @@ import { siteData } from "../../data.js";
     function irAExperienciaEspacial() {
       if (filteredIndexes.length === 0) return;
       if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
-        sessionStorage.setItem('sied_tutorial_step', '12');
+        sessionStorage.setItem('sied_tutorial_step', '11');
       }
       const m = machines[filteredIndexes[currentFilteredIndex]];
       const orbit = m.cameraOrbit || '-90deg 75deg auto';

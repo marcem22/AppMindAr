@@ -37,9 +37,9 @@ export const STEPS = [
   {
     id: 4,
     page: 'category',
-    title: 'Botón para Volver Atrás',
-    body: 'Este botón en la esquina superior derecha te permite regresar al inicio en cualquier momento.',
-    target: '.close-btn',
+    title: 'Volver al Inicio',
+    body: 'Haz clic en el logo de SIED arriba para regresar al inicio en cualquier momento.',
+    target: '.header-logo',
     btnLabel: 'Siguiente'
   },
   {
@@ -65,16 +65,16 @@ export const STEPS = [
     id: 7,
     page: 'elements',
     title: 'Menú Lateral Izquierdo',
-    body: 'Aquí tienes la lista completa de elementos de la colección. Puedes hacer clic directo en cualquiera para seleccionar el modelo.',
-    target: '.sidebar-left',
+    body: 'Aquí tienes la lista completa de elementos de la colección. En celulares y tablets usa el botón de menú en la esquina superior derecha para desplegarla.',
+    target: () => (window.innerWidth <= 1024 ? '#menuToggle' : '.sidebar-left'),
     btnLabel: 'Siguiente'
   },
   {
     id: 8,
     page: 'elements',
     title: 'Panel de Especificaciones',
-    body: 'En el lateral derecho verás las categorías del tema y el cuadro técnico informativo de especificaciones del elemento actual.',
-    target: '.sidebar-right',
+    body: 'Verás las categorías del tema y el cuadro técnico informativo de especificaciones del elemento actual.',
+    target: () => (window.innerWidth <= 1024 ? '.mobile-specs-container' : '.sidebar-right'),
     btnLabel: 'Siguiente'
   },
   {
@@ -98,7 +98,7 @@ export const STEPS = [
     page: 'elements',
     title: 'Ir al Visor 3D / RA',
     body: 'Presiona el botón "VER EN REALIDAD AUMENTADA" para proyectar y explorar el modelo en 3D interactivo.',
-    target: '#arBtn',
+    target: () => (window.innerWidth <= 1024 ? '#arBtnMobile' : '#arBtn'),
     btnLabel: 'Toca el botón AR',
     requireAction: true
   },
@@ -141,13 +141,29 @@ export const STEPS = [
   {
     id: 16,
     page: 'visor-espacial',
+    title: 'Compartir Modelo',
+    body: 'Usa este botón para copiar o compartir el enlace directo de este modelo 3D con otras personas.',
+    target: '#btnCompartir',
+    btnLabel: 'Siguiente'
+  },
+  {
+    id: 17,
+    page: 'visor-espacial',
     title: 'Volver Atrás',
     body: 'El botón en la esquina superior derecha te regresa a la vista de detalles de la colección.',
     target: '.header .close-btn',
     btnLabel: 'Siguiente'
   },
   {
-    id: 17,
+    id: 18,
+    page: 'visor-espacial',
+    title: 'Proyectar en el Espacio',
+    body: 'Usa este botón para proyectar y colocar el modelo 3D en tu entorno real mediante Realidad Aumentada.',
+    target: '.btn-proyectar',
+    btnLabel: 'Siguiente'
+  },
+  {
+    id: 19,
     page: 'visor-espacial',
     title: '¡Tutorial Completado!',
     body: '¡Felicitaciones! Ahora conoces todas las funcionalidades de la app SIED Realidad Aumentada. ¡Disfruta explorando!',
@@ -313,7 +329,22 @@ class TutorialManager {
   renderDOM(step) {
     let targetEls = [];
     if (step.target) {
-      targetEls = Array.from(document.querySelectorAll(step.target));
+      const rawTarget = typeof step.target === 'function' ? step.target() : step.target;
+      if (typeof rawTarget === 'string') {
+        targetEls = Array.from(document.querySelectorAll(rawTarget));
+      } else if (rawTarget instanceof HTMLElement) {
+        targetEls = [rawTarget];
+      } else if (rawTarget && rawTarget.length) {
+        targetEls = Array.from(rawTarget);
+      }
+    }
+
+    // Si hay un target en móviles, hacer scroll leve si no está completamente visible antes de calcular posiciones
+    if (targetEls.length > 0 && targetEls[0].getBoundingClientRect) {
+      const r = targetEls[0].getBoundingClientRect();
+      if (r.top < 0 || r.bottom > window.innerHeight) {
+        targetEls[0].scrollIntoView({ behavior: 'auto', block: 'center' });
+      }
     }
 
     // 1. Render/Update SVG Cutout Masking
@@ -368,7 +399,7 @@ class TutorialManager {
     const nextBtn = document.getElementById('tutNextBtn');
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        if (step.id === 17) {
+        if (step.id === 19) {
           this.endTutorial();
         } else {
           this.nextStep();
@@ -396,6 +427,14 @@ class TutorialManager {
 
     if (combinedRect) {
       this.positionCardNearTarget(combinedRect);
+      // Recalcular inmediatamente en el próximo frame la máscara cutout y la posición de la tarjeta
+      requestAnimationFrame(() => {
+        this.renderSVGCutout(targetEls, step.padding || 10);
+        const updatedRect = this.getCombinedBoundingRect(targetEls);
+        if (updatedRect) {
+          this.positionCardNearTarget(updatedRect);
+        }
+      });
     } else {
       this.card.style.top = '50%';
       this.card.style.left = '50%';
@@ -489,6 +528,33 @@ class TutorialManager {
     const cardRect = this.card.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
+
+    // Resetear transform por si venía de un paso centrado (ej: paso 1)
+    this.card.style.transform = 'none';
+
+    // En pantallas chicas (móviles/tablets)
+    if (viewportWidth <= 768) {
+      const currentStepNum = this.getCurrentStepNumber();
+      let top;
+
+      // En el paso 2 (cubo 3D en el home), ubicar la tarjeta arriba del todo (top: 15px) para no tapar ni cortar el cubo
+      if (currentStepNum === 2) {
+        top = 15;
+      } else if (rect.top > viewportHeight * 0.45) {
+        top = Math.max(15, rect.top - cardRect.height - 15);
+      } else {
+        // De lo contrario ubicar abajo del elemento
+        top = rect.bottom + 15;
+        if (top + cardRect.height > viewportHeight - 15) {
+          top = viewportHeight - cardRect.height - 15;
+        }
+      }
+      let left = Math.max(15, (viewportWidth - cardRect.width) / 2);
+
+      this.card.style.top = `${top}px`;
+      this.card.style.left = `${left}px`;
+      return;
+    }
 
     // Si el elemento objetivo es muy grande (como el contenedor del cubo 3D o visor de modelo), posicionar inteligentemente
     if (rect.height > viewportHeight * 0.5) {
