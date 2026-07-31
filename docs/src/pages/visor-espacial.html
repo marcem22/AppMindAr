@@ -45,14 +45,25 @@
     })();
   </script>
   <title id="pageTitle">SIED - AR Espacial</title>
+  <meta name="description" id="metaDescription" content="Explorá objetos en realidad aumentada con SIED AR.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SIED AR">
+  <meta property="og:title" id="ogTitle" content="SIED AR">
+  <meta property="og:description" id="ogDescription" content="Explorá objetos en realidad aumentada con SIED AR.">
+  <meta property="og:image" id="ogImage" content="">
+  <meta property="og:url" id="ogUrl" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" id="twitterTitle" content="SIED AR">
+  <meta name="twitter:description" id="twitterDescription" content="Explorá objetos en realidad aumentada con SIED AR.">
+  <meta name="twitter:image" id="twitterImage" content="">
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
-  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-DAHVJs4x.js"></script>
+  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-CaSoPViv.js"></script>
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/tutorial-BALdaNut.js">
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-fgnSPes0.js">
   <link rel="stylesheet" crossorigin href="/AppMindAr/assets/tutorial-Be33YMDQ.css">
-  <link rel="stylesheet" crossorigin href="/AppMindAr/assets/visorEspacial-BM21-MAM.css">
+  <link rel="stylesheet" crossorigin href="/AppMindAr/assets/visorEspacial-4AbWRiZX.css">
 </head>
 
 <body>
@@ -77,14 +88,27 @@
     <div class="model-info">
       <div class="model-name" id="nombreModelo">Cargando...</div>
     </div>
-    <button class="close-btn" onclick="window.history.back()" aria-label="Volver">
-      <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-        stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"></line>
-        <polyline points="12 19 5 12 12 5"></polyline>
-      </svg>
-    </button>
+    <div class="header-actions">
+      <button class="share-btn" id="btnCompartir" type="button" aria-label="Compartir experiencia">
+        <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+      </button>
+      <button class="close-btn" onclick="window.history.back()" aria-label="Volver">
+        <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
   </div>
+  <div id="shareToast" class="share-toast" role="status" aria-live="polite" hidden></div>
 
   <div class="visor-container">
 
