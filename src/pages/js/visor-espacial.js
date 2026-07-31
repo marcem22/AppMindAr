@@ -215,16 +215,78 @@ btnCaptura.addEventListener('click', async () => {
   }, 500);
 });
 
-// ─── Compartir nativo (Web Share API + fallback clipboard) ───
+// ─── Compartir nativo: solo el link del objeto + imagen de preview ───
 const btnCompartir = document.getElementById('btnCompartir');
 const shareToast = document.getElementById('shareToast');
 let shareToastTimer = null;
+
+const modelInfo =
+  data && data.elementsData
+    ? data.elementsData.find((m) => m.arMarker === modeloSolicitado)
+    : null;
+
+function absolutizarUrl(pathOrUrl) {
+  if (!pathOrUrl) return '';
+  try {
+    return new URL(pathOrUrl, window.location.origin).href;
+  } catch {
+    return pathOrUrl;
+  }
+}
+
+/** Link limpio del objeto (sin params de cámara/escala; se recuperan del catálogo). */
+function construirLinkObjeto() {
+  const actual = new URL(window.location.href);
+  const limpio = new URL(actual.pathname, actual.origin);
+  const esenciales = ['id', 'modelo', 'nombre', 'color', 'colorRgb', 'usdz', 'sonido'];
+  esenciales.forEach((key) => {
+    const valor = actual.searchParams.get(key);
+    if (valor != null && valor !== '') limpio.searchParams.set(key, valor);
+  });
+  return limpio.href;
+}
+
+const linkObjeto = construirLinkObjeto();
+const imagenObjeto = absolutizarUrl(modelInfo && modelInfo.image);
+const descripcionObjeto =
+  (modelInfo && modelInfo.description
+    ? modelInfo.description.replace(/<[^>]+>/g, '').trim()
+    : '') || `Explorá ${nombreSolicitado} en realidad aumentada con SIED AR.`;
+
+function actualizarMetaPreview() {
+  document.title = `${nombreSolicitado} | SIED AR`;
+
+  const metaDescription = document.getElementById('metaDescription');
+  if (metaDescription) metaDescription.setAttribute('content', descripcionObjeto);
+
+  const ogTitle = document.getElementById('ogTitle');
+  if (ogTitle) ogTitle.setAttribute('content', nombreSolicitado);
+
+  const ogDescription = document.getElementById('ogDescription');
+  if (ogDescription) ogDescription.setAttribute('content', descripcionObjeto);
+
+  const ogImage = document.getElementById('ogImage');
+  if (ogImage && imagenObjeto) ogImage.setAttribute('content', imagenObjeto);
+
+  const ogUrl = document.getElementById('ogUrl');
+  if (ogUrl) ogUrl.setAttribute('content', linkObjeto);
+
+  const twitterTitle = document.getElementById('twitterTitle');
+  if (twitterTitle) twitterTitle.setAttribute('content', nombreSolicitado);
+
+  const twitterDescription = document.getElementById('twitterDescription');
+  if (twitterDescription) twitterDescription.setAttribute('content', descripcionObjeto);
+
+  const twitterImage = document.getElementById('twitterImage');
+  if (twitterImage && imagenObjeto) twitterImage.setAttribute('content', imagenObjeto);
+}
+
+actualizarMetaPreview();
 
 function mostrarToastCompartir(mensaje) {
   if (!shareToast) return;
   shareToast.hidden = false;
   shareToast.textContent = mensaje;
-  // Force reflow so the transition plays even if already visible
   void shareToast.offsetWidth;
   shareToast.classList.add('visible');
   clearTimeout(shareToastTimer);
@@ -253,35 +315,73 @@ async function copiarLinkAlPortapapeles(url) {
   document.body.removeChild(input);
 }
 
+function nombreArchivoPreview() {
+  return `${nombreSolicitado
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9\s\-_]/g, '')
+    .trim()
+    .replace(/\s+/g, '_')
+    .toLowerCase() || modeloSolicitado}.png`;
+}
+
+async function obtenerArchivoPreview() {
+  if (!imagenObjeto) return null;
+  const response = await fetch(imagenObjeto, { mode: 'cors' });
+  if (!response.ok) throw new Error(`No se pudo cargar la preview (${response.status})`);
+  const blob = await response.blob();
+  const type = blob.type && blob.type.startsWith('image/') ? blob.type : 'image/png';
+  return new File([blob], nombreArchivoPreview(), { type });
+}
+
+// Prefetch: en iOS/Android share con files debe ir en el mismo gesto del tap
+let previewFileListo = null;
+if (imagenObjeto) {
+  obtenerArchivoPreview()
+    .then((file) => {
+      previewFileListo = file;
+    })
+    .catch((err) => {
+      console.warn('No se pudo precargar la preview para compartir:', err);
+    });
+}
+
 async function compartirExperiencia() {
   if (!btnCompartir || btnCompartir.classList.contains('is-sharing')) return;
-
-  const shareUrl = window.location.href;
-  const shareData = {
-    title: `SIED AR — ${nombreSolicitado}`,
-    text: `Mirá esta experiencia 3D de ${nombreSolicitado} en realidad aumentada.`,
-    url: shareUrl
-  };
 
   btnCompartir.classList.add('is-sharing');
   try {
     if (typeof navigator.share === 'function') {
-      // Algunos navegadores requieren canShare; si falla, igual intentamos share
-      const puedeCompartir = typeof navigator.canShare !== 'function' || navigator.canShare(shareData);
-      if (puedeCompartir) {
-        await navigator.share(shareData);
+      // Preferido: imagen del objeto como adjunto + solo el link en el mensaje
+      if (previewFileListo) {
+        const conAdjunto = { files: [previewFileListo], text: linkObjeto };
+        if (typeof navigator.canShare !== 'function' || navigator.canShare(conAdjunto)) {
+          await navigator.share(conAdjunto);
+          return;
+        }
+      }
+
+      // Fallback nativo: únicamente el link del objeto
+      const soloLink = { url: linkObjeto };
+      if (typeof navigator.canShare !== 'function' || navigator.canShare(soloLink)) {
+        await navigator.share(soloLink);
+        return;
+      }
+
+      // Algunos browsers aceptan text pero no url
+      const soloTexto = { text: linkObjeto };
+      if (typeof navigator.canShare !== 'function' || navigator.canShare(soloTexto)) {
+        await navigator.share(soloTexto);
         return;
       }
     }
-    await copiarLinkAlPortapapeles(shareUrl);
+
+    await copiarLinkAlPortapapeles(linkObjeto);
     mostrarToastCompartir('Link copiado. ¡Listo para compartir!');
   } catch (error) {
-    // Usuario canceló el sheet nativo: no mostrar error
-    if (error && error.name === 'AbortError') {
-      return;
-    }
+    if (error && error.name === 'AbortError') return;
     try {
-      await copiarLinkAlPortapapeles(shareUrl);
+      await copiarLinkAlPortapapeles(linkObjeto);
       mostrarToastCompartir('Link copiado. ¡Listo para compartir!');
     } catch (clipboardError) {
       console.error('No se pudo compartir ni copiar el link:', clipboardError || error);
