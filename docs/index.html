@@ -15,7 +15,7 @@
 
     gtag('config', 'G-40KN126F8R');
   </script>
-  <link rel="icon" type="image/png" href="/AppMindAr/assets/LOGO%20SIED%20SOLO-01-BluIfg0u.png">
+  <link rel="icon" type="image/png" href="assets/logos/LOGO SIED SOLO-01.png">
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.139.2/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.139.2/examples/js/controls/OrbitControls.js"></script>
@@ -568,8 +568,8 @@
 
   <header>
     <div class="logos-container">
-      <img src="/AppMindAr/assets/logo%20UNSJ%20horizontal-02-CIFSIxLX.png" alt="UNSJ" />
-      <img src="/AppMindAr/assets/logo%20sied%20horizontal-02-BF-xqR4y.png" alt="SIED" />
+      <img src="assets/logos/logo UNSJ horizontal-02.png" alt="UNSJ" />
+      <img src="assets/logos/logo sied horizontal-02.png" alt="SIED" />
       <button id="btnStartTutorial" class="btn-tutorial-trigger">
         <span>📖</span> TUTORIAL
       </button>
@@ -703,12 +703,12 @@
 
     async function loadMaterials() {
       return [
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos.jpeg", "Dinos") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas.jpeg", "Minería") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minerales.png", "Minerales") }),
-        new THREE.MeshStandardMaterial({ map: createLogoWithBackground("assets/Logosiedvertical-02.png", "#000000") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro.jpeg", "Astro") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio.jpeg", "Bio") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos/dinos.jpeg", "Dinos") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas/minas.jpeg", "Minería") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minerales/minerales.png", "Minerales") }),
+        new THREE.MeshStandardMaterial({ map: createLogoWithBackground("assets/logos/Logosiedvertical-02.png", "#000000") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro/astro.jpeg", "Astro") }),
+        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio/bio.jpeg", "Bio") }),
       ];
     }
 

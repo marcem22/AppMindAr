@@ -3,7 +3,10 @@ import { siteData } from '../../data.js';
 const parametrosUrl = new URLSearchParams(window.location.search);
 const isProduction = window.location.hostname.includes('github.io');
 const HOME_URL = isProduction ? '/AppMindAr/' : '/';
-const BASE_PATH = isProduction ? '/AppMindAr/models/' : '/models/';
+function getModelFolder(cat) {
+  const map = { 'dino': 'dinos' };
+  return map[cat] || cat || 'minas';
+}
 
 /** Links compartidos usan un solo param (?ref=cat.modelo) para que iOS Quick Look no trunque la URL. */
 function resolverDesdeRef(ref) {
@@ -43,6 +46,9 @@ if (resolvedShare) {
   if (resolvedShare.item.cameraOrbit) parametrosUrl.set('orbit', resolvedShare.item.cameraOrbit);
   if (resolvedShare.item.escala) parametrosUrl.set('escala', resolvedShare.item.escala);
 }
+
+const modelFolder = getModelFolder(catId);
+const BASE_PATH = isProduction ? `/AppMindAr/models/${modelFolder}/` : `/models/${modelFolder}/`;
 
 const visor = document.getElementById('visorModelo');
 const nombreUI = document.getElementById('nombreModelo');
@@ -137,7 +143,7 @@ if (btnVolver) {
 
 // Fallback: si no carga con ruta absoluta, probar relativa
 visor.addEventListener('error', () => {
-  const fallback = 'models/' + modeloSolicitado + '.glb';
+  const fallback = 'models/' + modelFolder + '/' + modeloSolicitado + '.glb';
   if (visor.src !== fallback && !visor.src.endsWith(fallback)) {
     visor.src = fallback;
   } else {
@@ -521,9 +527,7 @@ if (modeloActual) {
   const visor = document.getElementById('visorModelo');
   
   if (visor) {
-    const isProd = window.location.hostname.includes('github.io');
-    
-    const rutaModelo = isProd ? `/AppMindAr/models/${modeloActual}.glb` : `/models/${modeloActual}.glb`;
+    const rutaModelo = BASE_PATH + modeloActual + '.glb';
     visor.src = rutaModelo;
 
     const rutaJson = isProd ? '/AppMindAr/assets/data.json' : '/assets/data.json';

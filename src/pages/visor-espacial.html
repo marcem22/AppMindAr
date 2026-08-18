@@ -9,16 +9,22 @@
     (function () {
       try {
         var params = new URLSearchParams(window.location.search);
+        var catId = params.get('id') || 'minas';
         var modelo = params.get('modelo');
         if (!modelo) {
           var ref = params.get('ref') || '';
           var dot = ref.indexOf('.');
-          if (dot > 0) modelo = ref.slice(dot + 1);
+          if (dot > 0) {
+            catId = ref.slice(0, dot);
+            modelo = ref.slice(dot + 1);
+          }
         }
         if (modelo) {
+          var folderMap = { 'dino': 'dinos' };
+          var folder = folderMap[catId] || catId;
           var isProd = window.location.hostname.includes('github.io');
           var basePath = isProd ? '/AppMindAr/models/' : '/models/';
-          var modelUrl = basePath + modelo + '.glb';
+          var modelUrl = basePath + folder + '/' + modelo + '.glb';
 
           var link = document.createElement('link');
           link.rel = 'preload';

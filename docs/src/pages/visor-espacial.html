@@ -9,16 +9,22 @@
     (function () {
       try {
         var params = new URLSearchParams(window.location.search);
+        var catId = params.get('id') || 'minas';
         var modelo = params.get('modelo');
         if (!modelo) {
           var ref = params.get('ref') || '';
           var dot = ref.indexOf('.');
-          if (dot > 0) modelo = ref.slice(dot + 1);
+          if (dot > 0) {
+            catId = ref.slice(0, dot);
+            modelo = ref.slice(dot + 1);
+          }
         }
         if (modelo) {
+          var folderMap = { 'dino': 'dinos' };
+          var folder = folderMap[catId] || catId;
           var isProd = window.location.hostname.includes('github.io');
           var basePath = isProd ? '/AppMindAr/models/' : '/models/';
-          var modelUrl = basePath + modelo + '.glb';
+          var modelUrl = basePath + folder + '/' + modelo + '.glb';
 
           var link = document.createElement('link');
           link.rel = 'preload';
@@ -64,9 +70,9 @@
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
-  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-Dp4yuSMh.js"></script>
+  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-w22Wnuq-.js"></script>
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/tutorial-BALdaNut.js">
-  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-fgnSPes0.js">
+  <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-BsteBUSx.js">
   <link rel="stylesheet" crossorigin href="/AppMindAr/assets/tutorial-Be33YMDQ.css">
   <link rel="stylesheet" crossorigin href="/AppMindAr/assets/visorEspacial-zbcR03ys.css">
 </head>

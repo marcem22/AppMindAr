@@ -108,7 +108,9 @@ import { siteData } from "../../data.js";
       link.rel = 'prefetch';
       link.as = 'fetch';
       link.crossOrigin = 'anonymous';
-      const pathModelos = isProduction ? '/AppMindAr/models/' : '/models/';
+      const folderMap = { 'dino': 'dinos' };
+      const folder = folderMap[catId] || catId || 'minas';
+      const pathModelos = isProduction ? `/AppMindAr/models/${folder}/` : `/models/${folder}/`;
       link.href = `${pathModelos}${arMarker}.glb`;
       document.head.appendChild(link);
     }
