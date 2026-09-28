@@ -630,21 +630,22 @@
 
     function createImageWithCenteredText(imageUrl, text) {
       const c = document.createElement("canvas");
-      c.width = 1024; c.height = 1024;
+      const size = 512;
+      c.width = size; c.height = size;
       const ctx = c.getContext("2d");
       const texture = new THREE.CanvasTexture(c);
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.onload = () => {
-        ctx.drawImage(img, 0, 0, 1024, 1024);
-        const bh = 220; const by = (1024 - bh) / 2;
+        ctx.drawImage(img, 0, 0, size, size);
+        const bh = 110; const by = (size - bh) / 2;
         ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
-        ctx.fillRect(0, by, 1024, bh);
+        ctx.fillRect(0, by, size, bh);
         ctx.fillStyle = "#ffffff";
-        ctx.font = "bold 140px Segoe UI, sans-serif";
+        ctx.font = "bold 70px Segoe UI, sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(text, 512, by + bh / 2);
+        ctx.fillText(text, size / 2, by + bh / 2);
         texture.needsUpdate = true;
       };
       img.src = imageUrl;
@@ -685,10 +686,10 @@
     } else {
       camera.position.set(7.0, 7.0, 7.0);
     }
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.setClearColor(0x000000, 0);
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     container.appendChild(renderer.domElement);
 
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -696,19 +697,17 @@
     controls.enableDamping = true; controls.autoRotate = true;
     controls.autoRotateSpeed = 1.2;
 
+    // Texturas en caras: BasicMaterial evita lighting pass innecesario
     scene.add(new THREE.AmbientLight(0xffffff, 1));
-    const light = new THREE.DirectionalLight(0xffffff, 0.8);
-    light.position.set(5, 5, 5);
-    scene.add(light);
 
     async function loadMaterials() {
       return [
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/dinos/dinos.jpeg", "Dinos") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minas/minas.jpeg", "Minería") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/minerales/minerales.png", "Minerales") }),
-        new THREE.MeshStandardMaterial({ map: createLogoWithBackground("assets/logos/Logosiedvertical-02.png", "#000000") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/astro/astro.jpeg", "Astro") }),
-        new THREE.MeshStandardMaterial({ map: createImageWithCenteredText("assets/bio/bio.jpeg", "Bio") }),
+        new THREE.MeshBasicMaterial({ map: createImageWithCenteredText("assets/dinos/dinos.jpeg", "Dinos") }),
+        new THREE.MeshBasicMaterial({ map: createImageWithCenteredText("assets/minas/minas.jpeg", "Minería") }),
+        new THREE.MeshBasicMaterial({ map: createImageWithCenteredText("assets/minerales/minerales.png", "Minerales") }),
+        new THREE.MeshBasicMaterial({ map: createLogoWithBackground("assets/logos/Logosiedvertical-02.png", "#000000") }),
+        new THREE.MeshBasicMaterial({ map: createImageWithCenteredText("assets/astro/astro.jpeg", "Astro") }),
+        new THREE.MeshBasicMaterial({ map: createImageWithCenteredText("assets/bio/bio.jpeg", "Bio") }),
       ];
     }
 
@@ -741,14 +740,23 @@
       });
 
       const clock = new THREE.Clock();
+      let rafId = 0;
       function animate() {
-        requestAnimationFrame(animate);
+        if (document.hidden) {
+          rafId = 0;
+          return;
+        }
+        rafId = requestAnimationFrame(animate);
         controls.update();
         const t = clock.getElapsedTime();
         cube.position.y = Math.sin(t * 1.2) * 0.2;
         renderer.render(scene, camera);
       }
       animate();
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && !rafId) animate();
+      });
     }
 
     initCube();
@@ -757,6 +765,7 @@
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     });
   </script>
 </body>

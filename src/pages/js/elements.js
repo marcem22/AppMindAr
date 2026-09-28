@@ -96,16 +96,19 @@ import { siteData } from "../../data.js";
       updateToCurrentFiltered();
     }
 
-    function precargarModelo(arMarker, isLowPriority = false) {
+    /** Precarga GLB solo al ir a AR (no en cada flip del catálogo: modelos de hasta ~50MB). */
+    function precargarModeloParaAR(arMarker) {
       if (!arMarker) return;
-      const idPrecarga = isLowPriority ? 'precarga-modelo-3d-sig' : 'precarga-modelo-3d';
-      let link = document.getElementById(idPrecarga);
-      if (link) {
-        link.remove();
+      if (navigator.connection) {
+        if (navigator.connection.saveData) return;
+        if (navigator.connection.effectiveType && /2g/.test(navigator.connection.effectiveType)) return;
       }
+      const idPrecarga = 'precarga-modelo-3d-ar';
+      let link = document.getElementById(idPrecarga);
+      if (link) link.remove();
       link = document.createElement('link');
       link.id = idPrecarga;
-      link.rel = 'prefetch';
+      link.rel = 'preload';
       link.as = 'fetch';
       link.crossOrigin = 'anonymous';
       const folderMap = { 'dino': 'dinos' };
@@ -113,6 +116,17 @@ import { siteData } from "../../data.js";
       const pathModelos = isProduction ? `/AppMindAr/models/${folder}/` : `/models/${folder}/`;
       link.href = `${pathModelos}${arMarker}.glb`;
       document.head.appendChild(link);
+    }
+
+    let fadeTimer = null;
+
+    function marcarActivoEnListas() {
+      document.querySelectorAll('.machinery-list li').forEach((li, pos) => {
+        li.classList.toggle('active', pos === currentFilteredIndex);
+      });
+      document.querySelectorAll('#mobileMachineryList li').forEach((li, pos) => {
+        li.classList.toggle('active', pos === currentFilteredIndex);
+      });
     }
 
     function updateToCurrentFiltered() {
@@ -131,26 +145,14 @@ import { siteData } from "../../data.js";
 
       const globalIndex = filteredIndexes[currentFilteredIndex];
       const m = machines[globalIndex];
-      
-      // Precargar modelo actual de forma prioritaria
-      precargarModelo(m.arMarker);
-      
-      // Precargar el siguiente modelo en segundo plano (baja prioridad)
-      if (filteredIndexes.length > 1) {
-        const nextFilteredIndex = (currentFilteredIndex + 1) % filteredIndexes.length;
-        const nextGlobalIndex = filteredIndexes[nextFilteredIndex];
-        const nextMachine = machines[nextGlobalIndex];
-        if (nextMachine && nextMachine.arMarker) {
-          setTimeout(() => {
-            precargarModelo(nextMachine.arMarker, true);
-          }, 800);
-        }
-      }
 
+      clearTimeout(fadeTimer);
       wrapper.classList.remove('fade-in');
       wrapper.classList.add('fade-out');
 
-      setTimeout(() => {
+      fadeTimer = setTimeout(() => {
+        machineImage.decoding = 'async';
+        machineImage.loading = 'eager';
         machineImage.src = m.image;
         machineName.textContent = m.name;
         machineDesc.textContent = m.description;
@@ -160,15 +162,13 @@ import { siteData } from "../../data.js";
         specWeight.textContent = m.weight;
         specApplication.textContent = m.application;
 
-        document.querySelectorAll('.machinery-list li').forEach((li) => li.classList.remove('active'));
-        const listItems = document.querySelectorAll('.machinery-list li');
-        if (listItems[currentFilteredIndex]) listItems[currentFilteredIndex].classList.add('active');
+        marcarActivoEnListas();
 
         pageIndicator.innerHTML = `${String(currentFilteredIndex + 1).padStart(2, '0')} <span>/ ${String(filteredIndexes.length).padStart(2, '0')}</span>`;
 
         wrapper.classList.remove('fade-out');
         wrapper.classList.add('fade-in');
-      }, 260);
+      }, 180);
     }
 
     function changeMachine(delta) {
@@ -191,6 +191,7 @@ import { siteData } from "../../data.js";
         sessionStorage.setItem('sied_tutorial_step', '11');
       }
       const m = machines[filteredIndexes[currentFilteredIndex]];
+      precargarModeloParaAR(m.arMarker);
       const orbit = m.cameraOrbit || '-90deg 75deg auto';
       const escala = m.escala || '1 1 1';
       let url = `${BASE_PATH}/src/pages/visor-espacial.html?id=${catId}&modelo=${m.arMarker}&nombre=${encodeURIComponent(m.name)}&orbit=${encodeURIComponent(orbit)}&escala=${encodeURIComponent(escala)}&color=${encodeURIComponent(data.themeColor)}&colorRgb=${encodeURIComponent(data.themeColorRgb)}`;
@@ -214,7 +215,9 @@ import { siteData } from "../../data.js";
       menuToggle.classList.toggle('active');
       mobileSidebar.classList.toggle('active');
       mobileOverlay.classList.toggle('active');
-      document.body.style.overflow = mobileSidebar.classList.contains('active') ? 'hidden' : 'auto';
+      const abierto = mobileSidebar.classList.contains('active');
+      document.body.style.overflow = abierto ? 'hidden' : 'auto';
+      if (abierto) renderMobileList();
     }
 
     menuToggle.addEventListener('click', toggleMobileMenu);
@@ -258,13 +261,22 @@ import { siteData } from "../../data.js";
     const originalUpdateFunction = updateToCurrentFiltered;
     updateToCurrentFiltered = function () {
       originalUpdateFunction();
-      renderMobileList();
+      // Solo resync specs; la lista mobile se re-renderiza al filtrar / abrir menú
       syncMobileSpecs();
+      marcarActivoEnListas();
+    };
+
+    const originalFilterByGroup = filterByGroup;
+    filterByGroup = function (group) {
+      originalFilterByGroup(group);
+      renderMobileList();
     };
 
     renderCategories();
     filterByGroup('Todas');
 
-    import('../../js/tutorial.js').then(({ tutorial }) => {
-      tutorial.checkAndInit('elements');
-    });
+    if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+      import('../../js/tutorial.js').then(({ tutorial }) => {
+        tutorial.checkAndInit('elements');
+      });
+    }

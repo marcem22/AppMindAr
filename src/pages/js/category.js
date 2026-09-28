@@ -84,7 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('ready');
     }
 
-    import('../../js/tutorial.js').then(({ tutorial }) => {
-        tutorial.checkAndInit('category');
-    });
+    if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+        import('../../js/tutorial.js').then(({ tutorial }) => {
+            tutorial.checkAndInit('category');
+        });
+    }
 });

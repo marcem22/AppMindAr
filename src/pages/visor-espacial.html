@@ -120,8 +120,9 @@
 
   <div class="visor-container">
 
-    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look" camera-controls
-      auto-rotate autoplay shadow-intensity="1">
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look"
+      camera-controls auto-rotate auto-rotate-delay="2500" interaction-prompt="none"
+      shadow-intensity="0.45" exposure="1" touch-action="pan-y">
 
       <button slot="ar-button" class="btn-proyectar">
         <span></span> Proyectar en el espacio

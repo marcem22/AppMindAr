@@ -101,6 +101,31 @@ const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 visor.src = BASE_PATH + modeloSolicitado + '.glb';
 nombreUI.textContent = nombreSolicitado;
 
+// Rendimiento: sombras más livianas en mobile / low-end
+const esMobile = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
+const lowMem = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory > 0 && navigator.deviceMemory < 4;
+if (visor) {
+  if (esMobile || lowMem) {
+    visor.shadowIntensity = 0.2;
+  }
+  // Pausar trabajo GPU cuando la pestaña no está visible
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      visor.removeAttribute('auto-rotate');
+    } else if (!visor.hasAttribute('data-user-orbit')) {
+      visor.setAttribute('auto-rotate', '');
+    }
+  });
+  // Tras la primera interacción del usuario, cortar auto-rotate (ahorra FPS)
+  const stopAutoRotateOnUser = () => {
+    if (!visor.hasAttribute('data-user-orbit')) {
+      visor.setAttribute('data-user-orbit', '1');
+      visor.removeAttribute('auto-rotate');
+    }
+  };
+  visor.addEventListener('pointerdown', stopAutoRotateOnUser, { once: true, passive: true });
+}
+
 /** Link corto del objeto: un solo query param (compatible con share de AR Quick Look). */
 function construirLinkObjeto() {
   const limpio = new URL(window.location.pathname, window.location.origin);
@@ -206,18 +231,33 @@ if (tieneUsdz) {
   );
 }
 
-// ─── Sonido (si viene en la URL / catálogo) ───
+// ─── Sonido: diferir red hasta el primer gesto; liberar al salir ───
 const sonidoUrl = parametrosUrl.get('sonido') || (modelInfo && modelInfo.sonido) || null;
+let reproductorAudio = null;
 if (sonidoUrl) {
   const SOUND_BASE = isProduction ? '/AppMindAr/' : '/';
-  const reproductorAudio = new Audio();
-  reproductorAudio.src = SOUND_BASE + sonidoUrl;
+  reproductorAudio = new Audio();
+  reproductorAudio.preload = 'none';
 
   document.body.addEventListener('click', () => {
-    if (reproductorAudio && reproductorAudio.paused) {
+    if (!reproductorAudio) return;
+    if (!reproductorAudio.src) {
+      reproductorAudio.src = SOUND_BASE + sonidoUrl;
+    }
+    if (reproductorAudio.paused) {
       reproductorAudio.play().catch(() => { });
     }
   }, { once: true });
+
+  const liberarAudio = () => {
+    if (!reproductorAudio) return;
+    reproductorAudio.pause();
+    reproductorAudio.removeAttribute('src');
+    reproductorAudio.load();
+    reproductorAudio = null;
+  };
+  window.addEventListener('pagehide', liberarAudio);
+  window.addEventListener('beforeunload', liberarAudio);
 }
 
 
@@ -243,6 +283,11 @@ function detenerAccion() {
     animFrameId = null;
   }
 }
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) detenerAccion();
+});
+window.addEventListener('pagehide', detenerAccion);
 
 const acciones = {
   plus: () => { escalaActual += stepEscala; visor.scale = `${escalaActual} ${escalaActual} ${escalaActual}`; },
@@ -403,9 +448,10 @@ async function obtenerArchivoPreview() {
   return new File([blob], nombreArchivoPreview(), { type });
 }
 
-// Prefetch: en iOS/Android share con files debe ir en el mismo gesto del tap
+// Prefetch preview para share (omitir en dispositivos con poca RAM)
 let previewFileListo = null;
-if (imagenObjeto) {
+const puedePrefetchShare = imagenObjeto && !(typeof navigator.deviceMemory === 'number' && navigator.deviceMemory > 0 && navigator.deviceMemory < 4);
+if (puedePrefetchShare) {
   obtenerArchivoPreview()
     .then((file) => {
       previewFileListo = file;
@@ -520,67 +566,59 @@ window.addEventListener('pageshow', () => {
 
 console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
 
-const params = new URLSearchParams(window.location.search);
-const modeloActual = params.get('modelo');
+// Hotspots: una sola carga, sin reasignar src (evita doble parse/GPU)
+if (modeloSolicitado && visor) {
+  const rutaJson = isProduction
+    ? '/AppMindAr/assets/data.json'
+    : '/assets/data.json';
 
-if (modeloActual) {
-  const visor = document.getElementById('visorModelo');
-  
-  if (visor) {
-    const rutaModelo = BASE_PATH + modeloActual + '.glb';
-    visor.src = rutaModelo;
+  fetch(rutaJson)
+    .then((response) => {
+      if (!response.ok) throw new Error(response.status);
+      return response.json();
+    })
+    .then((hotspotData) => {
+      const puntos = hotspotData[modeloSolicitado];
+      if (!puntos || !Array.isArray(puntos)) return;
 
-    const rutaJson = isProd ? '/AppMindAr/assets/data.json' : '/assets/data.json';
-    
-    fetch(rutaJson)
-      .then(response => {
-          if (!response.ok) {
-              throw new Error(response.status);
-          }
-          return response.json();
-      })
-      .then(data => {
-        if (data[modeloActual]) {
-          data[modeloActual].forEach(punto => {
-              const btnContenedor = document.createElement('button');
-              btnContenedor.className = 'punto-contenedor';
-              btnContenedor.slot = punto.slot;
-              btnContenedor.dataset.position = punto.position;
-              btnContenedor.dataset.normal = punto.normal;
+      visor.querySelectorAll('.punto-contenedor').forEach((el) => el.remove());
 
-              const divVisual = document.createElement('div');
-              divVisual.className = 'punto-visual';
+      puntos.forEach((punto) => {
+        const btnContenedor = document.createElement('button');
+        btnContenedor.className = 'punto-contenedor';
+        btnContenedor.type = 'button';
+        btnContenedor.slot = punto.slot;
+        btnContenedor.setAttribute('data-position', punto.position);
+        btnContenedor.setAttribute('data-normal', punto.normal);
 
-              const divTexto = document.createElement('div');
-              divTexto.className = 'info-texto';
-              divTexto.textContent = punto.texto;
+        const divVisual = document.createElement('div');
+        divVisual.className = 'punto-visual';
 
-              btnContenedor.appendChild(divVisual);
-              btnContenedor.appendChild(divTexto);
-              visor.appendChild(btnContenedor);
-          });
-        }
-      })
-      .catch(error => console.error(error));
-  }
+        const divTexto = document.createElement('div');
+        divTexto.className = 'info-texto';
+        divTexto.textContent = punto.texto;
+
+        btnContenedor.appendChild(divVisual);
+        btnContenedor.appendChild(divTexto);
+        visor.appendChild(btnContenedor);
+      });
+    })
+    .catch((error) => console.error(error));
 }
-// funcion temporal para sacar coordenadas de hotspots (consultar como funciona)
-const visorHerramienta = document.getElementById('visorModelo');
 
-if (visorHerramienta) {
-  visorHerramienta.addEventListener('click', (event) => {
-
-    const hit = visorHerramienta.positionAndNormalFromPoint(event.clientX, event.clientY);
-    
+// Herramienta de autoría de hotspots: solo con ?debugHotspots=1
+if (parametrosUrl.get('debugHotspots') === '1' && visor) {
+  visor.addEventListener('click', (event) => {
+    const hit = visor.positionAndNormalFromPoint(event.clientX, event.clientY);
     if (hit) {
-      console.log(`%c📍 PUNTO ENCONTRADO. Copiá esto en tu JSON:`, 'color: #779B2C; font-weight: bold; font-size: 14px;');
-      console.log(`"position": "${hit.position.x} ${hit.position.y} ${hit.position.z}",\n"normal": "${hit.normal.x} ${hit.normal.y} ${hit.normal.z}"`);
-    } else {
-      console.log('Hiciste clic fuera del modelo.');
+      console.log('%c📍 PUNTO ENCONTRADO. Copiá esto en tu JSON:', 'color: #779B2C; font-weight: bold; font-size: 14px;');
+      console.log('"position": "' + hit.position.x + ' ' + hit.position.y + ' ' + hit.position.z + '",\n"normal": "' + hit.normal.x + ' ' + hit.normal.y + ' ' + hit.normal.z + '"');
     }
   });
 }
 
-import('../../js/tutorial.js').then(({ tutorial }) => {
-  tutorial.checkAndInit('visor-espacial');
-});
+if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
+  import('../../js/tutorial.js').then(({ tutorial }) => {
+    tutorial.checkAndInit('visor-espacial');
+  });
+}
