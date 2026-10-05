@@ -166,19 +166,32 @@ if (btnVolver) {
   btnVolver.addEventListener('click', handleVolver);
 }
 
-// Fallback: si no carga con ruta absoluta, probar relativa
 visor.addEventListener('error', () => {
   const fallback = 'models/' + modelFolder + '/' + modeloSolicitado + '.glb';
+
   if (visor.src !== fallback && !visor.src.endsWith(fallback)) {
     visor.src = fallback;
   } else {
-    setTimeout(() => {
-      if (loaderOverlay) loaderOverlay.classList.add('fade-out');
-    }, 1000);
+    console.error('Error definitivo cargando el modelo 3D.');
+    const spinner = document.querySelector('.loader-spinner-container');
+    if (spinner) spinner.style.display = 'none';
+    const loaderTitulo = document.querySelector('.loader-title');
+    if (loaderTitulo) loaderTitulo.textContent = 'Carga Fallida';
+    
+    if (loaderSubtitle) {
+      loaderSubtitle.textContent = '❌ No se pudo descargar el modelo. Verificá tu conexión a internet o intentá recargar la página.';
+      loaderSubtitle.style.color = '#ff6b6b'; 
+    }
+
+    if (loaderBarra) {
+      loaderBarra.style.width = '100%';
+      loaderBarra.style.background = '#ff6b6b';
+    }
+    if (loaderPorcentaje) loaderPorcentaje.textContent = 'Error';
   }
 }, { once: true });
 
-// Lógica de actualización y ocultación del cargador premium
+
 if (visor) {
   visor.addEventListener('progress', (event) => {
     const progress = Math.round(event.detail.totalProgress * 100);
@@ -220,6 +233,27 @@ visor.cameraOrbit = finalOrbit;
 if (finalOrientation) {
   visor.orientation = finalOrientation;
 }
+
+// LÓGICA DE CENTRAR VISTA (RESET)
+const btnReset = document.getElementById('btnReset');
+const escalaInicial = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
+
+if (btnReset && visor) {
+  btnReset.addEventListener('click', () => {
+
+    if (navigator.vibrate) navigator.vibrate(15);
+
+    escalaActual = escalaInicial;
+    visor.scale = `${escalaInicial} ${escalaInicial} ${escalaInicial}`;
+
+    visor.cameraOrbit = finalOrbit;
+
+    if (typeof visor.resetTurntableRotation === 'function') {
+      visor.resetTurntableRotation();
+    }
+  });
+}
+
 
 // ─── USDZ para iOS + canonicalWebPageURL (share en AR manda el link, no el .usdz) ───
 const tieneUsdz = parametrosUrl.get('usdz') === '1' || Boolean(modelInfo && modelInfo.tieneUsdz);
@@ -299,8 +333,15 @@ const acciones = {
 ['plus', 'minus', 'left', 'right'].forEach(id => {
   const el = document.getElementById(id);
   if (el) {
-    el.addEventListener('mousedown', () => iniciarAccion(acciones[id]));
-    el.addEventListener('touchstart', (e) => { e.preventDefault(); iniciarAccion(acciones[id]); }, { passive: false });
+    el.addEventListener('mousedown', () => {
+      if (navigator.vibrate) navigator.vibrate(10); 
+      iniciarAccion(acciones[id]);
+    });
+    el.addEventListener('touchstart', (e) => { 
+      e.preventDefault(); 
+      if (navigator.vibrate) navigator.vibrate(10); 
+      iniciarAccion(acciones[id]); 
+    }, { passive: false });
     el.addEventListener('mouseup', detenerAccion);
     el.addEventListener('mouseleave', detenerAccion);
     el.addEventListener('touchend', detenerAccion);
@@ -566,7 +607,7 @@ window.addEventListener('pageshow', () => {
 
 console.log("🚀 SCRIPT INICIADO. Buscando modelo...");
 
-// Hotspots: una sola carga, sin reasignar src (evita doble parse/GPU)
+
 if (modeloSolicitado && visor) {
   const rutaJson = isProduction
     ? '/AppMindAr/assets/data.json'

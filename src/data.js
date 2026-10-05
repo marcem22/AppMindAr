@@ -450,6 +450,34 @@ export const siteData = {
     "description": "Descubrí los <strong>dinosaurios</strong> a través de modelos interactivos en <strong>Realidad Aumentada</strong>.",
     "buttonText": "Ver colección",
     "elementsData": [
+        {
+        "name": "Alnashetri",
+        "group": "Terópodos",
+        "category": "Insectívoro",
+        "image": `${BASE_PATH}/assets/dinos/alnashetri.png`,
+        "description": "Un pequeño dinosaurio patagónico del tamaño de una gallina. De patas ágiles y brazos diminutos con fuertes garras, ideales para romper nidos de insectos. Descubierto en Río Negro, Argentina.",
+        "weight": "2 kg",
+        "arMarker": "alnashetri",
+        "capacity": "Insectívoro",
+        "power": "Cretácico",
+        "application": "0.5 metros",
+        "sonido": "",
+        "tieneUsdz": false
+      },
+      {
+        "name": "Argentinosaurus",
+        "group": "Saurópodos",
+        "category": "Herbívoro",
+        "image": `${BASE_PATH}/assets/dinos/argentinosaurus.png`,
+        "description": "Un verdadero titán de la Patagonia. Es considerado uno de los animales terrestres más grandes y pesados de todos los tiempos, famoso por su inmenso cuello largo.",
+        "weight": "80,000 kg",
+        "arMarker": "argentinosaurus",
+        "capacity": "Herbívoro",
+        "power": "Cretácico",
+        "application": "35 metros",
+        "sonido": "",
+        "tieneUsdz": false
+      },
       {
         "name": "Giganotosaurus",
         "group": "Terópodos",

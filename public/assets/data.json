@@ -318,5 +318,46 @@
         "normal": "-0.3701056835200875 0.9258384287370786 0.07645251401874481",
       "texto": "Instinto maternal: Es de las pocas especies que carga sus propios huevos. Una vez que eclosionan, las crías se suben al lomo de la madre, que las transporta durante semanas."
     }
+  ],
+  "alnashetri": [
+    {
+      "slot": "hotspot-brazos",
+      "position": "-0.3606960277698623 0.2736109687991144 -0.05439684565785997",
+      "normal": "-0.3015799270341259 -0.8958138972791263 -0.32644602777744813",
+      "texto": "Brazos diminutos: Al igual que otros alvarezsáuridos, poseía extremidades delanteras muy cortas equipadas con una garra robusta, perfecta para romper nidos de insectos o termitas."
+    },
+    {
+      "slot": "hotspot-patas",
+      "position": "-0.09831821741467983 0.37764620723158215 -0.06353920877012331",
+      "normal": "-0.004728900955929204 0.6683093159870744 -0.7438684666395248",
+      "texto": "Velocista bípedo: Sus patas traseras eran largas y sumamente delgadas, una adaptación evolutiva clave para correr a gran velocidad y evadir depredadores más grandes."
+    },
+    {
+      "slot": "hotspot-origen",
+      "position": "0.5 -0.2 0.0",
+      "normal": "0 0 -1",
+      "texto": "Orgullo patagónico: Sus fósiles fueron hallados en la zona paleontológica de La Buitrera, en Río Negro, Argentina. La ciencia indica que su cuerpo estaba completamente cubierto de plumas."
+    }
+  ],
+  "argentinosaurus": [
+    {
+      "slot": "hotspot-cuello",
+      "position": "0.3322370072664693 0.3730206064652761 -0.028680723609097576",
+      "normal": "-0.07076170982020688 0.036883116685203 -0.9968111235970968",
+      "texto": "Cuello kilométrico: Le permitía alcanzar la vegetación más alta de las coníferas sin tener que gastar energía moviendo su pesado cuerpo."
+    },
+    {
+      "slot": "hotspot-patas",
+      "position": "-0.003395565354319119 0.17487686217399698 -0.061809501229257",
+      "normal": "-0.7833542499633909 -0.16157037760567083 -0.6002092403026251",
+      "texto": "Columnas vivientes: Sus patas eran macizas como troncos de árboles, una adaptación evolutiva obligatoria para poder soportar casi 100 toneladas."
+    },
+    {
+      "slot": "hotspot-cola",
+      "position": "-0.22524913886368086 0.13665726242424286 -0.009727801528979",
+      "normal": "-0.22779074482214173 -0.09156067061492695 -0.9693956984482235",
+      "texto": "Látigo gigante: Su larguísima cola funcionaba como el contrapeso perfecto para su cuello, y también como una posible arma para ahuyentar depredadores."
+    }
   ]
+  
 }
