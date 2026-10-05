@@ -234,25 +234,6 @@ if (finalOrientation) {
   visor.orientation = finalOrientation;
 }
 
-// LÓGICA DE CENTRAR VISTA (RESET)
-const btnReset = document.getElementById('btnReset');
-const escalaInicial = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
-
-if (btnReset && visor) {
-  btnReset.addEventListener('click', () => {
-
-    if (navigator.vibrate) navigator.vibrate(15);
-
-    escalaActual = escalaInicial;
-    visor.scale = `${escalaInicial} ${escalaInicial} ${escalaInicial}`;
-
-    visor.cameraOrbit = finalOrbit;
-
-    if (typeof visor.resetTurntableRotation === 'function') {
-      visor.resetTurntableRotation();
-    }
-  });
-}
 
 
 // ─── USDZ para iOS + canonicalWebPageURL (share en AR manda el link, no el .usdz) ───
@@ -330,6 +311,7 @@ const acciones = {
   right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.03}rad ${o.phi}rad ${o.radius}m`; }
 };
 
+// 1. Botones de acción continua (mantener apretado)
 ['plus', 'minus', 'left', 'right'].forEach(id => {
   const el = document.getElementById(id);
   if (el) {
@@ -348,6 +330,31 @@ const acciones = {
     el.addEventListener('touchcancel', detenerAccion);
   }
 });
+
+// 2. Botón Reset (acción de un solo toque)
+const btnReset = document.getElementById('btnReset');
+// Capturamos la escala inicial leyendo el parámetro con el que cargó la página
+const escalaInicial = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
+
+if (btnReset && visor) {
+  const resetearVista = (e) => {
+    if (e && e.type === 'touchstart') e.preventDefault();
+    if (navigator.vibrate) navigator.vibrate(15); // Una vibración apenas más fuerte para confirmar
+    
+    // Restaurar valores iniciales
+    escalaActual = escalaInicial;
+    visor.scale = `${escalaInicial} ${escalaInicial} ${escalaInicial}`;
+    visor.cameraOrbit = finalOrbit;
+    
+    // Si el usuario lo giró con el dedo, enderezarlo
+    if (typeof visor.resetTurntableRotation === 'function') {
+      visor.resetTurntableRotation();
+    }
+  };
+
+  btnReset.addEventListener('mousedown', resetearVista);
+  btnReset.addEventListener('touchstart', resetearVista, { passive: false });
+}
 
 // ─── Captura de foto ───
 btnCaptura.addEventListener('click', async () => {
