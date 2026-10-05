@@ -743,29 +743,3 @@ model-viewer {
     animation: none;
   }
 }
-/* Forzar la visibilidad del botón Reset */
-#btnReset {
-  position: absolute;
-  bottom: 80px; /* Ajustá esto para que quede a la altura de tus flechas */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100; /* Esto asegura que esté POR ENCIMA del modelo 3D */
-  
-  /* Estilo base para que se vea como un botón moderno */
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-  cursor: pointer;
-}
-
-#btnReset:active {
-  background: rgba(200, 200, 200, 0.9);
-  transform: translateX(-50%) scale(0.95);
-}
