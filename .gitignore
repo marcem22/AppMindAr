@@ -11,6 +11,8 @@ lerna-debug.log*
 
 node_modules
 no-usamos
+models_backup
+informe.md
 # dist
  
 dist-ssr
@@ -26,3 +28,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.informe.md

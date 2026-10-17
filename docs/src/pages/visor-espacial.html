@@ -70,12 +70,12 @@
 
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
-  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-A6p7XlsO.js"></script>
+  <script type="module" crossorigin src="/AppMindAr/assets/visorEspacial-BNNzGJsS.js"></script>
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/tutorial-BALdaNut.js">
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/preload-helper-Dcfnd5NN.js">
   <link rel="modulepreload" crossorigin href="/AppMindAr/assets/data-CJ2mk8M2.js">
   <link rel="stylesheet" crossorigin href="/AppMindAr/assets/tutorial-Be33YMDQ.css">
-  <link rel="stylesheet" crossorigin href="/AppMindAr/assets/visorEspacial-DjTs7jF2.css">
+  <link rel="stylesheet" crossorigin href="/AppMindAr/assets/visorEspacial-DcVk3tQG.css">
 </head>
 
 <body>
@@ -111,6 +111,11 @@
           <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
         </svg>
       </button>
+      <button class="share-btn" id="btnMetricas" type="button" aria-label="Ver rendimiento y métricas" title="Métricas FPS / Carga" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:1.1em;height:1.1em;">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+      </button>
       <button class="close-btn" id="btnVolver" type="button" aria-label="Volver">
         <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
           stroke-linecap="round" stroke-linejoin="round">
@@ -126,7 +131,8 @@
 
     <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look"
       camera-controls auto-rotate auto-rotate-delay="2500" interaction-prompt="none"
-      shadow-intensity="0.45" exposure="1" touch-action="pan-y">
+      shadow-intensity="0.25" shadow-softness="0" exposure="1" touch-action="pan-y"
+      power-preference="high-performance">
 
       <button slot="ar-button" class="btn-proyectar">
         <span></span> Proyectar en el espacio
@@ -141,6 +147,33 @@
       <button class="control-btn" id="left">↺</button>
       <button class="control-btn" id="right">↻</button>
       <button class="control-btn" id="btnReset" >⛶</button>
+    </div>
+
+    <!-- Panel HUD de Telemetría (FPS, Memoria, Tiempos de Carga) -->
+    <div id="panelMetricas" class="metrics-hud" hidden>
+      <div class="metrics-hud-header">
+        <span class="metrics-hud-title">⚡ Telemetría & Rendimiento</span>
+        <button id="btnCerrarMetricas" class="metrics-hud-close" type="button" aria-label="Cerrar">×</button>
+      </div>
+      <div class="metrics-hud-grid">
+        <div class="metric-card">
+          <div class="metric-label">FPS En Vivo</div>
+          <div class="metric-val" id="valFps">--</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">FPS Promedio / Mín</div>
+          <div class="metric-val sm" id="valFpsStats">-- / --</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Tiempo Carga Modelo</div>
+          <div class="metric-val" id="valTiempoCarga">-- ms</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Memoria JS Heap</div>
+          <div class="metric-val sm" id="valMemoria">-- MB</div>
+        </div>
+      </div>
+      <div class="metrics-hud-footer" id="valDispositivoInfo">Detectando dispositivo...</div>
     </div>
 
     <button class="btn-captura" id="btnCaptura">📷</button>

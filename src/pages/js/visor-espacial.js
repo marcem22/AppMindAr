@@ -177,10 +177,10 @@ visor.addEventListener('error', () => {
     if (spinner) spinner.style.display = 'none';
     const loaderTitulo = document.querySelector('.loader-title');
     if (loaderTitulo) loaderTitulo.textContent = 'Carga Fallida';
-    
+
     if (loaderSubtitle) {
       loaderSubtitle.textContent = '❌ No se pudo descargar el modelo. Verificá tu conexión a internet o intentá recargar la página.';
-      loaderSubtitle.style.color = '#ff6b6b'; 
+      loaderSubtitle.style.color = '#ff6b6b';
     }
 
     if (loaderBarra) {
@@ -197,7 +197,7 @@ if (visor) {
     const progress = Math.round(event.detail.totalProgress * 100);
     if (loaderBarra) loaderBarra.style.width = `${progress}%`;
     if (loaderPorcentaje) loaderPorcentaje.textContent = `${progress}%`;
-    
+
     if (progress === 100) {
       if (loaderSubtitle) loaderSubtitle.textContent = 'Procesando gráficos 3D...';
     } else if (progress > 50) {
@@ -211,7 +211,7 @@ if (visor) {
     if (loaderBarra) loaderBarra.style.width = '100%';
     if (loaderPorcentaje) loaderPorcentaje.textContent = '100%';
     if (loaderSubtitle) loaderSubtitle.textContent = '¡Listo!';
-    
+
     setTimeout(() => {
       if (loaderOverlay) loaderOverlay.classList.add('fade-out');
     }, 450);
@@ -316,13 +316,13 @@ const acciones = {
   const el = document.getElementById(id);
   if (el) {
     el.addEventListener('mousedown', () => {
-      if (navigator.vibrate) navigator.vibrate(10); 
+      if (navigator.vibrate) navigator.vibrate(10);
       iniciarAccion(acciones[id]);
     });
-    el.addEventListener('touchstart', (e) => { 
-      e.preventDefault(); 
-      if (navigator.vibrate) navigator.vibrate(10); 
-      iniciarAccion(acciones[id]); 
+    el.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (navigator.vibrate) navigator.vibrate(10);
+      iniciarAccion(acciones[id]);
     }, { passive: false });
     el.addEventListener('mouseup', detenerAccion);
     el.addEventListener('mouseleave', detenerAccion);
@@ -340,12 +340,12 @@ if (btnReset && visor) {
   const resetearVista = (e) => {
     if (e && e.type === 'touchstart') e.preventDefault();
     if (navigator.vibrate) navigator.vibrate(15); // Una vibración apenas más fuerte para confirmar
-    
+
     // Restaurar valores iniciales
     escalaActual = escalaInicial;
     visor.scale = `${escalaInicial} ${escalaInicial} ${escalaInicial}`;
     visor.cameraOrbit = finalOrbit;
-    
+
     // Si el usuario lo giró con el dedo, enderezarlo
     if (typeof visor.resetTurntableRotation === 'function') {
       visor.resetTurntableRotation();
@@ -670,3 +670,115 @@ if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
     tutorial.checkAndInit('visor-espacial');
   });
 }
+
+// ─── Medidor de Rendimiento, FPS y Tiempos de Carga (HUD) ───
+(function iniciarTelemetria() {
+  const panel = document.getElementById('panelMetricas');
+  const btnToggle = document.getElementById('btnMetricas');
+  const btnCerrar = document.getElementById('btnCerrarMetricas');
+  const valFps = document.getElementById('valFps');
+  const valFpsStats = document.getElementById('valFpsStats');
+  const valTiempoCarga = document.getElementById('valTiempoCarga');
+  const valMemoria = document.getElementById('valMemoria');
+  const valDispositivo = document.getElementById('valDispositivoInfo');
+
+  if (!panel || !btnToggle) return;
+
+  // Modo desarrollo / auditoría: Solo visible si en la URL está explícito ?metricas=1
+  const esModoAuditoria = parametrosUrl.get('metricas') === '1';
+  if (esModoAuditoria) {
+    btnToggle.style.display = 'flex';
+    panel.hidden = false;
+  } else {
+    btnToggle.style.display = 'none';
+    panel.hidden = true;
+  }
+
+  btnToggle.addEventListener('click', () => {
+    panel.hidden = !panel.hidden;
+  });
+
+  if (btnCerrar) {
+    btnCerrar.addEventListener('click', () => {
+      panel.hidden = true;
+    });
+  }
+
+  // Tiempos de carga
+  const navigationStart = (performance && performance.timing && performance.timing.navigationStart) || performance.now();
+  const tiempoInicio = performance.now();
+  let modeloCargado = false;
+
+  if (visor) {
+    visor.addEventListener('load', () => {
+      modeloCargado = true;
+      const duracionMs = Math.round(performance.now() - tiempoInicio);
+      if (valTiempoCarga) {
+        valTiempoCarga.textContent = duracionMs > 1000 ? `${(duracionMs / 1000).toFixed(2)} s` : `${duracionMs} ms`;
+        if (duracionMs > 4000) valTiempoCarga.className = 'metric-val warn';
+      }
+    }, { once: true });
+  }
+
+  // Medidor de FPS
+  let frames = 0;
+  let ultimoTimestamp = performance.now();
+  let historialFps = [];
+  let animId = null;
+
+  function loopFps(ahora) {
+    frames++;
+    const delta = ahora - ultimoTimestamp;
+
+    if (delta >= 1000) {
+      const fps = Math.round((frames * 1000) / delta);
+      historialFps.push(fps);
+      if (historialFps.length > 30) historialFps.shift();
+
+      const minFps = Math.min(...historialFps);
+      const avgFps = Math.round(historialFps.reduce((a, b) => a + b, 0) / historialFps.length);
+
+      if (valFps) {
+        valFps.textContent = fps;
+        valFps.className = fps >= 50 ? 'metric-val' : fps >= 30 ? 'metric-val warn' : 'metric-val bad';
+      }
+      if (valFpsStats) {
+        valFpsStats.textContent = `${avgFps} / ${minFps}`;
+      }
+
+      // Medir Heap de memoria si está soportado (Chrome / Chromium)
+      if (valMemoria) {
+        if (performance && performance.memory && performance.memory.usedJSHeapSize) {
+          const mbUsados = (performance.memory.usedJSHeapSize / (1024 * 1024)).toFixed(1);
+          valMemoria.textContent = `${mbUsados} MB`;
+        } else {
+          valMemoria.textContent = 'N/A';
+        }
+      }
+
+      frames = 0;
+      ultimoTimestamp = ahora;
+    }
+
+    animId = requestAnimationFrame(loopFps);
+  }
+
+  animId = requestAnimationFrame(loopFps);
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (animId) cancelAnimationFrame(animId);
+    } else {
+      ultimoTimestamp = performance.now();
+      frames = 0;
+      animId = requestAnimationFrame(loopFps);
+    }
+  });
+
+  // Información de Dispositivo
+  if (valDispositivo) {
+    const mem = navigator.deviceMemory ? `${navigator.deviceMemory} GB RAM` : '';
+    const cores = navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} núcleos` : '';
+    const dpr = `DPR ${window.devicePixelRatio || 1}x`;
+    const pantalla = `${window.innerWidth}x${window.innerHeight}`;
+    valDispositivo.textContent = [dpr, pantalla, cores, mem].filter(Boolean).join(' • ');
