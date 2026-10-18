@@ -212,6 +212,19 @@ if (visor) {
     if (loaderPorcentaje) loaderPorcentaje.textContent = '100%';
     if (loaderSubtitle) loaderSubtitle.textContent = '¡Listo!';
 
+    // Reproducir animaciones si el modelo cuenta con ellas (mariposa, araña, giganotosaurus, trex, etc.)
+    try {
+      const anims = visor.availableAnimations;
+      if (anims && anims.length > 0) {
+        if (!visor.animationName) {
+          visor.animationName = anims[0];
+        }
+        visor.play({ repetitions: Infinity });
+      }
+    } catch (e) {
+      console.warn('No se pudo iniciar la animación del modelo:', e);
+    }
+
     setTimeout(() => {
       if (loaderOverlay) loaderOverlay.classList.add('fade-out');
     }, 450);
@@ -782,3 +795,5 @@ if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
     const dpr = `DPR ${window.devicePixelRatio || 1}x`;
     const pantalla = `${window.innerWidth}x${window.innerHeight}`;
     valDispositivo.textContent = [dpr, pantalla, cores, mem].filter(Boolean).join(' • ');
+  }
+})();
