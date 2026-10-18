@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script>
+    // Pre-carga anticipada del modelo 3D (soporta ?modelo= y ?ref=cat.modelo)
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var catId = params.get('id') || 'minas';
+        var modelo = params.get('modelo');
+        if (!modelo) {
+          var ref = params.get('ref') || '';
+          var dot = ref.indexOf('.');
+          if (dot > 0) {
+            catId = ref.slice(0, dot);
+            modelo = ref.slice(dot + 1);
+          }
+        }
+        if (modelo) {
+          var folderMap = { 'dino': 'dinos' };
+          var folder = folderMap[catId] || catId;
+          var isProd = window.location.hostname.includes('github.io');
+          var basePath = isProd ? '/AppMindAr/models/' : '/models/';
+          var modelUrl = basePath + folder + '/' + modelo + '.glb';
+
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'fetch';
+          link.href = modelUrl;
+          link.crossOrigin = 'anonymous';
+          document.head.appendChild(link);
+        }
+      } catch (e) {
+        console.error("Error en precarga dinámica:", e);
+      }
+    })();
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-40KN126F8R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-40KN126F8R');
+  </script>
+  <script>
+
+    (function () {
+      var ua = navigator.userAgent;
+      // Siempre usar el diseño grande (Firefox) para todos los navegadores
+      document.documentElement.classList.add('browser-firefox');
+    })();
+  </script>
+  <title id="pageTitle">SIED - AR Espacial</title>
+  <meta name="description" id="metaDescription" content="Explorá objetos en realidad aumentada con SIED AR.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SIED AR">
+  <meta property="og:title" id="ogTitle" content="SIED AR">
+  <meta property="og:description" id="ogDescription" content="Explorá objetos en realidad aumentada con SIED AR.">
+  <meta property="og:image" id="ogImage" content="">
+  <meta property="og:url" id="ogUrl" content="">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" id="twitterTitle" content="SIED AR">
+  <meta name="twitter:description" id="twitterDescription" content="Explorá objetos en realidad aumentada con SIED AR.">
+  <meta name="twitter:image" id="twitterImage" content="">
+
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+  <link rel="stylesheet" href="../css/tutorial.css">
+  <link rel="stylesheet" href="./css/visor-espacial.css">
+</head>
+
+<body>
+
+  <!-- Cargador Glassmorphic Premium -->
+  <div id="loaderModelo" class="loader-overlay">
+    <div class="loader-card">
+      <div class="loader-spinner-container">
+        <div class="loader-spinner"></div>
+        <div class="loader-glow"></div>
+      </div>
+      <h3 class="loader-title">Cargando Experiencia 3D</h3>
+      <p class="loader-subtitle" id="loaderSubtitle">Iniciando descarga...</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="loaderBarra"></div>
+      </div>
+      <div class="progress-percentage" id="loaderPorcentaje">0%</div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="model-info">
+      <div class="model-name" id="nombreModelo">Cargando...</div>
+    </div>
+    <div class="header-actions">
+      <button class="share-btn" id="btnCompartir" type="button" aria-label="Compartir experiencia">
+        <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+      </button>
+      <button class="close-btn" id="btnVolver" type="button" aria-label="Volver">
+        <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div id="shareToast" class="share-toast" role="status" aria-live="polite" hidden></div>
+
+  <div class="visor-container">
+
+    <model-viewer id="visorModelo" src="" alt="Modelo 3D" ar ar-modes="webxr scene-viewer quick-look"
+      camera-controls auto-rotate auto-rotate-delay="2500" interaction-prompt="none"
+      shadow-intensity="0.45" exposure="1" touch-action="pan-y">
+
+      <button slot="ar-button" class="btn-proyectar">
+        <span></span> Proyectar en el espacio
+      </button>
+
+    </model-viewer>
+
+
+    <div class="controls-panel">
+      <button class="control-btn" id="plus">+</button>
+      <button class="control-btn" id="minus">-</button>
+      <button class="control-btn" id="left">↺</button>
+      <button class="control-btn" id="right">↻</button>
+      <button class="control-btn" id="btnReset" >⛶</button>
+    </div>
+
+    <button class="btn-captura" id="btnCaptura">📷</button>
+  </div>
+
+  <script type="module" src="./js/visor-espacial.js"></script>
+</body>
+
+</html>
