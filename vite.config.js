@@ -11,7 +11,7 @@ export default defineConfig(({ command }) => {
       host: true,
       open: true,
     },
-    base: isDev ? './' : '/AppMindAr/',
+    base: isDev ? './' : '/',
     build: {
       outDir: 'docs',
       cssCodeSplit: true,

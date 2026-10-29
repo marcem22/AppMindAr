@@ -8,7 +8,7 @@ function getModelFolder(cat) {
   return map[cat] || cat || 'minas';
 }
 
-/** Links compartidos usan un solo param (?ref=cat.modelo) para que iOS Quick Look no trunque la URL. */
+
 function resolverDesdeRef(ref) {
   if (!ref || !ref.includes('.')) return null;
   const dot = ref.indexOf('.');
@@ -80,7 +80,7 @@ if (data) {
 // ─── Colores del tema (vienen de la URL, con fallback azul) ───
 const themeColor = parametrosUrl.get('color') || '#153B82';
 const themeColorRgb = parametrosUrl.get('colorRgb') || '21, 59, 130';
-// Calcular color oscuro
+
 const hex = themeColor.replace('#', '');
 let themeColorDark = themeColor;
 if (hex.length === 6) {
@@ -101,14 +101,13 @@ const stepEscala = escalaActual < 0.1 ? 0.001 : 0.02;
 visor.src = BASE_PATH + modeloSolicitado + '.glb';
 nombreUI.textContent = nombreSolicitado;
 
-// Rendimiento: sombras más livianas en mobile / low-end
 const esMobile = window.matchMedia('(max-width: 768px), (pointer: coarse)').matches;
 const lowMem = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory > 0 && navigator.deviceMemory < 4;
 if (visor) {
   if (esMobile || lowMem) {
     visor.shadowIntensity = 0.2;
   }
-  // Pausar trabajo GPU cuando la pestaña no está visible
+
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       visor.removeAttribute('auto-rotate');
@@ -126,7 +125,6 @@ if (visor) {
   visor.addEventListener('pointerdown', stopAutoRotateOnUser, { once: true, passive: true });
 }
 
-/** Link corto del objeto: un solo query param (compatible con share de AR Quick Look). */
 function construirLinkObjeto() {
   const limpio = new URL(window.location.pathname, window.location.origin);
   limpio.searchParams.set('ref', `${catId}.${modeloSolicitado}`);
@@ -135,7 +133,7 @@ function construirLinkObjeto() {
 
 const linkObjeto = construirLinkObjeto();
 
-// ─── Volver: si entró por link compartido (o sin historial), ir al inicio ───
+
 function irAlInicio() {
   window.location.href = HOME_URL;
 }
@@ -212,7 +210,7 @@ if (visor) {
     if (loaderPorcentaje) loaderPorcentaje.textContent = '100%';
     if (loaderSubtitle) loaderSubtitle.textContent = '¡Listo!';
 
-    // Reproducir animaciones si el modelo cuenta con ellas (mariposa, araña, giganotosaurus, trex, etc.)
+    
     try {
       const anims = visor.availableAnimations;
       if (anims && anims.length > 0) {
@@ -249,7 +247,7 @@ if (finalOrientation) {
 
 
 
-// ─── USDZ para iOS + canonicalWebPageURL (share en AR manda el link, no el .usdz) ───
+// ─── USDZ para iOS + canonicalWebPageURL  ───
 const tieneUsdz = parametrosUrl.get('usdz') === '1' || Boolean(modelInfo && modelInfo.tieneUsdz);
 if (tieneUsdz) {
   const usdzPath = BASE_PATH + modeloSolicitado + '.usdz';
@@ -259,7 +257,7 @@ if (tieneUsdz) {
   );
 }
 
-// ─── Sonido: diferir red hasta el primer gesto; liberar al salir ───
+
 const sonidoUrl = parametrosUrl.get('sonido') || (modelInfo && modelInfo.sonido) || null;
 let reproductorAudio = null;
 if (sonidoUrl) {
@@ -324,7 +322,7 @@ const acciones = {
   right: () => { const o = visor.getCameraOrbit(); visor.cameraOrbit = `${o.theta + 0.03}rad ${o.phi}rad ${o.radius}m`; }
 };
 
-// 1. Botones de acción continua (mantener apretado)
+// 1. Botones de acción continua 
 ['plus', 'minus', 'left', 'right'].forEach(id => {
   const el = document.getElementById(id);
   if (el) {
@@ -344,15 +342,15 @@ const acciones = {
   }
 });
 
-// 2. Botón Reset (acción de un solo toque)
+
 const btnReset = document.getElementById('btnReset');
-// Capturamos la escala inicial leyendo el parámetro con el que cargó la página
+
 const escalaInicial = parseFloat(escalaSolicitadaStr.split(' ')[0]) || 1;
 
 if (btnReset && visor) {
   const resetearVista = (e) => {
     if (e && e.type === 'touchstart') e.preventDefault();
-    if (navigator.vibrate) navigator.vibrate(15); // Una vibración apenas más fuerte para confirmar
+    if (navigator.vibrate) navigator.vibrate(15); 
 
     // Restaurar valores iniciales
     escalaActual = escalaInicial;
@@ -759,7 +757,6 @@ if (sessionStorage.getItem('sied_tutorial_active') === 'true') {
         valFpsStats.textContent = `${avgFps} / ${minFps}`;
       }
 
-      // Medir Heap de memoria si está soportado (Chrome / Chromium)
       if (valMemoria) {
         if (performance && performance.memory && performance.memory.usedJSHeapSize) {
           const mbUsados = (performance.memory.usedJSHeapSize / (1024 * 1024)).toFixed(1);
