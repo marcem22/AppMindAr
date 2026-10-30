@@ -357,6 +357,26 @@
       "position": "-0.22524913886368086 0.13665726242424286 -0.009727801528979",
       "normal": "-0.22779074482214173 -0.09156067061492695 -0.9693956984482235",
       "texto": "Látigo gigante: Su larguísima cola funcionaba como el contrapeso perfecto para su cuello, y también como una posible arma para ahuyentar depredadores."
+    } 
+  ],
+  "herrerasaurus": [
+    {
+      "slot": "hotspot-mandibula",
+      "position": "0.0 1.5 1.0",
+      "normal": "0 0 1",
+      "texto": "Mandíbula letal: Tenía una articulación especial que le permitía mover la mandíbula inferior para aferrar mejor a sus presas sin que escaparan."
+    },
+    {
+      "slot": "hotspot-garras",
+      "position": "0.5 0.8 0.5",
+      "normal": "1 0 0",
+      "texto": "Brazos cazadores: Aunque caminaba en dos patas, sus manos estaban armadas con fuertes garras curvas y afiladas, perfectas para desgarrar."
+    },
+    {
+      "slot": "hotspot-origen",
+      "position": "0.0 0.5 -1.0",
+      "normal": "0 0 -1",
+      "texto": "Orgullo sanjuanino: Hallado en 1959 en el Valle de la Luna por Don Victorino Herrera. Es una pieza clave en la paleontología mundial para entender el origen de los dinosaurios."
     }
   ]
   

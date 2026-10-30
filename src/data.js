@@ -451,6 +451,20 @@ export const siteData = {
     "buttonText": "Ver colección",
     "elementsData": [
         {
+        "name": "Herrerasaurus ischigualastensis",
+        "group": "Terópodos",
+        "category": "Carnívoro",
+        "image": `${BASE_PATH}/assets/dinos/herrerasaurus.png`,
+        "description": "Uno de los dinosaurios más antiguos del mundo. Un cazador letal y ágil que habitó hace 231 millones de años. Descubierto en el Parque Provincial Ischigualasto, en San Juan.",
+        "weight": "350 kg",
+        "arMarker": "herrerasaurus",
+        "capacity": "Carnívoro",
+        "power": "Triásico",
+        "application": "4.5 metros",
+        "sonido": "",
+        "tieneUsdz": false
+      },
+        {
         "name": "Alnashetri",
         "group": "Terópodos",
         "category": "Insectívoro",
