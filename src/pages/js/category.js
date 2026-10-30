@@ -22,14 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update CSS variables and styles
         document.documentElement.style.setProperty('--theme-color', data.themeColor);
         if (data.themeColorRgb) {
             document.documentElement.style.setProperty('--theme-color-rgb', data.themeColorRgb);
         }
         document.body.style.background = `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("${data.bgImage}") no-repeat center center/cover`;
 
-        // Handle different layouts (e.g., minerales has no hero image but full screen image)
         const backdrop = document.getElementById('backdrop');
         const heroImg = document.getElementById('heroImage');
 
